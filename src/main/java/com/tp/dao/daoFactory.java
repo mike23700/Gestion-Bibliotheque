@@ -1,19 +1,14 @@
+
 package com.tp.dao;
 
-
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
 
 import com.tp.dao.interfaces.BookDAO;
 import com.tp.dao.interfaces.UserDAO;
 //import com.tp.dao.interfaces.EmpruntDAO;
 //import com.tp.dao.interfaces.ReservationDAO;
-
 
 import com.tp.dao.interfaceImpl.BookDAOImpl;
 import com.tp.dao.interfaceImpl.UserDAOImpl;
@@ -26,21 +21,30 @@ public class daoFactory {
     private static daoFactory instance;
 
 
-    private DataSource dataSource;
+    private static final String URL = "jdbc:mysql://localhost:3306/personne?useSSL=false&serverTimezone=UTC";
+    private static final String USER = "root";
+    private static final String PASSWORD = "pacha12345";
+
+
+    private final Connection connection;
 
 
     private daoFactory() {
         try {
 
-            Context initialContext = new InitialContext();
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-            this.dataSource = (DataSource) initialContext.lookup("java:comp/env/jdbc/ma_base_de_donnees");
-            System.out.println("DAOFactory: Pool de connexions JNDI initialisé avec succès.");
-        } catch (NamingException e) {
+            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
 
-            System.err.println("Erreur JNDI critique: Impossible de trouver la ressource DataSource.");
-            e.printStackTrace();
-            throw new RuntimeException("Erreur d'initialisation de DAOFactory via JNDI", e);
+            System.out.println("DAOFactory: Connexion directe à la base de données établie (Singleton).");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Erreur: Pilote JDBC non trouvé. Assurez-vous que mysql-connector-j est dans le classpath.");
+            //e.printStackTrace();
+            throw new RuntimeException("Impossible de charger le pilote JDBC.", e);
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL critique lors de l'initialisation de DAOFactory: " + e.getMessage());
+            //e.printStackTrace();
+            throw new RuntimeException("Impossible d'établir la connexion à la base de données.", e);
         }
     }
 
@@ -53,8 +57,21 @@ public class daoFactory {
     }
 
 
-    public Connection getConnection() throws SQLException {
-        return dataSource.getConnection();
+    public Connection getConnection() {
+        return this.connection;
+    }
+
+
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("DAOFactory: Connexion à la base de données fermée.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la fermeture de la connexion: " + e.getMessage());
+            //e.printStackTrace();
+        }
     }
 
 

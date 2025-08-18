@@ -195,66 +195,68 @@ CREATE TABLE history (
 
 
 BiblioTech/
-│── src/main/java/com/bibliotheque/
+│── src/main/java/com/tp/
 │   │
-│   ├── controller/              # C (MVC)
+│   ├── controller/              # Couche Contrôleur (C de MVC)
 │   │   ├── FrontController.java
 │   │   ├── BookController.java
-│   │   ├── UserController.java
+│   │   ├── HistoryController.java
 │   │   ├── LoanController.java
-│   │   └── ReservationController.java
+│   │   ├── ReservationController.java
+│   │   └── UserController.java
 │   │
-│   ├── dao/                     # DAO Layer
-│   │   ├── interfaces/          # DAO Interfaces (Respecte l'Inversion des Dépendances)
+│   ├── dao/                     # Couche d'Accès aux Données (DAO)
+│   │   ├── interfaces/          # Interfaces DAO (respecte le principe de la DI)
 │   │   │   ├── BookDAO.java
-│   │   │   ├── UserDAO.java
+│   │   │   ├── HistoryDAO.java
 │   │   │   ├── LoanDAO.java
-│   │   │   └── ReservationDAO.java
+│   │   │   ├── ReservationDAO.java
+│   │   │   └── UserDAO.java
 │   │   │
-│   │   ├── impl/                # Implémentations des DAO
+│   │   ├── interfaceImpl/       # Implémentations des DAO (CORRIGÉ)
 │   │   │   ├── BookDAOImpl.java
-│   │   │   ├── UserDAOImpl.java
+│   │   │   ├── HistoryDAOImpl.java
 │   │   │   ├── LoanDAOImpl.java
-│   │   │   └── ReservationDAOImpl.java
+│   │   │   ├── ReservationDAOImpl.java
+│   │   │   └── UserDAOImpl.java
 │   │   │
-│   │   ├── DAOFactory.java      # Factory (Crée et fournit les instances des DAOs)
-│   │   └── DBConnection.java    # Singleton (Gère la connexion à la base de données)
+│   │   ├── DAOFactory.java      # Fabrique (point d'accès pour les DAO)
+│   │   └── DBConnection.java    # Singleton de connexion à la BDD
 │   │
-│   ├── model/                   # M (MVC) - Entités du projet
+│   ├── model/                   # Couche Modèle (M de MVC) - Entités
 │   │   ├── Book.java
-│   │   ├── User.java
+│   │   ├── History.java
 │   │   ├── Loan.java
 │   │   ├── Reservation.java
-│   │   └── History.java
+│   │   └── User.java
 │   │
-│   └── service/                 # Logique Métier (Respecte le principe de Responsabilité Unique)
-│       ├── BookService.java
-│       ├── UserService.java
-│       ├── LoanService.java
-│       └── ReservationService.java
-│
+│   ├── service/                 # Couche Service - Logique métier
+│   │   ├── BookService.java
+│   │   ├── HistoryService.java
+│   │   ├── LoanService.java
+│   │   ├── ReservationService.java
+│   │   └── UserService.java
+│   │
+│   └── util/                    # Utilitaires divers
 │
 │── src/main/webapp/
 │   ├── index.jsp                # Page d'accueil
-│   ├── login.jsp                # Connexion
-│   ├── books.jsp                # Liste des livres
-│   ├── reservations.jsp         # Réservations
-│   ├── loaned.jsp               # Emprunts
-│   ├── history.jsp              # Historique (pour l'admin)
-│   │
-│   ├── admin/                   # Vues spécifiques à l'administrateur
-│   │   ├── manageBooks.jsp
-│   │   ├── manageUsers.jsp
-│   │   └── dashboard.jsp
-│   │
 │   ├── css/
 │   │   └── style.css
 │   │
 │   └── WEB-INF/
-│       └── lib/                 # Dépendances (JSTL, JDBC)
+│        ├── login.jsp
+│        ├── books.jsp
+│        ├── reservations.jsp
+│        ├── loaned.jsp
+│        ├── history.jsp
+│        ├── manageBooks.jsp
+│        ├── manageUsers.jsp
+│        ├── dashboard.jsp
+│        │
+│        └── web.xml              # Fichier de configuration du déploiement
 │
-└── pom.xml                      # Dépendances Maven
-
+└── pom.xml
 
 
 --------------------------------------------------------------------------------------------------------

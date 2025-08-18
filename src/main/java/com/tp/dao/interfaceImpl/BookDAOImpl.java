@@ -5,7 +5,6 @@ import com.tp.dao.interfaces.BookDAO;
 
 public class BookDAOImpl implements BookDAO {
 
-
     public BookDAOImpl(DAOFactory daoFactory) {
     }
 }

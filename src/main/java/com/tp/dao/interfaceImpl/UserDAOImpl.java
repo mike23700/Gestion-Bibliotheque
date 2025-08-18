@@ -63,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
             System.err.println("Erreur lors de la mise à jour de l'utilisateur : " + e.getMessage());
             e.printStackTrace();
         }
-        return false;
+        return success;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
             System.err.println("Erreur lors de la suppression de l'utilisateur : " + e.getMessage());
             e.printStackTrace();
         }
-        return false;
+        return success;
     }
 
     @Override

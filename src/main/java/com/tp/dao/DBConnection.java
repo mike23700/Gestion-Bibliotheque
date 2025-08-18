@@ -10,6 +10,7 @@ public class DBConnection {
     private static final String PASSWORD = "";
 
     private static Connection connection = null;
+    private static DBConnection instance = null;
 
     private DBConnection() {}
 
@@ -27,5 +28,12 @@ public class DBConnection {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public DBConnection getInstance(){
+        if(instance == null){
+            return new DBConnection();
+        }
+        return instance;
     }
 }

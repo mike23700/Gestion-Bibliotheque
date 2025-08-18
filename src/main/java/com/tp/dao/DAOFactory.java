@@ -13,7 +13,16 @@ import com.tp.dao.interfaces.UserDAO;
 
 public class DAOFactory {
 
+    private static DAOFactory instance = null;
+
     private DAOFactory() {
+    }
+
+    public static DAOFactory getInstance() {
+        if (instance == null) {
+            instance = new DAOFactory();
+        }
+        return instance;
     }
 
     public  BookDAO getBookDAO() {
@@ -36,3 +45,4 @@ public class DAOFactory {
         return new HistoryDAOImpl(this);
     }
 }
+

@@ -1,64 +1,78 @@
 package com.tp.model;
 
-public class Book {
-    private String Id_Book;
-    private String Title;
-    private String Author;
-    private int Year_Publication;
-    private String Category;
-    private  String Description;
-    private String Image_Path;
+import com.tp.service.BookService;
 
-    public Book(String id_book , String title , String author , int year_publication , String category , String description , String image_path){
-        this.Id_Book = id_book;
-        this.Title = title;
-        this.Author = author;
-        this.Year_Publication = year_publication;
-        this.Category = category;
-        this.Description = description;
-        this.Image_Path = image_path;
+import java.time.LocalDateTime;
+
+public class Book {
+
+
+    private String book_id;
+    private String title;
+    private String author;
+    private int year;
+    private String image;
+    private String category;
+    private  String description;
+    private boolean is_available;
+    private int loan_count;
+    private LocalDateTime created_at;
+
+
+
+    public Book(String id_book , String title , String author , int year_publication , String image, String category , String description , boolean is_available , int loan_count , LocalDateTime created_at){
+        this.book_id = id_book;
+        this.title = title;
+        this.author = author;
+        this.year = year_publication;
+        this.image = image;
+        this.category = category;
+        this.description = description;
+        this.is_available = is_available;
+        this.loan_count = loan_count;
+        this.created_at = created_at;
     }
 
     public String getId_Book(){
-        return this.Id_Book;
+        return this.book_id;
     }
     public String getTitle(){
-        return this.Title;
+        return this.title;
     }
     public String getAuthor(){
-        return this.Author;
+        return this.author;
     }
-    public int getYear_Publication(){
-        return this.Year_Publication;
+    public int getYear(){
+        return this.year;
     }
+    public String getImage(){ return this.image; }
     public String getCategory(){
-        return this.Category;
+        return this.category;
     }
-    public String getDescription(){
-        return this.Description;
-    }
-    public String getImage_Path(){
-        return this.Image_Path;
-    }
+    public String getDescription(){return this.description;}
+    public boolean getIs_available(){ return this.is_available; }
+    private int getLoan_count(){ return this.loan_count; }
+    private LocalDateTime getCreated_at(){return this.created_at; }
     public void setId_Book(String id_book){
-        this.Id_Book = id_book;
+        this.book_id = id_book;
     }
     public void setTitle(String title){
-        this.Title = title;
+        this.title = title;
     }
     public void setAuthor(String author){
-        this.Author = author;
+        this.author = author;
     }
-    public  void setYear_Publication(int year_Publication){
-        this.Year_Publication = year_Publication;
+    public  void setYear(int year_Publication){
+        this.year = year_Publication;
     }
+    public void setImage(String image ){ this.image = image; }
     public void setCategory(String category){
-        this.Category = category;
+        this.category = category;
     }
     public void setDescription(String description){
-        this.Description = description;
+        this.description = description;
     }
-    public void setImage_Path(String image_Path){
-        this.Image_Path = image_Path;
-    }
+    public void setIs_available(boolean is_available ){ this.is_available = is_available; }
+    public void setLoan_count(int loan_count ){ this.loan_count = loan_count; }
+
 }

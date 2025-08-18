@@ -3,56 +3,67 @@ package com.tp.model;
 import java.time.LocalDateTime;
 
 public class User {
-    private String Id_User;
-    private String Name;
-    private String Surname;
-    private String Password;
-    private String Role;
-    private LocalDateTime Date_Register;
+    private String user_id;
+    private String name;
+    private String surname;
+    private String password;
+    private String role;
+    private LocalDateTime registration_date;
 
-    public User(String id_user , String name , String surname , String password , String role , LocalDateTime date_register){
-        this.Id_User = id_user;
-        this.Name = name;
-        this.Surname = surname;
-        this.Password = password;
-        this.Role = role;
-        this.Date_Register = date_register;
+    public User(String user_id, String name, String surname, String password, String role, LocalDateTime registration_date) {
+        this.user_id = user_id;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.role = role;
+        this.registration_date = registration_date;
     }
 
-    public String getId_User(){
-        return this.Id_User;
+    public String getUser_id() {
+        return user_id;
     }
-    public String getName(){
-        return this.Name;
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
-    public String getSurname(){
-        return this.Surname;
+
+    public String getName() {
+        return name;
     }
-    public String getPassword(){
-        return this.Password;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    public String getRole(){
-        return this.Role;
+
+    public String getSurname() {
+        return surname;
     }
-    public LocalDateTime getDate_Register(){
-        return this.Date_Register;
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
-    public void setId_User(String id_user){
-        this.Id_User = id_user;
+
+    public String getPassword() {
+        return password;
     }
-    public void setName(String name){
-        this.Name = name;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
-    public void setSurname(String surname){
-        this.Surname = surname;
+
+    public String getRole() {
+        return role;
     }
-    public void setPassword(String password){
-        this.Password = password;
+
+    public void setRole(String role) {
+        this.role = role;
     }
-    public void setRole(String role){
-        this.Role = role;
+
+    public LocalDateTime getRegistration_date() {
+        return registration_date;
     }
-    public void setDate_Register(LocalDateTime date_register){
-        this.Date_Register = date_register;
+
+    public void setRegistration_date(LocalDateTime registration_date) {
+        this.registration_date = registration_date;
     }
 }

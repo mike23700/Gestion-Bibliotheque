@@ -1,6 +1,6 @@
 package com.tp.dao.interfaces;
 
-import com.tp.models.Reservation;
+import com.tp.model.Reservation;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.tp.models;
+package com.tp.model;
 
 public class Loan {
 }

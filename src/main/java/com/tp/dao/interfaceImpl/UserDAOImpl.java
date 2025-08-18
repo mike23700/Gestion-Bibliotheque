@@ -2,7 +2,7 @@ package com.tp.dao.interfaceImpl;
 
 import com.tp.dao.daoFactory;
 import com.tp.dao.interfaces.UserDAO;
-import com.tp.models.User;
+import com.tp.model.User;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.tp.dao.interfaceImpl;
 
 import com.tp.dao.daoFactory;
 import com.tp.dao.interfaces.BookDAO;
-import com.tp.models.Book;
+import com.tp.model.Book;
 
 import java.util.List;
 

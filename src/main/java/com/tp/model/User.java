@@ -1,4 +1,4 @@
-package com.tp.models;
+package com.tp.model;
 
 import java.time.LocalDateTime;
 

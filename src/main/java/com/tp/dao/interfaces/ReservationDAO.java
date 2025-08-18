@@ -1,9 +1,6 @@
 package com.tp.dao.interfaces;
 
-import com.tp.model.Reservation;
 
-import java.util.List;
 
 public interface ReservationDAO {
-    List<Reservation> getAllReservations() throws Exception;
 }

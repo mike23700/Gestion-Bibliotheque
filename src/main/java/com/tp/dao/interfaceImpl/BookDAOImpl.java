@@ -32,7 +32,7 @@ public class BookDAOImpl implements BookDAO {
             stmt.setString(5, book.getImage());
             stmt.setString(6, book.getCategory());
             stmt.setString(7, book.getDescription());
-            stmt.setBoolean(8, book.getIs_available());
+            stmt.setInt(8, book.getIs_available());
             stmt.setInt(9, book.getLoan_count());
 
             stmt.executeUpdate();
@@ -42,7 +42,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> searchByTitle(String title) throws Exception {
+    public List<Book> searchByTitle(String title) throws Exception{
         List<Book> books = new ArrayList<>();
         try {
             Connection connection = DBConnection.getConnection();
@@ -60,7 +60,7 @@ public class BookDAOImpl implements BookDAO {
                         rs.getString("image"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getBoolean("is_available"),
+                        rs.getInt("is_available"),
                         rs.getInt("loan_count"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                 );
@@ -89,7 +89,7 @@ public class BookDAOImpl implements BookDAO {
                         rs.getString("image"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getBoolean("is_available"),
+                        rs.getInt("is_available"),
                         rs.getInt("loan_count"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                 );
@@ -126,7 +126,7 @@ public class BookDAOImpl implements BookDAO {
             stmt.setString(4, book.getImage());
             stmt.setString(5, book.getCategory());
             stmt.setString(6, book.getDescription());
-            stmt.setBoolean(7, book.getIs_available());
+            stmt.setInt(7, book.getIs_available());
             stmt.setInt(8, book.getLoan_count());
             stmt.setString(9, book.getId_Book());
 
@@ -154,7 +154,7 @@ public class BookDAOImpl implements BookDAO {
                         rs.getString("image"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getBoolean("is_available"),
+                        rs.getInt("is_available"),
                         rs.getInt("loan_count"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                 );

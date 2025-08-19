@@ -1,3 +1,5 @@
+// src/main/java/com/tp/controller/user/LoginController.java
+
 package com.tp.controller.user;
 
 import com.tp.dao.DAOFactory;
@@ -16,11 +18,10 @@ import java.io.IOException;
 public class LoginController extends HttpServlet {
 
     private UserService userService;
-    private DAOFactory daoFactory;
 
     public void init() throws ServletException {
-        this.daoFactory = DAOFactory.getInstance();
-        this.userService = new UserService(this.daoFactory);
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        this.userService = new UserService(daoFactory);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,10 +38,14 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", authenticatedUser);
 
-            if ("ADMIN".equals(authenticatedUser.getRole())) {
-                response.sendRedirect("adminDashboard.jsp");
+            if ("0000".equals(password)) {
+                response.sendRedirect("changePassword.jsp");
             } else {
-                response.sendRedirect("memberDashboard.jsp");
+                if ("ADMIN".equals(authenticatedUser.getRole())) {
+                    response.sendRedirect("adminDashboard.jsp");
+                } else {
+                    response.sendRedirect("memberDashboard.jsp");
+                }
             }
         } else {
             request.setAttribute("error", "ID ou mot de passe incorrect.");

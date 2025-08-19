@@ -45,3 +45,4 @@ public class DAOFactory {
         return new HistoryDAOImpl(this);
     }
 }
+

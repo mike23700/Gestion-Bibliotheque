@@ -134,69 +134,62 @@ Faut aussi implementer le mvc et les principes SOLID dans ce projet je veux d'ab
 -------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------
 
-
--- Table des utilisateurs (admins + membres)
--- Création de la base de données
-CREATE DATABASE IF NOT EXISTS bibliotheque_db;
+CREATE DATABASE bibliotheque_db;
 USE bibliotheque_db;
 
 -- Table des utilisateurs (admins + membres)
 CREATE TABLE users (
-    user_id VARCHAR(100) PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    surname VARCHAR(50) NOT NULL,
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL,
+    surname varchar(50) not null,
     password VARCHAR(255) NOT NULL,
     role ENUM('ADMIN', 'MEMBER') NOT NULL,
-    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    date_register TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Table des livres
 CREATE TABLE books (
-    book_id VARCHAR(100) PRIMARY KEY,
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     author VARCHAR(100) NOT NULL,
     year INT,
     image VARCHAR(255),
-    category VARCHAR(255),
-    description TEXT,
-    is_available BOOLEAN DEFAULT TRUE,
-    loan_count INT DEFAULT 0,
+    catégory VARCHAR(255),
+    description VARCHAR(255),
+    available BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Table des emprunts
-CREATE TABLE loans (
+CREATE TABLE loaned (
     loan_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(100) NOT NULL,
-    book_id VARCHAR(100) NOT NULL,
+    user_id INT,
+    book_id INT,
     borrow_date DATE NOT NULL,
     due_date DATE NOT NULL,
     return_date DATE,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
 -- Table des réservations
 CREATE TABLE reservations (
     reservation_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(100) NOT NULL,
-    book_id VARCHAR(100) NOT NULL,
+    user_id INT,
+    book_id INT,
     reservation_date DATE NOT NULL,
     status ENUM('ACTIVE', 'CANCELLED', 'FULFILLED') DEFAULT 'ACTIVE',
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (book_id) REFERENCES books(id)
 );
 
 -- Historique (emprunts, réservations, ajouts, suppressions)
 CREATE TABLE history (
-    history_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id VARCHAR(100),
-    book_id VARCHAR(100),
-    action_type ENUM('LOAN', 'RETURN', 'RESERVATION', 'ADD_BOOK', 'DELETE_BOOK', 'ADD_USER', 'DELETE_USER') NOT NULL,
-    action_description TEXT NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    action VARCHAR(255) NOT NULL,
     action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
-    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE SET NULL
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 
@@ -204,43 +197,47 @@ CREATE TABLE history (
 BiblioTech/
 │── src/main/java/com/tp/
 │   │
-│   ├── controller/              # C (MVC)
+│   ├── controller/              # Couche Contrôleur (C de MVC)
 │   │   ├── FrontController.java
 │   │   ├── BookController.java
-│   │   ├── UserController.java
+│   │   ├── HistoryController.java
 │   │   ├── LoanController.java
-│   │   └── ReservationController.java
+│   │   ├── ReservationController.java
+│   │   └── UserController.java
 │   │
-│   ├── dao/                     # DAO Layer
-│   │   ├── interfaces/          # DAO Interfaces (Respecte l'Inversion des Dépendances)
+│   ├── dao/                     # Couche d'Accès aux Données (DAO)
+│   │   ├── interfaces/          # Interfaces DAO (respecte le principe de la DI)
 │   │   │   ├── BookDAO.java
-│   │   │   ├── HistoryDAO.java    # AJOUTÉ
+│   │   │   ├── HistoryDAO.java
 │   │   │   ├── LoanDAO.java
 │   │   │   ├── ReservationDAO.java
 │   │   │   └── UserDAO.java
 │   │   │
-│   │   ├── interfaceimpl/      # Implémentations des DAO
+│   │   ├── interfaceImpl/       # Implémentations des DAO (CORRIGÉ)
 │   │   │   ├── BookDAOImpl.java
-│   │   │   ├── HistoryDAOImpl.java  # AJOUTÉ
+│   │   │   ├── HistoryDAOImpl.java
 │   │   │   ├── LoanDAOImpl.java
 │   │   │   ├── ReservationDAOImpl.java
 │   │   │   └── UserDAOImpl.java
 │   │   │
-│   │   ├── DAOFactory.java      # Factory (Crée et fournit les instances des DAOs)
-│   │   └── DBConnection.java    # Singleton (Gère la connexion à la base de données)
+│   │   ├── DAOFactory.java      # Fabrique (point d'accès pour les DAO)
+│   │   └── DBConnection.java    # Singleton de connexion à la BDD
 │   │
-│   ├── model/                   # M (MVC) - Entités du projet
+│   ├── model/                   # Couche Modèle (M de MVC) - Entités
 │   │   ├── Book.java
-│   │   ├── History.java           # Déjà présent
+│   │   ├── History.java
 │   │   ├── Loan.java
 │   │   ├── Reservation.java
 │   │   └── User.java
 │   │
-│   └── service/                 # Logique Métier (Respecte le principe de Responsabilité Unique)
-│       ├── BookService.java
-│       ├── LoanService.java
-│       ├── ReservationService.java
-│       └── UserService.java
+│   ├── service/                 # Couche Service - Logique métier
+│   │   ├── BookService.java
+│   │   ├── HistoryService.java
+│   │   ├── LoanService.java
+│   │   ├── ReservationService.java
+│   │   └── UserService.java
+│   │
+│   └── util/                    # Utilitaires divers
 │
 │── src/main/webapp/
 │   ├── index.jsp                # Page d'accueil
@@ -257,7 +254,7 @@ BiblioTech/
 │        ├── manageUsers.jsp
 │        ├── dashboard.jsp
 │        │
-│        └── web.xml              # Fichier de configuration
+│        └── web.xml              # Fichier de configuration du déploiement
 │
 └── pom.xml
 

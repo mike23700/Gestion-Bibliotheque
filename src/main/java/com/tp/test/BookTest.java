@@ -1,25 +1,29 @@
 package com.tp.test;
 
 import com.tp.dao.DAOFactory;
+import com.tp.dao.interfaces.BookDAO;
 import com.tp.dao.interfaces.UserDAO;
+import com.tp.model.Book;
 import com.tp.model.User;
+import com.tp.service.BookService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MainTest {
-    public static void main(String[] args) {
+public class BookTest {
+    public static void main(String[] args) throws Exception {
         DAOFactory daoFactory = DAOFactory.getInstance();
-        UserDAO userDAO = daoFactory.getUserDAO();
+        BookDAO bookDAO = daoFactory.getBookDAO();
 
         System.out.println("\n=== TEST AJOUT UTILISATEUR ===");
-        User u1 = new User("U001", "Jean", "Dupont", "1234", "ADMIN", LocalDateTime.now());
-        User u2 = new User("U002", "Marie", "Durand", "5678", "MEMBER", LocalDateTime.now());
-        User u3 = new User("U003", "Mike", "Kent", "5679", "MEMBER", LocalDateTime.now());
-        userDAO.addUser(u1);
-        userDAO.addUser(u2);
-        userDAO.addUser(u3);
+        Book u1 = new Book("U001", "Jean", "Dupont", 2002 , "ADMIN", "fiction", "rien" , 1 , 1 , LocalDateTime.now());
+        //User u2 = new User("U002", "Marie", "Durand", "5678", "MEMBER", LocalDateTime.now());
+        //User u3 = new User("U003", "Mike", "Kent", "5679", "MEMBER", LocalDateTime.now());
+        bookDAO.AddBook(u1);
+        //userDAO.addUser(u2);
+        //userDAO.addUser(u3);
 
+        /*
         // Lister tous les utilisateurs
         System.out.println("\n=== LISTE DES UTILISATEURS ===");
         List<User> allUsers = userDAO.getAllUsers();
@@ -38,14 +42,11 @@ public class MainTest {
 
         //  Rechercher par username (name)
         System.out.println("\n=== RECHERCHE PAR NOM ===");
-        List<User> foundUsers = userDAO.findByname("Marie");
-
-        if (foundUsers != null && !foundUsers.isEmpty()) {
-            for (User u : foundUsers) {
-                System.out.println("Trouvé: " + u.getName() + " " + u.getSurname());
-            }
+        User foundByName = userDAO.findByUsername("Marie");
+        if (foundByName != null) {
+            System.out.println("Trouvé: " + foundByName.getName() + " " + foundByName.getSurname());
         } else {
-            System.out.println("Aucun utilisateur trouvé !");
+            System.out.println("Utilisateur introuvable !");
         }
 
         // Supprimer un utilisateur
@@ -59,6 +60,7 @@ public class MainTest {
         for (User u : allUsers) {
             System.out.println(u.getUser_id() + " - " + u.getName() + " " + u.getSurname());
         }
+         */
     }
 }
 

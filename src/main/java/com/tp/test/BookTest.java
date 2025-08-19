@@ -1,68 +1,66 @@
 package com.tp.test;
 
-import com.tp.dao.DAOFactory; // Remplacez com.tp.dao.DAOFactory par com.tp.DAO.DAOFactory si votre package est celui-ci
-import com.tp.dao.interfaces.BookDAO; // Utilisez LivreDAO si c'est votre interface pour les livres, pas BookDAO
+import com.tp.dao.DAOFactory;
+import com.tp.dao.interfaces.BookDAO;
+import com.tp.dao.interfaces.UserDAO;
+import com.tp.model.Book;
+import com.tp.model.User;
+import com.tp.service.BookService;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.DatabaseMetaData; // N'oubliez pas l'import pour DatabaseMetaData
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class BookTest {
+    public static void main(String[] args) throws Exception {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        BookDAO bookDAO = daoFactory.getBookDAO();
 
-    public static void main(String[] args) {
-        Connection connection = null; // Initialisée à null
-        try {
-            // Obtenez l'instance unique de votre DAOFactory
-            DAOFactory daoFactory = DAOFactory.getInstance();
+        System.out.println("\n=== TEST AJOUT UTILISATEUR ===");
+        Book u1 = new Book("U001", "Jean", "Dupont", 2002 , "ADMIN", "fiction", "rien" , 1 , 1 , LocalDateTime.now());
+        //User u2 = new User("U002", "Marie", "Durand", "5678", "MEMBER", LocalDateTime.now());
+        //User u3 = new User("U003", "Mike", "Kent", "5679", "MEMBER", LocalDateTime.now());
+        bookDAO.AddBook(u1);
+        //userDAO.addUser(u2);
+        //userDAO.addUser(u3);
 
-            // --- C'EST LA LIGNE CLÉ MANQUANTE OU MAL PLACÉE ---
-            // Tentez d'obtenir une connexion à partir de la fabrique
-            //connection = daoFactory.getConnection(); // <-- Assigne la connexion réelle à la variable 'connection'
-            // --- FIN DE LA LIGNE CLÉ MANQUANTE ---
-
-            // Si vous avez besoin d'un BookDAO pour d'autres tests futurs, vous pouvez le garder.
-            // Actuellement, il n'est pas utilisé pour le test de connexion lui-même.
-            // LivreDAO livreDAO = daoFactory.getLivreDAO(); // Utilisez getLivreDAO() si c'est la bonne méthode
-
-            // Vérifiez si la connexion est bien établie et ouverte
-            if (connection != null && !connection.isClosed()) {
-                System.out.println("Connexion à la base de données réussie ! 🎉");
-
-                // --- Vérification supplémentaire pour getMetaData() (ajoutée précédemment) ---
-                DatabaseMetaData metaData = connection.getMetaData();
-                if (metaData != null) {
-                    System.out.println("Nom de la base de données : " + metaData.getDatabaseProductName());
-                    System.out.println("URL de connexion : " + metaData.getURL());
-                } else {
-                    System.err.println("Avertissement : connection.getMetaData() a retourné null. Impossible d'obtenir les métadonnées de la base de données.");
-                }
-                // --- FIN Vérification supplémentaire ---
-
-            } else {
-                // Ce bloc est atteint si getConnection() renvoie null ou une connexion fermée
-                System.err.println("Échec de la connexion à la base de données : La connexion est nulle ou fermée.");
-            }
-
-        } catch (SQLException e) {
-            // Attrapez les exceptions SQL si la connexion échoue (problème DB)
-            System.err.println("Erreur SQL lors de la tentative de connexion : " + e.getMessage());
-            e.printStackTrace(); // Affiche la trace complète de l'erreur pour le débogage
-        } catch (RuntimeException e) {
-            // Attrapez les RuntimeException si DAOFactory échoue (ex: JNDI non trouvé)
-            System.err.println("Erreur lors de l'initialisation de DAOFactory ou problème inattendu : " + e.getMessage());
-            e.printStackTrace();
-        } finally {
-            // Assurez-vous que la connexion est toujours fermée pour libérer les ressources
-            // (avec un pool de connexions, cela la remet simplement dans le pool)
-            if (connection != null) {
-                try {
-                    connection.close();
-                    System.out.println("Connexion fermée (ou remise au pool).");
-                } catch (SQLException e) {
-                    System.err.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
-                    e.printStackTrace();
-                }
-            }
+        /*
+        // Lister tous les utilisateurs
+        System.out.println("\n=== LISTE DES UTILISATEURS ===");
+        List<User> allUsers = userDAO.getAllUsers();
+        for (User u : allUsers) {
+            System.out.println(u.getUser_id() + " - " + u.getName() + " " + u.getSurname() + " (" + u.getRole() + ")");
         }
+
+        //  Rechercher un utilisateur par ID
+        System.out.println("\n=== RECHERCHE PAR ID ===");
+        User foundById = userDAO.findById("U001");
+        if (foundById != null) {
+            System.out.println("Trouvé: " + foundById.getName() + " " + foundById.getSurname());
+        } else {
+            System.out.println("Utilisateur introuvable !");
+        }
+
+        //  Rechercher par username (name)
+        System.out.println("\n=== RECHERCHE PAR NOM ===");
+        User foundByName = userDAO.findByUsername("Marie");
+        if (foundByName != null) {
+            System.out.println("Trouvé: " + foundByName.getName() + " " + foundByName.getSurname());
+        } else {
+            System.out.println("Utilisateur introuvable !");
+        }
+
+        // Supprimer un utilisateur
+        System.out.println("\n=== SUPPRESSION ===");
+        boolean deleted = userDAO.deleteUser("U002");
+        System.out.println("Suppression U002: " + (deleted ? "✅ OK" : "❌ Échec"));
+
+        // Vérifions après suppression
+        System.out.println("\n=== LISTE APRES SUPPRESSION ===");
+        allUsers = userDAO.getAllUsers();
+        for (User u : allUsers) {
+            System.out.println(u.getUser_id() + " - " + u.getName() + " " + u.getSurname());
+        }
+         */
     }
 }
+

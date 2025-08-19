@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/manageBook")
-public class SearchBook extends HttpServlet {
+public class SearchBookController extends HttpServlet {
     BookService bookService = new BookService();
     List<Book> books = new ArrayList<>();
 

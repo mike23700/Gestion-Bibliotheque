@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/manageBooks")
-public class ManageBook extends HttpServlet {
+public class ManageBookController extends HttpServlet {
     BookService bookService = new BookService();
     List<Book> books = new ArrayList<>();
 

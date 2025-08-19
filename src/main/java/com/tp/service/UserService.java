@@ -25,7 +25,6 @@ public class UserService {
         return user;
     }
 
-
     public boolean addUser(User user) {
         user.setUser_id(UUID.randomUUID().toString());
         user.setPassword("0000");

@@ -134,62 +134,68 @@ Faut aussi implementer le mvc et les principes SOLID dans ce projet je veux d'ab
 -------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------
 
-CREATE DATABASE bibliotheque_db;
+- Table des utilisateurs (admins + membres)
+-- Création de la base de données
+CREATE DATABASE IF NOT EXISTS bibliotheque_db;
 USE bibliotheque_db;
 
 -- Table des utilisateurs (admins + membres)
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) UNIQUE NOT NULL,
-    surname varchar(50) not null,
+    user_id VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    surname VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('ADMIN', 'MEMBER') NOT NULL,
-    date_register TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Table des livres
 CREATE TABLE books (
-    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id VARCHAR(100) PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     author VARCHAR(100) NOT NULL,
     year INT,
     image VARCHAR(255),
-    catégory VARCHAR(255),
-    description VARCHAR(255),
-    available BOOLEAN DEFAULT TRUE,
+    category VARCHAR(255),
+    description TEXT,
+    is_available BOOLEAN DEFAULT TRUE,
+    loan_count INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Table des emprunts
-CREATE TABLE loaned (
+CREATE TABLE loans (
     loan_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    book_id INT,
+    user_id VARCHAR(100) NOT NULL,
+    book_id VARCHAR(100) NOT NULL,
     borrow_date DATE NOT NULL,
     due_date DATE NOT NULL,
     return_date DATE,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (book_id) REFERENCES books(id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 );
 
 -- Table des réservations
 CREATE TABLE reservations (
     reservation_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    book_id INT,
+    user_id VARCHAR(100) NOT NULL,
+    book_id VARCHAR(100) NOT NULL,
     reservation_date DATE NOT NULL,
     status ENUM('ACTIVE', 'CANCELLED', 'FULFILLED') DEFAULT 'ACTIVE',
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (book_id) REFERENCES books(id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 );
 
 -- Historique (emprunts, réservations, ajouts, suppressions)
 CREATE TABLE history (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    action VARCHAR(255) NOT NULL,
+    history_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(100),
+    book_id VARCHAR(100),
+    action_type ENUM('LOAN', 'RETURN', 'RESERVATION', 'ADD_BOOK', 'DELETE_BOOK', 'ADD_USER', 'DELETE_USER') NOT NULL,
+    action_description TEXT NOT NULL,
     action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
+    FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE SET NULL
 );
 
 

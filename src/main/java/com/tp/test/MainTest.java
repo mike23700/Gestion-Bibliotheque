@@ -38,7 +38,7 @@ public class MainTest {
 
         //  Rechercher par username (name)
         System.out.println("\n=== RECHERCHE PAR NOM ===");
-        User foundByName = userDAO.findByUsername("Marie");
+        User foundByName = (User) userDAO.findByname("Marie");
         if (foundByName != null) {
             System.out.println("Trouvé: " + foundByName.getName() + " " + foundByName.getSurname());
         } else {

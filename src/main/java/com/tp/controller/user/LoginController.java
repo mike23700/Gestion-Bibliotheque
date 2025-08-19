@@ -1,5 +1,3 @@
-// src/main/java/com/tp/controller/user/LoginController.java
-
 package com.tp.controller.user;
 
 import com.tp.dao.DAOFactory;

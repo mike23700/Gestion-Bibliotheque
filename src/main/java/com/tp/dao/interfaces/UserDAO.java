@@ -10,7 +10,8 @@ public interface UserDAO {
       boolean updateUser(User user) ;
       boolean deleteUser(String userId) ;
       User findById(String userId) ;
-      User findByUsername(String name);
+      List<User> findByname(String name);
       List<User> getAllUsers() ;
-
+      List<User> getAllAdmins();
+      List<User> getAllMembers();
 }

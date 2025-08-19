@@ -48,11 +48,19 @@ public class UserService {
         return userDAO.findById(userId);
     }
 
-    public User findUserByName(String name) {
-        return userDAO.findById(name);
+    public List<User> findUserByName(String name) {
+        return userDAO.findByname(name);
     }
 
     public List<User> getAllUsers() {
         return userDAO.getAllUsers();
+    }
+
+    public List<User> getAllAdmins() {
+        return userDAO.getAllAdmins();
+    }
+
+    public List<User> getAllMembers() {
+        return userDAO.getAllMembers();
     }
 }

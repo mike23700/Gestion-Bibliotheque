@@ -118,18 +118,18 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public User findByUsername(String name) {
-        String query = "SELECT * FROM users WHERE name = ?";
-        User user = null;
+    public List<User> findByname(String name) {
+        String query = "SELECT * FROM users WHERE name LIKE ?";
+        List<User> userList = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
-            stmt.setString(1, name);
+            stmt.setString(1, "%" + name + "%");
 
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    user = new User(
+                while (rs.next()) {
+                    User user = new User(
                             rs.getString("user_id"),
                             rs.getString("name"),
                             rs.getString("surname"),
@@ -137,13 +137,14 @@ public class UserDAOImpl implements UserDAO {
                             rs.getString("role"),
                             rs.getTimestamp("registration_date").toLocalDateTime()
                     );
+                    userList.add(user);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche de l'utilisateur par nom d'utilisateur : " + e.getMessage());
+            System.err.println("Erreur lors de la recherche par nom : " + e.getMessage());
             e.printStackTrace();
         }
-        return user;
+        return userList;
     }
 
     @Override
@@ -171,5 +172,65 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return liste;
+    }
+
+    @Override
+    public List<User> getAllAdmins() {
+        String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date DESC";
+        List<User> userList = new ArrayList<>();
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            stmt.setString(1, "ADMIN");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getString("user_id"),
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getString("password"),
+                            rs.getString("role"),
+                            rs.getTimestamp("registration_date").toLocalDateTime()
+                    );
+                    userList.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des administrateurs : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return userList;
+    }
+
+    @Override
+    public List<User> getAllMembers() {
+        String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date DESC";
+        List<User> userList = new ArrayList<>();
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            stmt.setString(1, "MEMBER");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User(
+                            rs.getString("user_id"),
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getString("password"),
+                            rs.getString("role"),
+                            rs.getTimestamp("registration_date").toLocalDateTime()
+                    );
+                    userList.add(user);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des membres : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return userList;
     }
 }

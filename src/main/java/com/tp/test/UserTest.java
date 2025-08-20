@@ -7,7 +7,7 @@ import com.tp.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MainTest {
+public class UserTest {
     public static void main(String[] args) {
         DAOFactory daoFactory = DAOFactory.getInstance();
         UserDAO userDAO = daoFactory.getUserDAO();
@@ -38,11 +38,14 @@ public class MainTest {
 
         //  Rechercher par username (name)
         System.out.println("\n=== RECHERCHE PAR NOM ===");
-        User foundByName = (User) userDAO.findByname("Marie");
-        if (foundByName != null) {
-            System.out.println("Trouvé: " + foundByName.getName() + " " + foundByName.getSurname());
+        List<User> foundUsers = userDAO.findByname("Marie");
+
+        if (foundUsers != null && !foundUsers.isEmpty()) {
+            for (User u : foundUsers) {
+                System.out.println("Trouvé: " + u.getName() + " " + u.getSurname());
+            }
         } else {
-            System.out.println("Utilisateur introuvable !");
+            System.out.println("Aucun utilisateur trouvé !");
         }
 
         // Supprimer un utilisateur

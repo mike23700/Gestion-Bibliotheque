@@ -9,8 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,28 +25,42 @@ public class SearchUserController extends HttpServlet{
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
+            this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login");
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       String type = request.getParameter("type");
-       String input = request.getParameter("input");
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-       List<User> result = new ArrayList<>();
+        if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
+            String type = request.getParameter("type");
+            String input = request.getParameter("input");
 
-        try {
-            if ("user_id".equals(type)) {
-                User user = userService.findUserById(input);
-                if (user != null) {
-                    result.add(user);
+            List<User> result = new ArrayList<>();
+
+            try {
+                if ("user_id".equals(type)) {
+                    User user = userService.findUserById(input);
+                    if (user != null) {
+                        result.add(user);
+                    }
+                } else if ("name".equals(type.trim())) {
+                    result = userService.findUserByName(input);
                 }
-            } else if ("name ".equals(type)) {
-                result = userService.findUserByName(input);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            request.setAttribute("result", result);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login");
         }
-        request.setAttribute("result", result);
-        this.getServletContext().getRequestDispatcher("/WEB-INF/result.jsp").forward(request, response);
     }
 }

@@ -1,19 +1,21 @@
 package com.tp.controller.reservation;
 
-
 import com.tp.dao.DAOFactory;
 import com.tp.model.Reservation;
+import com.tp.model.User;
 import com.tp.service.ReservationService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/listReservations")
-public class ListReservationsController extends HttpServlet {
+@WebServlet("/memberListReservations")
+public class MemberListReservationsController extends HttpServlet {
 
     private ReservationService reservationService;
 
@@ -23,13 +25,16 @@ public class ListReservationsController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String message = (String) request.getSession().getAttribute("message");
-        if (message != null) {
-            request.setAttribute("message", message);
-            request.getSession().removeAttribute("message");
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (currentUser == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
         }
-        List<Reservation> reservations = reservationService.getAllReservations();
+
+        List<Reservation> reservations = reservationService.getReservationsByUserId(currentUser.getUser_id());
         request.setAttribute("reservations", reservations);
-        request.getRequestDispatcher("/WEB-INF/list.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/reservations.jsp").forward(request, response);
     }
 }

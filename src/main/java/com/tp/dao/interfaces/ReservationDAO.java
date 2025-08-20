@@ -11,6 +11,8 @@ public interface ReservationDAO {
     List<Reservation> findByUserId(String userId);
     List<Reservation> findByUserName(String name);
     List<Reservation> findByBookId(String bookId);
+    List<Reservation> findByBookName(String bookName);
     List<Reservation> findByStatus(String status);
     List<Reservation> getAllReservations();
+    List<Reservation> findByUserIdAndBookName(String userId, String bookName);
 }

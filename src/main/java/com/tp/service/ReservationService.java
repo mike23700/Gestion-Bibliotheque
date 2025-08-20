@@ -16,7 +16,6 @@ public class ReservationService {
 
     public boolean createReservation(String userId, String bookId) {
         Reservation reservation = new Reservation(
-                0,
                 userId,
                 bookId,
                 LocalDateTime.now(),
@@ -24,7 +23,6 @@ public class ReservationService {
         );
         return reservationDAO.addReservation(reservation);
     }
-
 
     public boolean cancelReservation(int reservationId) {
         Reservation reservation = reservationDAO.findById(reservationId);
@@ -35,7 +33,6 @@ public class ReservationService {
         reservation.setStatus("CANCELLED");
         return reservationDAO.updateReservation(reservation);
     }
-
 
     public boolean fulfillReservation(int reservationId) {
         Reservation reservation = reservationDAO.findById(reservationId);
@@ -51,25 +48,47 @@ public class ReservationService {
         return reservationDAO.findByUserId(userId);
     }
 
+    public List<Reservation> getReservationsByUserName(String userName) {
+        return reservationDAO.findByUserName(userName);
+    }
 
     public List<Reservation> getReservationsByBookId(String bookId) {
         return reservationDAO.findByBookId(bookId);
     }
 
+    public List<Reservation> getReservationsByBookName(String bookName) {
+        return reservationDAO.findByBookName(bookName);
+    }
 
     public List<Reservation> getAllReservations() {
+
         return reservationDAO.getAllReservations();
     }
 
     public List<Reservation> getActiveReservations() {
+
         return reservationDAO.findByStatus("ACTIVE");
     }
 
     public List<Reservation> getCancelledReservations() {
+
         return reservationDAO.findByStatus("CANCELLED");
     }
 
     public List<Reservation> getFulfilledReservations() {
+
         return reservationDAO.findByStatus("FULFILLED");
+    }
+
+    public List<Reservation> getReservationsByStatus(String status) {
+        return reservationDAO.findByStatus(status);
+    }
+
+    public Reservation findById(int reservationId) {
+        return reservationDAO.findById(reservationId);
+    }
+
+    public List<Reservation> getReservationsByUserIdAndBookName(String userId, String bookName) {
+        return reservationDAO.findByUserIdAndBookName(userId, bookName);
     }
 }

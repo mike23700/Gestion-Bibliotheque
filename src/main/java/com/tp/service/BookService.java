@@ -33,8 +33,20 @@ public class BookService {
         bookDao.DeleteBook(book_id);
     }
 
-    public List<Book> searchByTitle(String title) throws Exception {
-        return bookDao.searchByTitle(title);
+    public List<Book> findByTitle(String title) throws Exception {
+        return bookDao.findByTitle(title);
+    }
+
+    public List<Book> findByYear(int year) throws Exception {
+        return bookDao.findByYear(year);
+    }
+
+    public List<Book> findByAuthor(String author) throws Exception {
+        return bookDao.findByAuthor(author);
+    }
+
+    public List<Book> findByCategory(String category) throws Exception {
+        return bookDao.findByCategory(category);
     }
 
     public void updateBook(Book book) throws Exception {

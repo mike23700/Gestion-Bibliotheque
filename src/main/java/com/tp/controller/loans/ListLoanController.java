@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/manageLoan")
-public class ManageLoanController extends HttpServlet {
+public class ListLoanController extends HttpServlet {
     LoanService loanService = new LoanService();
     List<Loan> loans = new ArrayList<>();
 
@@ -23,10 +23,15 @@ public class ManageLoanController extends HttpServlet {
         HttpSession session = request.getSession(false);
         User currentUser = (session == null ) ? null : (User) session.getAttribute("user");
 
-        if(currentUser == null || currentUser.getRole().equals("ADMIN")){
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
+        assert currentUser != null;
+        if(currentUser.getRole().equals("MEMBER")){
+            try {
+                loans = loanService.getAllLoansByUser(currentUser.getUser_id());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+
 
         try {
             loans = loanService.getAllLoans();

@@ -43,8 +43,7 @@ public class AddBookController extends HttpServlet {
         book.setImage(request.getParameter("image"));
         book.setCategory(request.getParameter("category"));
         book.setDescription(request.getParameter("description"));
-        String is_available = request.getParameter("is_available");
-        book.setIs_available(Integer.parseInt(is_available));
+        book.setStatus(request.getParameter("status"));
         String loan_count = request.getParameter("loan_count");
         book.setLoan_count(Integer.parseInt(loan_count));
 

@@ -27,7 +27,7 @@ public class CreateReservationController extends HttpServlet {
 
         if (success) {
             request.getSession().setAttribute("message", "Réservation créée avec succès !");
-            response.sendRedirect("listReservations");
+            response.sendRedirect("memberListReservations");
         } else {
             request.setAttribute("error", "Erreur lors de la création de la réservation.");
             request.getRequestDispatcher("/WEB-INF/create.jsp").forward(request, response);

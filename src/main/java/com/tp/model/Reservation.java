@@ -6,13 +6,26 @@ public class Reservation {
     private int reservation_id;
     private String user_id;
     private String book_id;
+    private String user_name;
+    private String book_title;
     private LocalDateTime reservation_date;
     private String status;
 
-    public Reservation(int reservation_id, String user_id, String book_id, LocalDateTime reservation_date, String status) {
-        this.reservation_id = reservation_id;
+    // Constructeur pour les opérations de base (Ajout)
+    public Reservation(String user_id, String book_id, LocalDateTime reservation_date, String status) {
         this.user_id = user_id;
         this.book_id = book_id;
+        this.reservation_date = reservation_date;
+        this.status = status;
+    }
+
+    // Nouveau constructeur pour les requêtes de recherche/affichage
+    public Reservation(int reservation_id, String userId, String bookId, String userName, String bookTitle, LocalDateTime reservation_date, String status) {
+        this.reservation_id = reservation_id;
+        this.user_id = userId;
+        this.book_id = bookId;
+        this.user_name = userName;
+        this.book_title = bookTitle;
         this.reservation_date = reservation_date;
         this.status = status;
     }
@@ -28,6 +41,15 @@ public class Reservation {
     public String getBook_id() {
         return book_id;
     }
+
+    public String getUserName() {
+        return user_name;
+    }
+
+    public String getBookTitle() {
+        return book_title;
+    }
+
 
     public LocalDateTime getReservation_date() {
         return reservation_date;

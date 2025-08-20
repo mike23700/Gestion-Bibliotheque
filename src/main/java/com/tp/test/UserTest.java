@@ -7,7 +7,7 @@ import com.tp.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class MainTest {
+public class UserTest {
     public static void main(String[] args) {
         DAOFactory daoFactory = DAOFactory.getInstance();
         UserDAO userDAO = daoFactory.getUserDAO();

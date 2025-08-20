@@ -29,6 +29,6 @@ public class CancelReservationController extends HttpServlet {
         } else {
             request.setAttribute("error", "Erreur lors de l'annulation de la réservation.");
         }
-        response.sendRedirect("listReservations");
+        response.sendRedirect("memberListReservations");
     }
 }

@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,23 +25,25 @@ public class ListAllUserController extends HttpServlet{
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        List<User> userList = new ArrayList<>();
-        String type = request.getParameter("type");
+        if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
+            List<User> userList = new ArrayList<>();
+            String type = request.getParameter("type");
 
-        if ("admins".equals(type)) {
-            userList = userService.getAllAdmins();
-        }else if ("members".equals("type")){
-            userList = userService.getAllMembers();
-        }else {
-            userList = userService.getAllUsers();
+            if ("admins".equals(type)) {
+                userList = userService.getAllAdmins();
+            } else if ("members".equals(type)){
+                userList = userService.getAllMembers();
+            } else {
+                userList = userService.getAllUsers();
+            }
+
+            request.setAttribute("userList", userList);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login");
         }
-
-        request.setAttribute("userList", userList);
-
-        this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
     }
 }
-
-
-

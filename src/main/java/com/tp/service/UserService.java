@@ -3,6 +3,7 @@ package com.tp.service;
 import com.tp.dao.DAOFactory;
 import com.tp.dao.interfaces.UserDAO;
 import com.tp.model.User;
+import com.tp.model.generateID.GenerateUserID;
 
 import java.util.UUID;
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.List;
 public class UserService {
 
     private final UserDAO userDAO;
+    private final GenerateUserID idGenerator;
 
     public UserService(DAOFactory daoFactory) {
         this.userDAO = daoFactory.getUserDAO();
+        this.idGenerator = new GenerateUserID();
     }
 
 
@@ -26,7 +29,7 @@ public class UserService {
     }
 
     public boolean addUser(User user) {
-        user.setUser_id(UUID.randomUUID().toString());
+        user.setUser_id(idGenerator.generateID());
         user.setPassword("0000");
         user.setRole("MEMBER");
 

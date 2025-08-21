@@ -11,7 +11,7 @@ public class Reservation {
     private LocalDateTime reservation_date;
     private String status;
 
-    // Constructeur pour les opérations de base (Ajout)
+    // Constructeur pour les opérations d'ajout'
     public Reservation(String user_id, String book_id, LocalDateTime reservation_date, String status) {
         this.user_id = user_id;
         this.book_id = book_id;

@@ -34,17 +34,17 @@ public class ChangePasswordController extends HttpServlet {
 
             if (success) {
                 if ("ADMIN".equals(currentUser.getRole())) {
-                    response.sendRedirect("adminDashboard.jsp");
+                    response.sendRedirect("adminDashboard");
                 } else {
-                    response.sendRedirect("memberDashboard.jsp");
+                    response.sendRedirect("memberDashboard");
                 }
             } else {
                 request.setAttribute("error", "Échec du changement de mot de passe.");
-                request.getRequestDispatcher("/WEB-INF/member/changePassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/Vues/member/changePassword.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("error", "Le nouveau mot de passe ne peut pas être vide.");
-            request.getRequestDispatcher("/WEB-INF/member/changePassword.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/Vues/member/changePassword.jsp").forward(request, response);
         }
     }
 }

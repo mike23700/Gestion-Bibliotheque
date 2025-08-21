@@ -233,4 +233,22 @@ public class UserDAOImpl implements UserDAO {
         }
         return userList;
     }
+
+    @Override
+    public int countMembers() {
+        String query = "SELECT COUNT(*) FROM users WHERE role = 'MEMBER'";
+        int count = 0;
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
 }

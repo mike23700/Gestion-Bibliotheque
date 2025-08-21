@@ -65,4 +65,8 @@ public class UserService {
     public List<User> getAllMembers() {
         return userDAO.getAllMembers();
     }
+
+    public int countMembers() {
+        return userDAO.countMembers();
+    }
 }

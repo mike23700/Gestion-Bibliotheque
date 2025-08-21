@@ -33,14 +33,13 @@ header {
 }
 
 .logo {
-    display: flex;
     align-items: center;
     font-weight: 700;
     font-size: 1.5rem;
 }
 
 .logo-img {
-    height: 70px;
+    height: 200px;
     margin-right: 5px;
 }
 
@@ -101,13 +100,13 @@ main {
     transform: translateY(-1px);
 }
 
-.hero-image {
+.image {
     flex: 1;
     display: flex;
     justify-content: flex-end;
 }
 
-.hero-image img {
+.image img {
     max-width: 100%;
     height: auto;
     border-radius: 10px;

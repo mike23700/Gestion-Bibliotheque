@@ -12,8 +12,7 @@
     <div class="container">
         <header>
             <div class="logo">
-                <img src="assets/logo.png" alt="Logo" class="logo-img">
-                <span>BiblioTech</span>
+                <img src="assets/logo2.png" alt="Logo" class="logo-img">
             </div>
             <a href="login" class="btn-login">Se connecter</a>
         </header>

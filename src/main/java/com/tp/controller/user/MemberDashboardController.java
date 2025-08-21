@@ -21,6 +21,6 @@ public class MemberDashboardController extends HttpServlet {
             return;
         }
 
-        request.getRequestDispatcher("/WEB-INF/vues/member/memberDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/member/memberDashboard.jsp").forward(request, response);
     }
 }

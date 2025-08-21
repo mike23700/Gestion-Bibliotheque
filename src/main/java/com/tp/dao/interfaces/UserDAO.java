@@ -14,4 +14,5 @@ public interface UserDAO {
       List<User> getAllUsers() ;
       List<User> getAllAdmins();
       List<User> getAllMembers();
+      int countMembers();
 }

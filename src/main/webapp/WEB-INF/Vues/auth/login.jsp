@@ -11,9 +11,11 @@
 </head>
 <body>
     <div class="login-container">
+        <div class="logo">
+            <img src="assets/logo2.png" alt="Logo" class="logo-img">
+        </div>
         <h2>Connexion</h2>
 
-        <%-- Affiche le message d'erreur si l'attribut est présent --%>
         <c:if test="${not empty error}">
             <p class="error-message">${error}</p>
         </c:if>

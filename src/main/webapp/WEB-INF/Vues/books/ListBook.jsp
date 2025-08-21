@@ -6,7 +6,7 @@
 <html lang="fr">
 <head>
     <title>Liste des Livres</title>
-    <link rel="stylesheet" href="../../css/ListBook.css">
+    <link rel="stylesheet" href="css/ListBook.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

@@ -351,4 +351,22 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
  */
 
+    @Override
+    public int countReservations() {
+        String query = "SELECT COUNT(*) FROM reservations WHERE status = 'ACTIVE'";
+        int count = 0;
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
 }

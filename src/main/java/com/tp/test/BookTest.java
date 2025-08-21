@@ -5,6 +5,7 @@ import com.tp.dao.interfaces.BookDAO;
 import com.tp.dao.interfaces.UserDAO;
 import com.tp.model.Book;
 import com.tp.model.User;
+import com.tp.model.generateID.GenerateIdBooks;
 import com.tp.service.BookService;
 
 import java.time.LocalDateTime;
@@ -14,9 +15,10 @@ public class BookTest {
     public static void main(String[] args) throws Exception {
         DAOFactory daoFactory = DAOFactory.getInstance();
         BookDAO bookDAO = daoFactory.getBookDAO();
+        GenerateIdBooks g = new GenerateIdBooks();
 
         System.out.println("\n=== TEST AJOUT UTILISATEUR ===");
-        Book u1 = new Book("U001", "Jean", "Dupont", 2002 , "ADMIN", "fiction", "rien" , 1 , 1 , LocalDateTime.now());
+        Book u1 = new Book(g.generateID() , "Jean", "Dupont", 2002 , "ADMIN", "fiction", "rien" , "rendu" , 1 , LocalDateTime.now());
         //User u2 = new User("U002", "Marie", "Durand", "5678", "MEMBER", LocalDateTime.now());
         //User u3 = new User("U003", "Mike", "Kent", "5679", "MEMBER", LocalDateTime.now());
         bookDAO.AddBook(u1);
@@ -60,7 +62,8 @@ public class BookTest {
         for (User u : allUsers) {
             System.out.println(u.getUser_id() + " - " + u.getName() + " " + u.getSurname());
         }
-         */
+        */
+
     }
 }
 

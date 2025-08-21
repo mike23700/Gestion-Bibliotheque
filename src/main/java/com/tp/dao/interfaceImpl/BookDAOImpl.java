@@ -23,7 +23,7 @@ public class BookDAOImpl implements BookDAO {
     public void AddBook(Book book) throws Exception {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "INSERT INTO books(book_id , title , author , year , image , category , description , is_available , loan_count ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO books(book_id , title , author , year , image , category , description , status , loan_count ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book.getId_Book());
             stmt.setString(2, book.getTitle());

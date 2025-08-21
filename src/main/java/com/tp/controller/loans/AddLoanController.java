@@ -22,13 +22,17 @@ public class AddLoanController extends HttpServlet {
     Loan loan = null;
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
+        HttpSession session = request.getSession(false);
+        User currentUser = (session == null) ? null : (User) session.getAttribute("user");
+
+        assert currentUser != null;
 
         loan.setLoan_id(generateIdLoans.generateID());
-        loan.setUser_id(request.getParameter("user_id"));
+        loan.setUser_id(currentUser.getUser_id());
         loan.setBook_id(request.getParameter("book_id"));
         loan.setBorrow_date(LocalDateTime.now());
-        loan.setDue_date(null);
-        loan.setReturn_date(LocalDateTime.now().plusDays(14));
+        loan.setDue_date(LocalDateTime.now().plusDays(14));
+        loan.setReturn_date(null);
 
         try {
             loanService.AddLoan(loan);

@@ -40,8 +40,9 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllLoansByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
         try {
-            Connection connection = DBConnection.getConnection();
 
             String sql = " SELECT L.loan_id, U.name, B.title, L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +
@@ -91,8 +92,9 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllLoans() {
         List<Loan> loans = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
         try {
-            Connection connection = DBConnection.getConnection();
             /*
             String sql = "SELECT L.loan_id , U.name , B.title , L.borrow_date , L.due_date , L.return_date  " +
                     "FROM loans L , users U , books B " +
@@ -180,8 +182,9 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByUsername(String user_name) throws Exception {
         List<Loan> loans = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
         try {
-            Connection connection = DBConnection.getConnection();
 
             String sql = " SELECT L.loan_id, U.name, B.title, L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +
@@ -215,8 +218,9 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByBooktile(String book_title) throws Exception {
         List<Loan> loans = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
         try {
-            Connection connection = DBConnection.getConnection();
 
             String sql = " SELECT L.loan_id, U.name, B.title, L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +
@@ -302,8 +306,9 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByBooktitleAndByUser(String book_title, String user_id) throws Exception {
         List<Loan> loans = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
         try {
-            Connection connection = DBConnection.getConnection();
 
             String sql = " SELECT L.loan_id, U.name, B.title, L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +

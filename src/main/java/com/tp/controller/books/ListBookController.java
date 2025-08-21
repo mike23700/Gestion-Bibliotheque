@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/manageBooks")
+@WebServlet("/listBooks")
 public class ListBookController extends HttpServlet {
     BookService bookService = new BookService();
     List<Book> books = new ArrayList<>();
 
-    protected void doPost(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
+    protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
 
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
@@ -33,9 +33,13 @@ public class ListBookController extends HttpServlet {
 
         try {
             books = bookService.getAllBook();
-            request.setAttribute("books",books);
+            request.setAttribute("listbooks",books);
+            System.out.println("connexion reussis a la BD");
+            System.out.println(books.size());
         } catch (Exception e) {
             System.out.println("Erreur lors de la recuperation des livres");
         }
+
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/ListBook.jsp").forward(request,response);
     }
 }

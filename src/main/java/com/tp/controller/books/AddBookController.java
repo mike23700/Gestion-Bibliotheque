@@ -53,6 +53,6 @@ public class AddBookController extends HttpServlet {
         } catch (Exception e) {
             request.getSession().setAttribute("error","Failed to delete book");
         }
-        response.sendRedirect("manageBooks");
+        response.sendRedirect("listBooks");
     }
 }

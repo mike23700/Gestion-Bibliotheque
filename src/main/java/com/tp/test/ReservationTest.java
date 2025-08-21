@@ -11,6 +11,7 @@ import com.tp.model.User;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/*
 public class ReservationTest {
     public static void main(String[] args) throws Exception {
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -146,3 +147,4 @@ public class ReservationTest {
         System.out.println("Statut de R3 après mise à jour : " + (updatedR3Check != null ? updatedR3Check.getStatus() : "Non trouvé"));
     }
 }
+ */

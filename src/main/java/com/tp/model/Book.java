@@ -42,7 +42,7 @@ public class Book {
     public String getDescription(){return this.description;}
     public String getStatus(){ return this.status; }
     public int getLoan_count(){ return this.loan_count; }
-    private LocalDateTime getCreated_at(){return this.created_at; }
+    public LocalDateTime getCreated_at(){return this.created_at; }
     public void setId_Book(String id_book){this.book_id = id_book;}
     public void setTitle(String title){this.title = title;}
     public void setAuthor(String author){this.author = author;}

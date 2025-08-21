@@ -60,6 +60,18 @@ public class SearchBookController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "rendu":
+                try {
+                    bookService.findByRendu();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            case "en cours":
+                try {
+                    bookService.findByEnCour();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             default:
                 System.err.println("Impossible");
         }

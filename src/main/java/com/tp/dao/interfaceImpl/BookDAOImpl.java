@@ -166,6 +166,70 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    public List<Book> findByRendu() throws Exception {
+        List<Book> books = new ArrayList<>();
+        String Rendu = "rendu";
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE status = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, Rendu);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByEnCour() throws Exception {
+        List<Book> books = new ArrayList<>();
+        String Encour = "en cours";
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE status = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, Encour);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
     public List<Book> getAllBooks() throws Exception {
         List<Book> books = new ArrayList<>();
         try {

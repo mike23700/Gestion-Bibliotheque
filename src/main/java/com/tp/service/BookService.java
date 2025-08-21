@@ -49,6 +49,14 @@ public class BookService {
         return bookDao.findByCategory(category);
     }
 
+    public  List<Book> findByRendu() throws Exception {
+        return bookDao.findByRendu();
+    }
+
+    public List<Book> findByEnCour() throws Exception {
+        return bookDao.findByEnCour();
+    }
+
     public void updateBook(Book book) throws Exception {
         bookDao.updateBook(book);
     }

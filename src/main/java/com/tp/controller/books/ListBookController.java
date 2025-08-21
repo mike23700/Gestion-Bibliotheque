@@ -21,15 +21,21 @@ public class ListBookController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
 
+        /*
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        /*
-        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
+        assert currentUser != null;
+        if (currentUser.getRole().equals("MEMBER")) {
+            try {
+                books = bookService.getAllBook();
+            } catch (Exception e) {
+                System.out.println("Erreur lors de la recuperation des livres pour le member");
+            }
+
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookMember.jsp").forward(request,response);
         }
-         */
+        */
 
         try {
             books = bookService.getAllBook();
@@ -37,9 +43,9 @@ public class ListBookController extends HttpServlet {
             System.out.println("connexion reussis a la BD");
             System.out.println(books.size());
         } catch (Exception e) {
-            System.out.println("Erreur lors de la recuperation des livres");
+            System.out.println("Erreur lors de la recuperation des livres pour l'admin");
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBook.jsp").forward(request,response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookAdmin.jsp").forward(request,response);
     }
 }

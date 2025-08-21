@@ -1,11 +1,74 @@
+
+.navbar {
+    display: flex; /* Utilise Flexbox pour aligner les éléments */
+    justify-content: space-between; /* Espace les éléments gauche et droit */
+    align-items: center; /* Centre verticalement */
+    background-color: #007bff;
+    padding: 10px 30px; /* Padding haut/bas et gauche/droite */
+    color: white; /* Couleur du texte par défaut */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Légère ombre */
+}
+
+.navbar-left {
+    /* Anciennement .navbar-right */
+    display: flex; /* Pour aligner le logo */
+    align-items: center;
+}
+
+.nav-links {
+    list-style: none; /* Supprime les puces de la liste */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Aligne les éléments de liste horizontalement */
+}
+
+.nav-links li {
+    margin-left: 20px; /* Espacement entre les liens (maintenant à gauche) */
+    margin-right: 0; /* Pas de marge à droite pour ces éléments */
+}
+
+.nav-links li:first-child {
+    margin-left: 0; /* Pas de marge à gauche pour le premier élément */
+}
+
+.nav-item {
+    text-decoration: none; /* Supprime le soulignement des liens */
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 5px 0;
+    transition: color 0.3s ease; /* Transition douce sur la couleur */
+}
+
+.nav-item:hover {
+    color: #3498db; /* Couleur au survol */
+}
+
+.navbar-right {
+    /* Anciennement .navbar-left */
+    display: flex; /* Pour aligner les liens de navigation */
+    align-items: center;
+}
+
+
+.navbar-logo img {
+    height: 50px;
+    width: 70px;
+    border-radius: 20%;
+}
+
+
+.navbar-logo img:hover {
+    transform: scale(1.1); /* Agrandissement au survol du logo */
+}
+
 body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
+            margin: 10px;
             background-color: #f0f2f5; /* Fond léger et doux */
             color: #333;
             line-height: 1.6;
         }
-
 
         .page-title {
             text-align: center;
@@ -17,11 +80,11 @@ body {
 
         .book-grid-container {
             display: grid; /* Utilise CSS Grid pour la disposition en grille */
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Colonnes responsives */
-            gap: 25px; /* Espacement entre les cartes */
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Colonnes responsives */
+            gap: 20px; /* Espacement entre les cartes */
             padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto; /* Centrer la grille */
+            max-width: 1800px;
+            margin: 0;
         }
 
         .book-card {
@@ -44,7 +107,7 @@ body {
         /* Conteneur de l'Image */
         .card-image-wrapper {
             width: 100%;
-            padding-top: 150%;
+            padding-top: 140%; /* Exemple: ratio 1:1.4 (plus haut que carré) */
             position: relative;
             background-color: #eee;
         }
@@ -60,19 +123,20 @@ body {
         }
 
         .card-initial-details {
-            padding: 15px;
+            /* --- MODIFICATION ICI : Réduit le padding pour compenser l'image plus haute --- */
+            padding: 5px; /* Ancien: 8px. Diminué pour compacter les détails */
             text-align: center;
             background-color: #fdfdfd;
         }
 
         .card-title {
-            font-size: 1.2em;
-            margin: 0 0 8px 0;
+            font-size: 1.1em; /* Légèrement réduit si nécessaire pour le compactage */
+            margin: 0; /* Ancien: 3px 0. Supprimé les marges pour un affichage plus compact */
             color: #2c3e50;
         }
 
         .card-year {
-            font-size: 0.9em;
+            font-size: 0.8em; /* Légèrement réduit si nécessaire pour le compactage */
             color: #7f8c8d;
             margin: 0;
         }

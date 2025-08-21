@@ -40,6 +40,6 @@ public class ListBookController extends HttpServlet {
             System.out.println("Erreur lors de la recuperation des livres");
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/ListBook.jsp").forward(request,response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBook.jsp").forward(request,response);
     }
 }

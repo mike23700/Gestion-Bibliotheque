@@ -7,10 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Changer votre mot de passe</title>
      <link rel="stylesheet" href="css/login.css">
-     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+     <link rel="icon" type="image/png" href="assets/favicon.png" />
 </head>
 <body>
-    <div class="change-password-container">
+    <div class="login-container">
+            <div class="logo">
+                <img src="assets/logo2.png" alt="Logo" class="logo-img">
+            </div>
         <h2>Entrez un nouveau  mot de passe</h2>
 
         <c:if test="${not empty error}">

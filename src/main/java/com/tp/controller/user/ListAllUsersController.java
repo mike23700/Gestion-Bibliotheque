@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/listUser")
-public class ListAllUserController extends HttpServlet{
+public class ListAllUsersController extends HttpServlet{
 
     private UserService userService;
 
@@ -29,9 +29,9 @@ public class ListAllUserController extends HttpServlet{
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
-            List<User> userList = new ArrayList<>();
+            List<User> userList ;
             String type = request.getParameter("type");
-
+/*
             if ("admins".equals(type)) {
                 userList = userService.getAllAdmins();
             } else if ("members".equals(type)){
@@ -39,9 +39,10 @@ public class ListAllUserController extends HttpServlet{
             } else {
                 userList = userService.getAllUsers();
             }
-
+*/
+            userList = userService.getAllMembers();
             request.setAttribute("userList", userList);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/manageUsers.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");
         }

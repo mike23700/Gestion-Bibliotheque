@@ -147,9 +147,9 @@ public class UserDAOImpl implements UserDAO {
         return userList;
     }
 
-    @Override
+   /* @Override
     public List<User> getAllUsers() {
-        String query = "SELECT * FROM users ORDER BY registration_date";
+        String query = "SELECT * FROM users WHERE role = 'MEMBER' ORDER BY registration_date";
         List<User> liste = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -172,9 +172,9 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return liste;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public List<User> getAllAdmins() {
         String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date DESC";
         List<User> userList = new ArrayList<>();
@@ -202,11 +202,11 @@ public class UserDAOImpl implements UserDAO {
             e.printStackTrace();
         }
         return userList;
-    }
+    }*/
 
     @Override
     public List<User> getAllMembers() {
-        String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date DESC";
+        String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date ";
         List<User> userList = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();

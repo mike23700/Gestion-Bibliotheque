@@ -25,23 +25,11 @@ public class ReservationService {
     }
 
     public boolean cancelReservation(int reservationId) {
-        Reservation reservation = reservationDAO.findById(reservationId);
-        if (reservation == null) {
-            System.err.println("Erreur: La réservation avec l'ID " + reservationId + " n'a pas été trouvée.");
-            return false;
-        }
-        reservation.setStatus("CANCELLED");
-        return reservationDAO.updateReservation(reservation);
+        return reservationDAO.updateReservationStatus(reservationId, "CANCELLED");
     }
 
     public boolean fulfillReservation(int reservationId) {
-        Reservation reservation = reservationDAO.findById(reservationId);
-        if (reservation == null) {
-            System.err.println("Erreur: La réservation avec l'ID " + reservationId + " n'a pas été trouvée.");
-            return false;
-        }
-        reservation.setStatus("FULFILLED");
-        return reservationDAO.updateReservation(reservation);
+        return reservationDAO.updateReservationStatus(reservationId, "FULFILLED");
     }
 
     public List<Reservation> getReservationsByUserId(String userId) {

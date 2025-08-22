@@ -11,8 +11,8 @@ public interface UserDAO {
       boolean deleteUser(String userId) ;
       User findById(String userId) ;
       List<User> findByname(String name);
-      List<User> getAllUsers() ;
-      List<User> getAllAdmins();
+      //List<User> getAllUsers() ;
+      // List<User> getAllAdmins();
       List<User> getAllMembers();
       int countMembers();
 }

@@ -29,6 +29,6 @@ public class FulfillReservationController extends HttpServlet {
         } else {
             request.setAttribute("error", "Erreur lors de l'exécution de la réservation.");
         }
-        response.sendRedirect("memberListReservations");
+        response.sendRedirect("adminListReservations");
     }
 }

@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion - BiblioTech</title>
     <link rel="stylesheet" href="css/login.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div class="login-container">
@@ -25,12 +26,25 @@
                 <label for="user_id">ID Utilisateur :</label>
                 <input type="text" id="user_id" name="user_id" required>
             </div>
-            <div class="form-group">
+            <div class="form-group password-group">
                 <label for="password">Mot de passe :</label>
                 <input type="password" id="password" name="password" required>
+                <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
             </div>
             <button type="submit" class="btn-submit">Se connecter</button>
         </form>
     </div>
+
+    <script>
+        const togglePassword = document.getElementById("togglePassword");
+        const passwordField = document.getElementById("password");
+
+        togglePassword.addEventListener("click", function () {
+            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
+    </script>
 </body>
 </html>

@@ -5,53 +5,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Administrateur - BiblioTech</title>
-    <link rel="stylesheet" href="css/adminDashboard.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <title>Tableau de bord Admin</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-
     <nav class="navbar">
         <div class="navbar-container">
-            <span class="logo">BiblioTech - Admin</span>
+            <div class="navbar-left">
+                <img src="assets/logo2.png" alt="Logo" class="logo-img">
+                <span class="user-name">${user.name} ${user.surname}</span>
+            </div>
+
             <div class="nav-links">
                 <a href="adminDashboard">Accueil</a>
-                <a href="manageBooks">Gérer les livres</a>
-                <a href="manageUsers">Gérer les utilisateurs</a>
-                <a href="manageLoans">Gérer les emprunts</a>
-                <a href="manageReservations">Gérer les réservations</a>
+                <a href="manageBooks">Livres</a>
+                <a href="manageUsers">Utilisateurs</a>
+                <a href="manageLoans">Emprunts</a>
+                <a href="manageReservations">Réservations</a>
             </div>
-            <a href="logout" class="logout-btn">Déconnexion</a>
+
+            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
         </div>
     </nav>
 
-    <div class="dashboard-container">
-        <h1>Tableau de Bord Administrateur</h1>
-
-        <c:if test="${not empty user}">
-            <h2 style="text-align: center; margin-bottom: 30px; color: #555;">
-                Bienvenue, <c:out value="${user.name}"/> <c:out value="${user.surname}"/> !
-            </h2>
-        </c:if>
-
-        <div class="dashboard-stats">
-            <div class="stat-card">
-                <h3>Livres Totaux</h3>
-            </div>
-            <div class="stat-card">
-                <h3>Livres Empruntés</h3>
-            </div>
-            <div class="stat-card">
-                <h3>Livres Reservés</h3>
-                <p>${reservationCount}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Utilisateurs Enregistrés</h3>
-                <p>${memberCount}</p>
-            </div>
+    <main>
+        <h1>Bienvenue sur le tableau de bord</h1>
+        <div class="dashboard-stats"> <div class="stat-card">
+          <h3>Livres Totaux</h3>
         </div>
-
-    </div>
-
+        <div class="stat-card">
+          <h3>Livres Empruntés</h3>
+        </div> <div class="stat-card">
+          <h3>Livres Reservés</h3>
+          <p>${reservationCount}</p>
+        </div>
+        <div class="stat-card">
+          <h3>Utilisateurs Enregistrés</h3>
+          <p>${memberCount}</p>
+        </div>
+        </div>
+    </main>
 </body>
 </html>

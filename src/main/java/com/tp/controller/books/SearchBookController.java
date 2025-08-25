@@ -1,11 +1,10 @@
 package com.tp.controller.books;
 
 import com.tp.model.Book;
-import com.tp.model.Loan;
+//import com.tp.model.Loan;
 import com.tp.model.User;
 import com.tp.service.BookService;
-import com.tp.service.LoanService;
-
+//import com.tp.service.LoanService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +60,18 @@ public class SearchBookController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "rendu":
+                try {
+                    bookService.findByRendu();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            case "en cours":
+                try {
+                    bookService.findByEnCour();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             default:
                 System.err.println("Impossible");
         }

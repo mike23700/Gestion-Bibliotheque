@@ -23,7 +23,7 @@ public class LoginController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/auth/login.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,17 +37,17 @@ public class LoginController extends HttpServlet {
             session.setAttribute("user", authenticatedUser);
 
             if ("0000".equals(password)) {
-                response.sendRedirect("changePassword.jsp");
+                request.getRequestDispatcher("/WEB-INF/Vues/member/changePassword.jsp").forward(request, response);
             } else {
                 if ("ADMIN".equals(authenticatedUser.getRole())) {
-                    response.sendRedirect("adminDashboard.jsp");
+                    response.sendRedirect("adminDashboard");
                 } else {
-                    response.sendRedirect("memberDashboard.jsp");
+                    response.sendRedirect("memberDashboard");
                 }
             }
         } else {
             request.setAttribute("error", "ID ou mot de passe incorrect.");
-            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/Vues/auth/login.jsp").forward(request, response);
         }
     }
 }

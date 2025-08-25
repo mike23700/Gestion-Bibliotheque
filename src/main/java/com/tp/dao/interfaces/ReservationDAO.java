@@ -1,6 +1,9 @@
 package com.tp.dao.interfaces;
 
+import com.tp.model.History;
 import com.tp.model.Reservation;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ReservationDAO {
@@ -15,4 +18,6 @@ public interface ReservationDAO {
     List<Reservation> findByStatus(String status);
     List<Reservation> getAllReservations();
     List<Reservation> findByUserIdAndBookName(String userId, String bookName);
+    int countReservations();
+    //List<Reservation> findByDate(LocalDateTime date);
 }

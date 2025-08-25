@@ -40,6 +40,6 @@ public class DeleteBookController extends HttpServlet {
             request.getSession().setAttribute("error","Failed to delete book");
         }
 
-        response.sendRedirect("manageBooks");
+        response.sendRedirect("listBooks");
     }
 }

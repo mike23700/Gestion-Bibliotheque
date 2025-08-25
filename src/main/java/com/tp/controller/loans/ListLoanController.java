@@ -32,7 +32,6 @@ public class ListLoanController extends HttpServlet {
             }
         }
 
-
         try {
             loans = loanService.getAllLoans();
             request.setAttribute("loans",loans);

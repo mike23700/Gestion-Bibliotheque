@@ -134,7 +134,6 @@ Faut aussi implementer le mvc et les principes SOLID dans ce projet je veux d'ab
 -------------------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------
 
-- Table des utilisateurs (admins + membres)
 -- Création de la base de données
 CREATE DATABASE IF NOT EXISTS bibliotheque_db;
 USE bibliotheque_db;
@@ -144,6 +143,8 @@ CREATE TABLE users (
     user_id VARCHAR(100) PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
+    tel_num int NOT NULL,
+    email VARCHAR(30) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('ADMIN', 'MEMBER') NOT NULL,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -158,17 +159,17 @@ CREATE TABLE books (
     image VARCHAR(255),
     category VARCHAR(255),
     description TEXT,
-    is_available BOOLEAN DEFAULT TRUE,
+    is_available ENUM('en cours','rendu'),
     loan_count INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Table des emprunts
 CREATE TABLE loans (
-    loan_id INT AUTO_INCREMENT PRIMARY KEY,
+    loan_id VARCHAR(100) PRIMARY KEY,
     user_id VARCHAR(100) NOT NULL,
     book_id VARCHAR(100) NOT NULL,
-    borrow_date DATE NOT NULL,
+    borrow_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     due_date DATE NOT NULL,
     return_date DATE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
@@ -180,24 +181,23 @@ CREATE TABLE reservations (
     reservation_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(100) NOT NULL,
     book_id VARCHAR(100) NOT NULL,
-    reservation_date DATE NOT NULL,
+    reservation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM('ACTIVE', 'CANCELLED', 'FULFILLED') DEFAULT 'ACTIVE',
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 );
 
--- Historique (emprunts, réservations, ajouts, suppressions)
+-- Historique (ajouts et suppressions)
 CREATE TABLE history (
     history_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(100),
     book_id VARCHAR(100),
-    action_type ENUM('LOAN', 'RETURN', 'RESERVATION', 'ADD_BOOK', 'DELETE_BOOK', 'ADD_USER', 'DELETE_USER') NOT NULL,
+    action_type ENUM('ADD_USER', 'DELETE_USER', 'ADD_BOOK', 'DELETE_BOOK') NOT NULL,
     action_description TEXT NOT NULL,
     action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE SET NULL
 );
-
 
 
 BiblioTech/
@@ -325,7 +325,7 @@ CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     book_id INT,
-    action_type ENUM('LOAN', 'RETURN', 'RESERVATION', 'ADD_BOOK', 'DELETE_BOOK') NOT NULL,
+    action_type ENUM('ADD_USER','DELETE_USER', 'ADD_BOOK', 'DELETE_BOOK') NOT NULL,
     action_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     description TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,

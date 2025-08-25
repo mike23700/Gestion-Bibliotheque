@@ -29,7 +29,7 @@ public class SearchUserController extends HttpServlet{
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
-            this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/searchResult.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");
         }
@@ -58,7 +58,7 @@ public class SearchUserController extends HttpServlet{
                 e.printStackTrace();
             }
             request.setAttribute("result", result);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/manageUsers.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/searchResult.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");
         }

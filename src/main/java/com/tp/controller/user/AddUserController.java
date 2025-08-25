@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @WebServlet("/addUser")
 public class AddUserController extends HttpServlet {
@@ -21,6 +20,17 @@ public class AddUserController extends HttpServlet {
     public void init() throws ServletException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.userService = new UserService(daoFactory);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/addMember.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login");
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,9 +44,9 @@ public class AddUserController extends HttpServlet {
 
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-
-        User newUser = new User(null, name, surname, null, null, LocalDateTime.now());
-        boolean success = userService.addUser(newUser);
+        int tel_num = Integer.parseInt(request.getParameter("tel_num"));
+        String email = request.getParameter("email");
+        boolean success = userService.createAndAddUser(name, surname, tel_num, email);
 
         if (success) {
             request.getSession().setAttribute("message", "User added successfully.");

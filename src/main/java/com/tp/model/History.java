@@ -10,6 +10,17 @@ public class History {
     private String action_description;
     private LocalDateTime action_date;
 
+
+    // Constructeur pour les opérations d'ajout'
+    public History(String book_id, String user_id, String action_type, String action_description, LocalDateTime action_date) {
+        this.book_id = book_id;
+        this.user_id = user_id;
+        this.action_type = action_type;
+        this.action_description = action_description;
+        this.action_date = action_date;
+    }
+
+    //Constructeur pour les opérations de listing
     public History(int history_id , String book_id, String user_id, String action_type, String action_description, LocalDateTime action_date) {
         this.history_id = history_id;
         this.book_id = book_id;

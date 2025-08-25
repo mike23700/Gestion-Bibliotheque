@@ -29,12 +29,12 @@ public class MemberListReservationsController extends HttpServlet {
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser == null) {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect("login");
             return;
         }
 
         List<Reservation> reservations = reservationService.getReservationsByUserId(currentUser.getUser_id());
         request.setAttribute("reservations", reservations);
-        request.getRequestDispatcher("/WEB-INF/reservations.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/member/memberReservationList.jsp").forward(request, response);
     }
 }

@@ -54,13 +54,13 @@ public class UserService {
         return userDAO.findByname(name);
     }
 
-    public List<User> getAllUsers() {
+    /*public List<User> getAllUsers() {
         return userDAO.getAllUsers();
-    }
+    }*/
 
-    public List<User> getAllAdmins() {
+    /*public List<User> getAllAdmins() {
         return userDAO.getAllAdmins();
-    }
+    }*/
 
     public List<User> getAllMembers() {
         return userDAO.getAllMembers();

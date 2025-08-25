@@ -3,10 +3,8 @@ package com.tp.dao.interfaceImpl;
 import com.tp.dao.DAOFactory;
 import com.tp.dao.DBConnection;
 import com.tp.dao.interfaces.ReservationDAO;
-import com.tp.model.History;
 import com.tp.model.Reservation;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.sql.*;
 import java.util.ArrayList;
@@ -367,6 +365,28 @@ public class ReservationDAOImpl implements ReservationDAO {
             e.printStackTrace();
         }
         return count;
+    }
+
+    @Override
+    public boolean updateReservationStatus(int reservationId, String newStatus) {
+        String query = "UPDATE reservations SET status = ? WHERE reservation_id = ?";
+        boolean success = false;
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            stmt.setString(1, newStatus);
+            stmt.setInt(2, reservationId);
+
+            int updated = stmt.executeUpdate();
+            if (updated > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du statut de réservation : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return success;
     }
 
 }

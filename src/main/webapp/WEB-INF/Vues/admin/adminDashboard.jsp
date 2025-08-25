@@ -20,10 +20,10 @@
 
             <div class="nav-links">
                 <a href="adminDashboard">Accueil</a>
-                <a href="manageBooks">Livres</a>
+                <a href="listBooks">Livres</a>
                 <a href="manageUsers">Utilisateurs</a>
                 <a href="manageLoans">Emprunts</a>
-                <a href="manageReservations">Réservations</a>
+                <a href="adminListReservations">Réservations</a>
             </div>
 
             <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>

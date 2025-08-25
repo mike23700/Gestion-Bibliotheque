@@ -23,6 +23,17 @@ public class AddUserController extends HttpServlet {
         this.userService = new UserService(daoFactory);
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/addMember.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("login");
+        }
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;

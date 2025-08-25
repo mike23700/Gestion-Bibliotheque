@@ -1,12 +1,15 @@
 package com.tp.controller.reservation;
 
 import com.tp.dao.DAOFactory;
+import com.tp.model.User;
 import com.tp.service.ReservationService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet("/createReservation")
@@ -20,17 +23,28 @@ public class CreateReservationController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (currentUser == null || !currentUser.getRole().equals("MEMBER")) {
+            response.sendRedirect("login");
+            return;
+        }
+
         String userId = request.getParameter("userId");
         String bookId = request.getParameter("bookId");
 
-        boolean success = reservationService.createReservation(userId, bookId);
-
-        if (success) {
-            request.getSession().setAttribute("message", "Réservation créée avec succès !");
-            response.sendRedirect("memberListReservations");
+        if (bookId != null && !bookId.isEmpty()) {
+            boolean success = reservationService.createReservation(userId, bookId);
+            if (success) {
+                request.setAttribute("message", "Livre réservé avec success!");
+            } else {
+                request.setAttribute("error", "Échec de la réservation. Veuillez réessayer.");
+            }
         } else {
-            request.setAttribute("error", "Erreur lors de la création de la réservation.");
-            request.getRequestDispatcher("/WEB-INF/create.jsp").forward(request, response);
+            request.setAttribute("error", "Aucun livre sélectionné.");
         }
+
+        response.sendRedirect("listBooks");
     }
 }

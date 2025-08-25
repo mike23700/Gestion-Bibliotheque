@@ -1,7 +1,5 @@
 package com.tp.model;
 
-import com.tp.service.BookService;
-
 import java.time.LocalDateTime;
 
 public class Book {
@@ -18,7 +16,18 @@ public class Book {
     private int loan_count;
     private LocalDateTime created_at;
 
-
+    public Book(){
+        this.book_id = "";
+        this.title = "";
+        this.author = "";
+        this.year = 0;
+        this.image = "";
+        this.category = "";
+        this.description = "";
+        this.status = "";
+        this.loan_count = 0;
+        this.created_at = LocalDateTime.now();
+    }
 
     public Book(String id_book , String title , String author , int year_publication , String image, String category , String description , String status , int loan_count , LocalDateTime created_at){
         this.book_id = id_book;

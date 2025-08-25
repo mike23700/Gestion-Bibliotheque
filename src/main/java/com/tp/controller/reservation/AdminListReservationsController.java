@@ -29,7 +29,7 @@ public class AdminListReservationsController extends HttpServlet {
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect("login");
             return;
         }
 
@@ -43,6 +43,6 @@ public class AdminListReservationsController extends HttpServlet {
         }
 
         request.setAttribute("reservations", reservations);
-        request.getRequestDispatcher("/WEB-INF/Vues/reservation/reservationList.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/reservation/adminReservationList.jsp").forward(request, response);
     }
 }

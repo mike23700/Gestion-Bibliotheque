@@ -1,15 +1,17 @@
 package com.tp.controller.reservation;
 
 import com.tp.dao.DAOFactory;
+import com.tp.model.User;
 import com.tp.service.ReservationService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/fulfillReservations")
+@WebServlet("/fulfillReservation")
 public class FulfillReservationController extends HttpServlet {
 
     private ReservationService reservationService;
@@ -19,15 +21,33 @@ public class FulfillReservationController extends HttpServlet {
         this.reservationService = new ReservationService(daoFactory);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int reservationId = Integer.parseInt(request.getParameter("id"));
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        boolean success = reservationService.fulfillReservation(reservationId);
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
+            response.sendRedirect("login");
+            return;
+        }
 
-        if (success) {
-            request.setAttribute("message", "Réservation honorée avec succès !");
+        String reservationIdParam = request.getParameter("reservationId");
+
+        if (reservationIdParam != null && !reservationIdParam.isEmpty()) {
+            try {
+                int reservationId = Integer.parseInt(reservationIdParam);
+
+                boolean success = reservationService.fulfillReservation(reservationId);
+
+                if (success) {
+                    session.setAttribute("message", "La réservation a été honorée avec succès !");
+                } else {
+                    session.setAttribute("error", "Erreur : La réservation n'a pas pu être mise à jour.");
+                }
+            } catch (NumberFormatException e) {
+                session.setAttribute("error", "ID de réservation invalide.");
+            }
         } else {
-            request.setAttribute("error", "Erreur lors de l'exécution de la réservation.");
+            session.setAttribute("error", "ID de réservation manquant.");
         }
         response.sendRedirect("adminListReservations");
     }

@@ -42,11 +42,11 @@ public class Reservation {
         return book_id;
     }
 
-    public String getUserName() {
+    public String getUser_name() {
         return user_name;
     }
 
-    public String getBookTitle() {
+    public String getBook_title() {
         return book_title;
     }
 

@@ -315,7 +315,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 /*
     @Override
-    public List<History> findByDate(LocalDateTime date) {
+    public List<Reservation> findByDate(LocalDateTime date) {
         String query = "SELECT history_id, user_id, book_id, action_type, action_description, action_date FROM history WHERE action_date BETWEEN ? AND ?";
         List<History> list = new ArrayList<>();
 
@@ -365,28 +365,6 @@ public class ReservationDAOImpl implements ReservationDAO {
             e.printStackTrace();
         }
         return count;
-    }
-
-    @Override
-    public boolean updateReservationStatus(int reservationId, String newStatus) {
-        String query = "UPDATE reservations SET status = ? WHERE reservation_id = ?";
-        boolean success = false;
-
-        try (Connection connexion = DBConnection.getConnection();
-             PreparedStatement stmt = connexion.prepareStatement(query)) {
-
-            stmt.setString(1, newStatus);
-            stmt.setInt(2, reservationId);
-
-            int updated = stmt.executeUpdate();
-            if (updated > 0) {
-                success = true;
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour du statut de réservation : " + e.getMessage());
-            e.printStackTrace();
-        }
-        return success;
     }
 
 }

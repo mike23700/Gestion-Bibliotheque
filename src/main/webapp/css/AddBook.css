@@ -1,0 +1,143 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- Styles spécifiques au formulaire --- */
+
+/* Conteneur principal du formulaire */
+.form-container {
+    max-width: 600px; /* Largeur maximale du formulaire */
+    margin: 60px auto; /* Centre le formulaire horizontalement et ajoute de l'espace en haut/bas */
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px; /* Coins arrondis plus prononcés */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Ombre plus douce et plus étendue */
+}
+
+/* Titre du formulaire */
+.form-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 35px;
+    font-size: 2.2em;
+    font-weight: 700;
+}
+
+/* Chaque groupe de champ (label + input/select/textarea) */
+.form-group {
+    margin-bottom: 20px; /* Espacement entre les groupes de champs */
+}
+
+/* Labels des champs */
+.form-group label {
+    display: block; /* Chaque label prend sa propre ligne */
+    margin-bottom: 8px; /* Espacement entre le label et le champ */
+    color: #34495e; /* Couleur légèrement plus foncée pour le label */
+    font-weight: 600; /* Texte du label en gras */
+    font-size: 0.95em;
+}
+
+/* Styles pour les champs de saisie de texte, nombre et URL */
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%; /* Prend toute la largeur disponible du parent */
+    padding: 12px;
+    border: 1px solid #dcdcdc; /* Bordure douce */
+    border-radius: 8px; /* Coins arrondis */
+    font-size: 1em;
+    color: #555;
+    background-color: #f8f8f8; /* Léger fond pour les champs */
+    box-sizing: border-box; /* S'assure que padding et border sont inclus dans la largeur */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition douce pour le focus */
+}
+
+/* Effet au focus des champs */
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: #3498db; /* Bordure bleue au focus */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); /* Légère ombre bleue au focus */
+    outline: none; /* Supprime l'outline par défaut du navigateur */
+    background-color: #ffffff;
+}
+
+/* Spécifique pour la zone de texte multiligne */
+.form-textarea {
+    resize: vertical; /* Permet de redimensionner verticalement uniquement */
+    min-height: 100px; /* Hauteur minimale pour la description */
+}
+
+/* Groupe de boutons radio */
+.radio-group {
+    display: flex;
+    gap: 20px; /* Espacement entre les options radio */
+    align-items: center;
+    margin-top: 10px;
+}
+
+.radio-group input[type="radio"] {
+    /* Cache l'input radio par défaut du navigateur */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #95a5a6; /* Bordure gris */
+    border-radius: 50%; /* Rendre le bouton rond */
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.radio-group input[type="radio"]:checked {
+    border-color: #3498db; /* Bordure bleue si sélectionné */
+    background-color: #3498db; /* Fond bleu si sélectionné */
+}
+
+.radio-group input[type="radio"]:checked::before {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-color: white; /* Point blanc au centre */
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radio-group label {
+    margin-bottom: 0; /* Pas de marge sous le label radio */
+    cursor: pointer;
+    font-weight: normal; /* Labels radio pas en gras */
+    font-size: 1em;
+}
+
+/* Bouton de soumission */
+.submit-button {
+    display: block; /* Prend toute la largeur disponible */
+    width: 100%;
+    padding: 14px 20px;
+    background-color: #2ecc71; /* Bouton vert pour "Ajouter" */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3); /* Ombre douce verte */
+}
+
+.submit-button:hover {
+    background-color: #27ae60; /* Vert plus foncé au survol */
+    transform: translateY(-2px); /* Léger effet de "pop-up" */
+    box-shadow: 0 6px 15px rgba(46, 204, 113, 0.4);
+}

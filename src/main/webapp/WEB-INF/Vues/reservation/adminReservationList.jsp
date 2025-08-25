@@ -8,27 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Réservations</title>
     <link rel="stylesheet" href="css/reservationList.css">
+    <link rel="stylesheet" href="css/rSearch.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <img src="assets/logo2.png" alt="Logo" class="logo-img">
-                <span class="user-name">${user.name} ${user.surname}</span>
-            </div>
-            <div class="nav-links">
-                <a href="adminDashboard">Accueil</a>
-                <a href="listBooks">Livres</a>
-                <a href="manageUsers">Utilisateurs</a>
-                <a href="manageLoans">Emprunts</a>
-                <a href="adminListReservations" class="active">Réservations</a>
-            </div>
-            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
-    </nav>
-
+    <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Gestion des Réservations</h1>
 
@@ -52,7 +37,7 @@
                 </select>
             </form>
 
-            <form action="adminSearchReservations" method="post" class="search-user-form">
+            <form id="reservation-search-form" action="adminSearchReservations" method="post" class="search-user-form">
                 <select name="searchType">
                     <option value="userId">ID Utilisateur</option>
                     <option value="userName">Nom d'utilisateur</option>
@@ -111,5 +96,18 @@
             </table>
         </div>
     </main>
+
+    <div id="reservation-search-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="document.getElementById('reservation-search-modal').style.display='none'">&times;</span>
+            <div class="section-card">
+                <h3>Résultats de la Recherche de Réservations</h3>
+                <div id="reservation-search-body">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/reservationSearch.js"></script>
 </body>
 </html>

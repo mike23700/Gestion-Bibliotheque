@@ -11,23 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <img src="assets/logo2.png" alt="Logo" class="logo-img">
-                <span class="user-name">${user.name} ${user.surname}</span>
-            </div>
-            <div class="nav-links">
-                <a href="adminDashboard">Accueil</a>
-                <a href="listBooks">Livres</a>
-                <a href="manageUsers" class="active">Utilisateurs</a>
-                <a href="manageLoans">Emprunts</a>
-                <a href="manageReservations">Réservations</a>
-            </div>
-            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
-    </nav>
-
+    <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Ajouter un utilisateur</h1>
 
@@ -46,6 +30,14 @@
                 <div class="form-group">
                     <label for="surname">Prénom</label>
                     <input type="text" id="surname" name="surname" placeholder="Prénom de l'utilisateur" required>
+                </div>
+                <div class="form-group">
+                    <label for="tel_num">Numéro de téléphone</label>
+                    <input type="tel" id="tel_num" name="tel_num" placeholder="Numéro de téléphone" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Adresse email" required>
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="add-btn"><i class="fas fa-user-plus"></i> Ajouter</button>

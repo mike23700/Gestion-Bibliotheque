@@ -11,25 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <img src="assets/logo2.png" alt="Logo" class="logo-img">
-                <span class="user-name">${user.name} ${user.surname}</span>
-            </div>
-
-            <div class="nav-links">
-                <a href="adminDashboard">Accueil</a>
-                <a href="listBooks">Livres</a>
-                <a href="manageUsers">Utilisateurs</a>
-                <a href="manageLoans">Emprunts</a>
-                <a href="adminListReservations">Réservations</a>
-            </div>
-
-            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
-    </nav>
-
+    <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main>
         <h1>Bienvenue sur le tableau de bord</h1>
         <div class="dashboard-stats"> <div class="stat-card">

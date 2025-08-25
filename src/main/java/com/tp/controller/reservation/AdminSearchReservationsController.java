@@ -30,7 +30,7 @@ public class AdminSearchReservationsController extends HttpServlet {
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect("login");
             return;
         }
 

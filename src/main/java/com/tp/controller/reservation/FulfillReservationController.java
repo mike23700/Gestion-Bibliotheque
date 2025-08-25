@@ -35,19 +35,18 @@ public class FulfillReservationController extends HttpServlet {
         if (reservationIdParam != null && !reservationIdParam.isEmpty()) {
             try {
                 int reservationId = Integer.parseInt(reservationIdParam);
-
                 boolean success = reservationService.fulfillReservation(reservationId);
 
                 if (success) {
-                    session.setAttribute("message", "La réservation a été honorée avec succès !");
+                    request.setAttribute("message", "La réservation a été honorée avec succès !");
                 } else {
-                    session.setAttribute("error", "Erreur : La réservation n'a pas pu être mise à jour.");
+                    request.setAttribute("error", "Erreur : La réservation n'a pas pu être mise à jour.");
                 }
             } catch (NumberFormatException e) {
-                session.setAttribute("error", "ID de réservation invalide.");
+                request.setAttribute("error", "ID de réservation invalide.");
             }
         } else {
-            session.setAttribute("error", "ID de réservation manquant.");
+            request.setAttribute("error", "ID de réservation manquant.");
         }
         response.sendRedirect("adminListReservations");
     }

@@ -1,6 +1,7 @@
 package com.tp.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Reservation {
     private int reservation_id;
@@ -72,6 +73,11 @@ public class Reservation {
 
     public void setReservation_date(LocalDateTime reservation_date) {
         this.reservation_date = reservation_date;
+    }
+
+    public String getFormattedDateRegister() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return reservation_date.format(formatter);
     }
 
     public void setStatus(String status) {

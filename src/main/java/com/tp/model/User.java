@@ -1,6 +1,7 @@
 package com.tp.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class User {
     private String user_id;
@@ -85,5 +86,10 @@ public class User {
 
     public void setRegistration_date(LocalDateTime registration_date) {
         this.registration_date = registration_date;
+    }
+
+    public String getFormattedDateRegister() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return registration_date.format(formatter);
     }
 }

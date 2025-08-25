@@ -5,7 +5,8 @@
 <html lang="fr">
 <head>
     <title>Liste des Livres</title>
-    <link rel="stylesheet" href="css/ListBook.css">
+    <link rel="stylesheet" href="css/books/ListBook.css">
+    <link rel="stylesheet" href="css/books/AddBook.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -26,14 +27,15 @@
     <!-- Barre de navigation du menu/recherche -->
     <nav class="navbar-menu">
         <div>
-            <form action="#" method="post">
+            <form id="searchBook" action="searchBook" method="post" >
+                <p>Rechercher par: </p>
                 <select id="searchType" name="searchType">
                     <option value="title">Titre</option>
                     <option value="author">Auteur</option>
                     <option value="year">Année</option>
                     <option value="category">Catégorie</option>
                 </select>
-                <input type="search" placeholder="Rechercher...">
+                <input type="search" placeholder="Rechercher..." name="searchValue" required>
                 <input type="submit" value="Rechercher">
             </form>
         </div>
@@ -79,8 +81,11 @@
                 </div>
             </c:forEach>
         </div>
-        <a href="addBook" class="add-student-button">Ajouter un livre</a>
+
+        <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()">Ajouter un livre</a>
+
     </c:if>
+    <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
 
     <!-- Si la liste est vide -->
     <c:if test="${empty listbooks}">
@@ -88,49 +93,39 @@
         <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
     </c:if>
 
+    <div class="overlay"></div>
+    <jsp:include page="AddBooks.jsp" />
+
     <!-- Script JavaScript pour gérer l'affichage des détails -->
     <script>
-        function showForm1() {
-            alert("Le formulaire d'ajout de livre s'afficherait ici !");
-            // window.location.href = '${pageContext.request.contextPath}/chemin/vers/votre/addBookForm.jsp';
+        function ShowFormAddBook() {
+            document.querySelector(".form-container").style.display = "block";
+            document.querySelector(".overlay").style.display = "block";
         }
 
-        /**
-         * Bascule l'affichage des détails complets d'une carte de livre.
-         * L'icône est passée comme élément déclencheur.
-         * @param {HTMLElement} iconElement L'élément <div> de l'icône cliquée.
-         */
+        function HideFormAddBook() {
+            document.querySelector(".form-container").style.display = "none";
+            document.querySelector(".overlay").style.display = "none";
+        }
+
         function toggleBookDetails(iconElement) {
-            // Empêche la propagation du clic pour éviter d'autres événements potentiels
             event.stopPropagation();
 
-            // Trouver la carte de livre parente
             const bookCard = iconElement.closest('.book-card');
             if (!bookCard) {
                 console.error("Impossible de trouver le parent '.book-card' pour l'icône cliquée.");
                 return;
             }
 
-            // Trouver les détails complets à l'intérieur de cette carte
             const fullDetails = bookCard.querySelector('.card-full-details');
             if (!fullDetails) {
                 console.error("Impossible de trouver '.card-full-details' dans la carte de livre.");
                 return;
             }
 
-            // Basculer la classe 'active' pour afficher/masquer les détails
             fullDetails.classList.toggle('active');
-
-            // Optionnel : fermer les autres détails ou ajouter une classe pour indiquer que c'est ouvert
-            // Vous pouvez ajouter ici une logique pour fermer tous les autres détails ouverts
-            // document.querySelectorAll('.card-full-details.active').forEach(detail => {
-            //     if (detail !== fullDetails) {
-            //         detail.classList.remove('active');
-            //     }
-            // });
         }
 
-        // Pour fermer les détails si l'utilisateur clique n'importe où ailleurs sur la page
         document.addEventListener('click', function(event) {
             const openDetails = document.querySelectorAll('.card-full-details.active');
             openDetails.forEach(detail => {
@@ -140,6 +135,70 @@
                 }
             });
         });
+
+
+        const searchForm = document.getElementById('searchBook');
+        const bookGrid = document.querySelector('.book-grid-container');
+        const searchMessageContainer = document.getElementById('searchMessageContainer');
+        const emptyListMessage = document.getElementById('emptyListMessage'); // Pour le message d'absence de livre initial
+
+        if (searchForm) {
+            searchForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Empêche le rechargement de la page
+
+                // Masquer le message d'absence de livre initial si visible
+                if (emptyListMessage) {
+                    emptyListMessage.style.display = 'none';
+                }
+
+                const formData = new FormData(searchForm);
+                const searchType = formData.get('searchType');
+                const searchValue = formData.get('searchValue');
+
+                // Endpoint de votre Servlet/Controller pour la recherche
+                const searchUrl = searchForm.action + "?searchType=" + encodeURIComponent(searchType) + "&searchValue=" + encodeURIComponent(searchValue);
+
+                bookGrid.innerHTML = ''; // Efface les livres actuels pendant la recherche
+
+                fetch("searchBook", {
+                    method: 'POST', // La recherche est souvent une requête GET
+                    headers: {
+                        'Accept': 'text/html' // Indique que nous attendons du HTML en retour
+                    }
+                })
+                .then(response => {
+                    // Si le serveur renvoie une erreur (par exemple 500)
+                    if (!response.ok) {
+                        return response.text().then(text => {
+                            console.log("erreur (500)");
+                            throw new Error(`Erreur HTTP ${response.status}: ${text}`);
+                        });
+                    }
+                    return response.text(); // Attendez du HTML en retour
+                })
+                .then(htmlContent => {
+                    // Mettez à jour le conteneur de la grille des livres avec le nouveau HTML
+                    bookGrid.innerHTML = htmlContent;
+                    searchMessageContainer.style.display = 'none'; // Masquer le message de chargement
+
+                    if (htmlContent.trim() === '') { // Si la réponse HTML est vide
+                         console.log("reponse vide");
+                    } else {
+                        // Vérifiez si le contenu contient un message "Aucun livre trouvé"
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = htmlContent;
+                        if (tempDiv.querySelector('.empty-list-message')) {
+                            console.log("liste vide");
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la recherche:', error);
+                    console.log("erreur lors de la recherhce");
+                    // Optionnel: Recharger la liste initiale des livres ou un message d'erreur plus détaillé
+                });
+            });
+        }
     </script>
 </body>
 </html>

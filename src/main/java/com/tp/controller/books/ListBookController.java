@@ -21,7 +21,7 @@ public class ListBookController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
 
-        /*
+        
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
@@ -35,7 +35,7 @@ public class ListBookController extends HttpServlet {
 
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookMember.jsp").forward(request,response);
         }
-        */
+        
 
         try {
             books = bookService.getAllBook();

@@ -11,23 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <img src="assets/logo2.png" alt="Logo" class="logo-img">
-                <span class="user-name">${user.name} ${user.surname}</span>
-            </div>
-            <div class="nav-links">
-                <a href="adminDashboard">Accueil</a>
-                <a href="listBooks">Livres</a>
-                <a href="manageUsers" class="active">Utilisateurs</a>
-                <a href="manageLoans">Emprunts</a>
-                <a href="adminListReservations">Réservations</a>
-            </div>
-            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
-    </nav>
-
+    <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Gestion des utilisateurs</h1>
 
@@ -61,6 +45,8 @@
                         <th>ID</th>
                         <th>Nom</th>
                         <th>Prénom</th>
+                        <th>Téléphone</th>
+                        <th>Email</th>
                         <th>Date d'inscription</th>
                         <th>Actions</th>
                     </tr>
@@ -71,6 +57,8 @@
                             <td>${u.user_id}</td>
                             <td>${u.name}</td>
                             <td>${u.surname}</td>
+                            <td>${u.tel_num}</td>
+                            <td>${u.email}</td>
                             <td>${u.registration_date}</td>
                             <td>
                                 <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">

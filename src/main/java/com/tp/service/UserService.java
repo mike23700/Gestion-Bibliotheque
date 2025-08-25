@@ -5,7 +5,7 @@ import com.tp.dao.interfaces.UserDAO;
 import com.tp.model.User;
 import com.tp.model.generateID.GenerateUserID;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserService {
@@ -18,6 +18,20 @@ public class UserService {
         this.idGenerator = new GenerateUserID();
     }
 
+    public boolean createAndAddUser(String name, String surname, int telNum, String email) {
+        User user = new User(
+                idGenerator.generateID(),
+                name,
+                surname,
+                telNum,
+                email,
+                "0000",
+                "MEMBER",
+                LocalDateTime.now()
+        );
+
+        return userDAO.addUser(user);
+    }
 
     public User authenticate(String userId, String password) {
         User user = userDAO.findById(userId);
@@ -40,11 +54,9 @@ public class UserService {
         return userDAO.updateUser(user);
     }
 
-
     public boolean deleteUser(String userId) {
         return userDAO.deleteUser(userId);
     }
-
 
     public User findUserById(String userId) {
         return userDAO.findById(userId);
@@ -53,14 +65,6 @@ public class UserService {
     public List<User> findUserByName(String name) {
         return userDAO.findByname(name);
     }
-
-    /*public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
-    }*/
-
-    /*public List<User> getAllAdmins() {
-        return userDAO.getAllAdmins();
-    }*/
 
     public List<User> getAllMembers() {
         return userDAO.getAllMembers();

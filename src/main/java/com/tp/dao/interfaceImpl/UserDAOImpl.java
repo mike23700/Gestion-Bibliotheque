@@ -20,7 +20,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public boolean addUser(User user){
-        String query = "INSERT INTO users (user_id, name, surname, password, role, registration_date) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (user_id, name, surname, tel_num, email, password, role, registration_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         boolean success = false;
 
         try (Connection connexion = DBConnection.getConnection();
@@ -29,9 +29,11 @@ public class UserDAOImpl implements UserDAO {
             stmt.setString(1, user.getUser_id());
             stmt.setString(2, user.getName());
             stmt.setString(3, user.getSurname());
-            stmt.setString(4, user.getPassword());
-            stmt.setString(5, user.getRole());
-            stmt.setTimestamp(6, Timestamp.valueOf(user.getRegistration_date()));
+            stmt.setInt(4,user.getTel_num());
+            stmt.setString(5,user.getEmail());
+            stmt.setString(6, user.getPassword());
+            stmt.setString(7, user.getRole());
+            stmt.setTimestamp(8, Timestamp.valueOf(user.getRegistration_date()));
 
             int affected = stmt.executeUpdate();
             if (affected > 0) {
@@ -104,6 +106,8 @@ public class UserDAOImpl implements UserDAO {
                             rs.getString("user_id"),
                             rs.getString("name"),
                             rs.getString("surname"),
+                            rs.getInt("tel_num"),
+                            rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("role"),
                             rs.getTimestamp("registration_date").toLocalDateTime()
@@ -133,6 +137,8 @@ public class UserDAOImpl implements UserDAO {
                             rs.getString("user_id"),
                             rs.getString("name"),
                             rs.getString("surname"),
+                            rs.getInt("tel_num"),
+                            rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("role"),
                             rs.getTimestamp("registration_date").toLocalDateTime()
@@ -158,12 +164,14 @@ public class UserDAOImpl implements UserDAO {
 
             while (rs.next()) {
                 User user = new User(
-                        rs.getString("user_id"),
-                        rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getTimestamp("registration_date").toLocalDateTime()
+                            rs.getString("user_id"),
+                            rs.getString("name"),
+                            rs.getString("surname"),
+                            rs.getInt("tel_num"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("role"),
+                            rs.getTimestamp("registration_date").toLocalDateTime()
                 );
                 liste.add(user);
             }
@@ -190,6 +198,8 @@ public class UserDAOImpl implements UserDAO {
                             rs.getString("user_id"),
                             rs.getString("name"),
                             rs.getString("surname"),
+                            rs.getInt("tel_num"),
+                            rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("role"),
                             rs.getTimestamp("registration_date").toLocalDateTime()
@@ -220,6 +230,8 @@ public class UserDAOImpl implements UserDAO {
                             rs.getString("user_id"),
                             rs.getString("name"),
                             rs.getString("surname"),
+                            rs.getInt("tel_num"),
+                            rs.getString("email"),
                             rs.getString("password"),
                             rs.getString("role"),
                             rs.getTimestamp("registration_date").toLocalDateTime()

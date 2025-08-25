@@ -24,12 +24,21 @@ public class ReservationService {
         return reservationDAO.addReservation(reservation);
     }
 
-    public boolean cancelReservation(int reservationId) {
-        return reservationDAO.updateReservationStatus(reservationId, "CANCELLED");
+    public boolean updateReservationStatus(int reservationId, String newStatus) {
+        Reservation reservation = reservationDAO.findById(reservationId);
+        if (reservation != null) {
+            reservation.setStatus(newStatus);
+            return reservationDAO.updateReservation(reservation);
+        }
+        return false;
     }
 
     public boolean fulfillReservation(int reservationId) {
-        return reservationDAO.updateReservationStatus(reservationId, "FULFILLED");
+        return updateReservationStatus(reservationId, "FULFILLED");
+    }
+
+    public boolean cancelReservation(int reservationId) {
+        return updateReservationStatus(reservationId, "CANCELLED");
     }
 
     public List<Reservation> getReservationsByUserId(String userId) {

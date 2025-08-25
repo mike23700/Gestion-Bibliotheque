@@ -4,7 +4,6 @@ import com.tp.dao.DAOFactory;
 import com.tp.model.Reservation;
 import com.tp.model.User;
 import com.tp.service.ReservationService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet("/updateReservation")
+@WebServlet("/adminUpdateReservation")
 public class UpdateReservationAdminController extends HttpServlet {
 
     private ReservationService reservationService;
@@ -28,7 +27,7 @@ public class UpdateReservationAdminController extends HttpServlet {
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect("login");
             return;
         }
 
@@ -39,25 +38,16 @@ public class UpdateReservationAdminController extends HttpServlet {
             try {
                 int reservationId = Integer.parseInt(reservationIdParam);
 
-                Reservation existingReservation = reservationService.findById(reservationId);
 
-                if (existingReservation != null) {
-                    boolean success = false;
-                    if ("FULFILLED".equals(newStatus)) {
-                        success = reservationService.fulfillReservation(reservationId);
-                    }
+                boolean success = reservationService.updateReservationStatus(reservationId,newStatus);
 
-                    if (success) {
-                        session.setAttribute("message", "Le statut de la réservation a été mis à jour avec succès en '" + newStatus + "'.");
-                    } else {
-                        session.setAttribute("error", "Échec de la mise à jour du statut de la réservation.");
-                    }
+                if (success) {
+                    session.setAttribute("message", "Réservation mise à jour avec succès au statut : " + newStatus);
                 } else {
-                    session.setAttribute("error", "La réservation spécifiée n'existe pas.");
+                    session.setAttribute("error", "Erreur lors de la mise à jour de la réservation.");
                 }
             } catch (NumberFormatException e) {
                 session.setAttribute("error", "ID de réservation invalide.");
-                e.printStackTrace();
             }
         } else {
             session.setAttribute("error", "Données de mise à jour manquantes.");

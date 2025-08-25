@@ -70,7 +70,7 @@
                 <thead>
                     <tr>
                         <th>ID Réservation</th>
-                        <th>Utilisateur</th>
+                        <th>Nom du membre</th>
                         <th>Titre du Livre</th>
                         <th>Date de Réservation</th>
                         <th>Statut</th>
@@ -85,12 +85,13 @@
                                     <td>${res.reservation_id}</td>
                                     <td>${res.user_name}</td>
                                     <td>${res.book_title}</td>
-                                    <td>${res.registration_date}</td>
+                                    <td>${res.reservation_date} </td>
                                     <td>${res.status}</td>
                                     <td>
                                         <c:if test="${res.status eq 'ACTIVE'}">
-                                            <form action="updateReservation" method="post">
+                                            <form action="adminUpdateReservation" method="post">
                                                 <input type="hidden" name="reservationId" value="${res.reservation_id}">
+                                                <input type="hidden" name="status" value="FULFILLED">
                                                 <button type="submit" class="action-btn" onclick="return confirm('Voulez-vous vraiment marquer cette réservation comme terminée ?');">
                                                     <i class="fas fa-check"></i> Terminer
                                                 </button>

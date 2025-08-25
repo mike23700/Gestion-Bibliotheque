@@ -11,23 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <img src="assets/logo2.png" alt="Logo" class="logo-img">
-                <span class="user-name">${user.name} ${user.surname}</span>
-            </div>
-
-            <div class="nav-links">
-                <a href="memberDashboard">Accueil</a>
-                <a href="borrowedBooks">Mes emprunts</a>
-                <a href="myReservations">Mes réservations</a>
-                <a href="listBooks">Rechercher des livres</a>
-            </div>
-
-            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
-    </nav>
+    <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <div class="dashboard-container">
         <h1>Tableau de Bord Membre</h1>
 

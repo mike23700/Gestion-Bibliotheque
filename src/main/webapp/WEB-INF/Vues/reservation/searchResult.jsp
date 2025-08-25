@@ -19,6 +19,7 @@
         <a href="adminListReservations" class="back-link">&larr; Retour à la gestion des réservations</a>
 
         <div class="section-card">
+            <h3>Résultats de la Recherche</h3>
             <table class="user-table">
                 <thead>
                     <tr>

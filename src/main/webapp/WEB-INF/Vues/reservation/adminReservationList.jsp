@@ -8,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Réservations</title>
     <link rel="stylesheet" href="css/reservationList.css">
-    <link rel="stylesheet" href="css/rSearch.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -37,7 +36,7 @@
                 </select>
             </form>
 
-            <form id="reservation-search-form" action="adminSearchReservations" method="post" class="search-user-form">
+            <form action="adminSearchReservations" method="post" class="search-user-form">
                 <select name="searchType">
                     <option value="userId">ID Utilisateur</option>
                     <option value="userName">Nom d'utilisateur</option>
@@ -96,18 +95,5 @@
             </table>
         </div>
     </main>
-
-    <div id="reservation-search-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="document.getElementById('reservation-search-modal').style.display='none'">&times;</span>
-            <div class="section-card">
-                <h3>Résultats de la Recherche de Réservations</h3>
-                <div id="reservation-search-body">
-                    </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="js/reservationSearch.js"></script>
 </body>
 </html>

@@ -35,8 +35,8 @@ body {
     font-weight: bold;
     color: white;
     font-size: 1.1rem;
-        position: relative;
-        top: -4px;
+    position: relative;
+    top: -4px;
 }
 
 .nav-links {
@@ -52,6 +52,23 @@ body {
 }
 
 .nav-links a:hover {
+    color: #e9ecef;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-btn {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+.profile-btn:hover {
     color: #e9ecef;
 }
 
@@ -116,38 +133,3 @@ main h1 {
     font-size: 1.5rem;
     font-weight: bold;
 }
-
-.dashboard-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-        .dashboard-container h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .dashboard-sections {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .section-card {
-            background-color: #f9f9f9;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .section-card h3 {
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            color: #007bff;
-        }

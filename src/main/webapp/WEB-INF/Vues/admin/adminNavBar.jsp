@@ -3,7 +3,11 @@
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-left">
-            <img src="assets/logo2.png" alt="Logo" class="logo-img">
+
+            <a href="index.jsp">
+                <img src="assets/logo2.png" alt="Logo" class="logo-img">
+            </a>
+
             <span class="user-name">${user.name} ${user.surname}</span>
         </div>
 
@@ -17,7 +21,7 @@
 
         <a href="logout"
            class="logout-btn"
-           onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');">
+           onclick="return confirm('${user.name} ${usersurname} voulez-vous vraiment vous déconnecter ?');">
             <i class="fas fa-sign-out-alt"></i>
         </a>
     </div>

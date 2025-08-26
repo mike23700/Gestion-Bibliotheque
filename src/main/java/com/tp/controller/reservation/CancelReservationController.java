@@ -48,6 +48,6 @@ public class CancelReservationController extends HttpServlet {
             }
         }
 
-        response.sendRedirect("memberReservations");
+        response.sendRedirect("memberListReservations");
     }
 }

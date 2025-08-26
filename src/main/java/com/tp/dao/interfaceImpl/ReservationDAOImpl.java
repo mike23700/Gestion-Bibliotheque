@@ -284,7 +284,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByUserIdAndBookName(String userId, String bookName) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND b.title LIKE ? AND r.status = 'ACTIVE' ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND b.title LIKE ? AND r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -292,6 +292,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
             stmt.setString(1, userId);
             stmt.setString(2, "%" + bookName + "%");
+            stmt.setString(3,"ACTIVE");
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -348,6 +349,46 @@ public class ReservationDAOImpl implements ReservationDAO {
         return list;
     }
  */
+
+    @Override
+    public List<Reservation> findActiveByUserId(String userId) {
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, " +
+                "r.reservation_date, r.status " +
+                "FROM reservations r " +
+                "JOIN users u ON r.user_id = u.user_id " +
+                "JOIN books b ON r.book_id = b.book_id " +
+                "WHERE r.user_id = ? AND r.status = ? " +
+                "ORDER BY r.reservation_date DESC";
+
+        List<Reservation> list = new ArrayList<>();
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            stmt.setString(1, userId);
+            stmt.setString(2, "ACTIVE");
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Reservation reservation = new Reservation(
+                            rs.getInt("reservation_id"),
+                            rs.getString("user_id"),
+                            rs.getString("book_id"),
+                            rs.getString("user_name"),
+                            rs.getString("book_title"),
+                            rs.getTimestamp("reservation_date").toLocalDateTime(),
+                            rs.getString("status")
+                    );
+                    list.add(reservation);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche des réservations actives : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
     @Override
     public int countReservations() {

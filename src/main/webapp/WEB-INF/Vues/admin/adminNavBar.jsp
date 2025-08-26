@@ -17,7 +17,7 @@
                 <a href="adminDashboard">Accueil</a>
                 <a href="listBooks">Livres</a>
                 <a href="manageUsers" class="active">Utilisateurs</a>
-                <a href="manageLoans">Emprunts</a>
+                <a href="manageLoan">Emprunts</a>
                 <a href="adminListReservations">Réservations</a>
             </div>
 

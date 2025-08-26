@@ -42,6 +42,7 @@ ListBookController extends HttpServlet {
             }
 
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookMember.jsp").forward(request,response);
+            return;
         }
         
 

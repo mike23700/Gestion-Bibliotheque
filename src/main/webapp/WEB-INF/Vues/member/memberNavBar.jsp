@@ -13,10 +13,9 @@
         </div>
 
         <div class="nav-links">
-            <a href="memberDashboard">Accueil</a>
-            <a href="manageLoan">Mes emprunts</a>
+            <a href="listBooks">Accueil</a>
+            <a href="memberListLoans">Mes emprunts</a>
             <a href="memberListReservations">Mes réservations</a>
-            <a href="listBooks">Rechercher des livres</a>
         </div>
 
         <div class="nav-actions">

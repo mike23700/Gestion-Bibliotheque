@@ -40,35 +40,29 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllLoansByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT loan_id, user_id, book_id, borrow_date, due_date, return_date FROM loans  WHERE user_id = ?";
 
-        try {
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-            String sql = " SELECT L.loan_id, U.name, B.title, L.borrow_date, L.due_date, L.return_date "+
-                    " FROM " +
-                      " loans L "+
-                    " INNER JOIN "+
-                      " users U ON L.user_id = U.user_id "+
-                    " INNER JOIN "+
-                      " books B ON L.book_id = B.book_id " +
-                    " WHERE L.user_id = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, user_id);
 
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Loan loan = new Loan(
-                        rs.getString("loan_id"),
-                        rs.getString("user_id"),
-                        rs.getString("book_id"),
-                        rs.getTimestamp("borrow_date").toLocalDateTime(),
-                        rs.getTimestamp("due_date").toLocalDateTime(),
-                        rs.getTimestamp("return_date").toLocalDateTime()
-                );
-                loans.add(loan);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Loan loan = new Loan(
+                            rs.getString("loan_id"),
+                            rs.getString("user_id"),
+                            rs.getString("book_id"),
+                            rs.getTimestamp("borrow_date").toLocalDateTime(),
+                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            //rs.getTimestamp("return_date").toLocalDateTime()
+                            (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
+                    );
+                    loans.add(loan);
+                }
             }
-        }catch (Exception e){
-            System.err.println("Erreur lors de la recuperation des emprunts");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return loans;
     }

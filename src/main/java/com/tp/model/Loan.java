@@ -2,6 +2,7 @@ package com.tp.model;
 
 import java.time.LocalDateTime;
 import java.sql.Date;
+import java.time.format.DateTimeFormatter;
 
 public class Loan {
 
@@ -67,5 +68,20 @@ public class Loan {
 
     public void setReturn_date(LocalDateTime return_date) {
         this.return_date = return_date;
+    }
+
+    public String getFormattedBorrowDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return borrow_date.format(formatter);
+    }
+
+    public String getFormattedDueDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return due_date.format(formatter);
+    }
+
+    public String getFormattedReturnDate() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        return return_date.format(formatter);
     }
 }

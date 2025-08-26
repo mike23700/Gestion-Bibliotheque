@@ -33,8 +33,8 @@ public class MemberListReservationsController extends HttpServlet {
             return;
         }
 
-        List<Reservation> reservations = reservationService.getReservationsByUserId(currentUser.getUser_id());
+        List<Reservation> reservations = reservationService.getActiveReservationsByUserId(currentUser.getUser_id());
         request.setAttribute("reservations", reservations);
-        request.getRequestDispatcher("/WEB-INF/Vues/member/memberReservationList.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/reservation/memberReservationList.jsp").forward(request, response);
     }
 }

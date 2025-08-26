@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tableau de bord Admin</title>
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/users/dashboard.css">
+    <link rel="stylesheet" href="css/users/adminNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -15,16 +16,24 @@
     <main>
         <h1>Bienvenue sur le tableau de bord</h1>
         <div class="dashboard-stats"> <div class="stat-card">
+        <a href="listBooks">
           <h3>Livres Totaux</h3>
+        </a>
         </div>
         <div class="stat-card">
+        <a href="manageLoan">
           <h3>Livres Empruntés</h3>
+        </a>
         </div> <div class="stat-card">
+        <a href="adminListReservations">
           <h3>Livres Reservés</h3>
+        </a>
           <p>${reservationCount}</p>
         </div>
         <div class="stat-card">
+        <a href="manageUsers">
           <h3>Utilisateurs Enregistrés</h3>
+        </a>
           <p>${memberCount}</p>
         </div>
         </div>

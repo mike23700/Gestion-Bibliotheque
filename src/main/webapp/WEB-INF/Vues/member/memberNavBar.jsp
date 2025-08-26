@@ -3,8 +3,13 @@
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-left">
-            <img src="assets/logo2.png" alt="Logo" class="logo-img">
-            <span class="user-name">${user.name} ${user.surname}</span>
+               <a href="index.jsp">
+                   <img src="assets/logo2.png" alt="Logo" class="logo-img">
+               </a>
+               <div class="user-info">
+                   <span class="user-name">${user.name} ${user.surname}</span>
+                   <div class="dashboard-label"><h3>Espace Membre</h3></div>
+               </div>
         </div>
 
         <div class="nav-links">

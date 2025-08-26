@@ -13,26 +13,17 @@
 </head>
 <body>
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
-    <div class="dashboard-container">
-        <h1>Tableau de Bord Membre</h1>
-
-        <c:if test="${not empty user}">
-            <h2 style="text-align: center; margin-bottom: 30px; color: #555;">
-                Bienvenue, <c:out value="${user.name}"/> <c:out value="${user.surname}"/> !
-            </h2>
-        </c:if>
-
-        <div class="dashboard-sections">
-            <div class="section-card">
-                <h3>Mes emprunts en cours</h3>
-                <p class="empty-state">Vous n'avez aucun livre emprunté pour le moment.</p>
-            </div>
-
-            <div class="section-card">
-                <h3>Mes réservations</h3>
-                <p class="empty-state">Vous n'avez aucune réservation en cours.</p>
-            </div>
+    <main>
+        <h1>Bienvenue sur le tableau de bord</h1>
+        <div class="dashboard-stats">
+        <div class="stat-card">
+          <h3>Livres Empruntés</h3>
         </div>
-    </div>
+         <div class="stat-card">
+          <h3>Livres Reservés</h3>
+          <p>${reservationCount}</p>
+        </div>
+        </div>
+    </main>
 </body>
 </html>

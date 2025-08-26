@@ -6,7 +6,6 @@
     <a href="index.jsp">
         <img src="assets/logo2.png" alt="Logo" class="logo-img">
     </a>
-
     <div class="user-info">
         <span class="user-name">${user.name} ${user.surname}</span>
         <div class="dashboard-label"><h3>Administrateur</h3></div>

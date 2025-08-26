@@ -10,9 +10,9 @@ public class Loan {
     private String book_id;
     private LocalDateTime borrow_date;
     private LocalDateTime due_date;
-    private Date return_date;
+    private LocalDateTime return_date;
 
-    public Loan(String loan_id, String user_id, String book_id, LocalDateTime borrow_date, LocalDateTime due_date, Date return_date) {
+    public Loan(String loan_id, String user_id, String book_id, LocalDateTime borrow_date, LocalDateTime due_date, LocalDateTime return_date) {
         this.loan_id = loan_id;
         this.user_id = user_id;
         this.book_id = book_id;
@@ -41,7 +41,7 @@ public class Loan {
         return due_date;
     }
 
-    public Date getReturn_date() {
+    public LocalDateTime getReturn_date() {
         return return_date;
     }
 
@@ -65,7 +65,7 @@ public class Loan {
         this.due_date = due_date;
     }
 
-    public void setReturn_date(Date return_date) {
+    public void setReturn_date(LocalDateTime return_date) {
         this.return_date = return_date;
     }
 }

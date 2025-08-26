@@ -1,0 +1,315 @@
+/* Styles généraux */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 80px; /* Espace pour la barre de navigation fixe */
+    overflow-x: hidden;
+}
+
+/* Navbar principale */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 10px 30px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    height: 50px;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo img {
+    height: 90px;
+    width: 110px;
+}
+
+.navbar-logo img:hover {
+    transform: scale(1.1);
+}
+
+.contenair-icon-deconnexion {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 40px;
+}
+
+.icon-deconnexion {
+    color: black;
+    font-size: 25px;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.icon-deconnexion:hover {
+    transform: scale(1.1);
+}
+
+/* Navbar de recherche et filtre */
+.navbar-menu {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    height: 50px;
+    background-color: #e9ecef; /* Couleur de fond pour le menu */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px; /* Ajoute un espace sous la barre de menu */
+}
+
+.navbar-menu form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.navbar-menu select,
+.navbar-menu input[type="search"] {
+    padding: 8px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.navbar-menu input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-menu input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: rgb(34, 10, 10);
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+    color: #3498db;
+}
+
+.page-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px; /* Ajusté pour moins d'espace */
+    font-size: 2.2em; /* Ajusté pour une meilleure proportion */
+    font-weight: 600;
+}
+
+/* Grille des livres */
+.book-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1800px;
+    margin: 0 auto; /* Centrer la grille */
+}
+
+/* Carte de livre */
+.book-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Indispensable pour positionner l'icône de manière absolue */
+}
+
+.book-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+/* Conteneur image et icône */
+.image-And-icon-container {
+    position: relative; /* Indispensable pour positionner l'icône de manière absolue */
+    width: 100%;
+    padding-top: 140%; /* Pour un ratio 1:1.4 (hauteur / largeur), 140% de la largeur */
+    overflow: hidden;
+}
+
+/* Styles pour l'icône des trois points */
+.icon-container {
+    position: absolute;
+    top: 10px; /* Positionnement en haut */
+    right: 10px; /* Positionnement à droite */
+    z-index: 20; /* S'assure que l'icône est au-dessus de l'image et des détails */
+    opacity: 0; /* Initiallement invisible */
+    visibility: hidden; /* Cache l'icône par défaut */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Transition douce */
+    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent pour la visibilité */
+    padding: 8px 10px; /* Espace autour de l'icône */
+    border-radius: 5px; /* Coins arrondis pour l'icône */
+    cursor: pointer; /* Indique que c'est cliquable */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-card:hover .icon-container {
+    opacity: 1; /* Rendre l'icône visible au survol de la carte */
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.icon-container i {
+    color: white; /* Couleur de l'icône */
+    font-size: 1.2em; /* Taille de l'icône */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Légère ombre pour le contraste */
+}
+
+.icon-container:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Changement de couleur au survol de l'icône */
+    transform: scale(1.1); /* Effet d'agrandissement au survol de l'icône */
+}
+
+/* Image de couverture du livre */
+.book-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+/* Détails initiaux du livre (toujours visibles) */
+.card-initial-details {
+    padding: 10px;
+    text-align: center;
+    background-color: #fdfdfd;
+}
+
+.card-title {
+    font-size: 1em;
+    margin: 0;
+    color: #2c3e50;
+    white-space: nowrap; /* Empêche le titre de se casser */
+    overflow: hidden; /* Cache le texte qui déborde */
+    text-overflow: ellipsis; /* Ajoute des points de suspension */
+}
+
+.card-year {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+/* Détails complets du livre (masqués par défaut, affichés via JS) */
+.card-full-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(46, 100, 155, 0.95); /* Fond semi-transparent */
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0; /* Masqué par défaut */
+    visibility: hidden; /* Masqué par défaut */
+    transform: translateY(100%); /* Masqué par défaut (glisse de bas en haut) */
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, visibility 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: scroll; /* Permet le défilement si le contenu est trop long */
+    z-index: 15; /* S'assure que les détails sont au-dessus de l'image mais sous l'icône */
+}
+
+/* Quand la classe 'active' est ajoutée par JavaScript */
+.card-full-details.active {
+    opacity: 1; /* Rendu visible */
+    visibility: visible;
+    transform: translateY(0); /* Glisse en position */
+}
+
+.card-full-details p {
+    margin-bottom: 5px;
+    font-size: 0.85em;
+}
+
+.card-full-details strong {
+    color: #ecf0f1;
+    font-weight: 600;
+}
+
+/* Message si la liste est vide */
+.empty-list-message {
+    text-align: center;
+    color: #888;
+    margin-top: 50px;
+    font-size: 1.2em;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Bouton "Ajouter un livre" */
+.add-student-button {
+    display: block;
+    width: fit-content;
+    padding: 12px 25px;
+    margin: 40px auto;
+    background-color: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-student-button:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+}
+
+.overlay {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); 
+    z-index: 500;
+}

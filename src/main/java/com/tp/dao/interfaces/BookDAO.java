@@ -7,7 +7,12 @@ import java.util.List;
 
 public interface BookDAO {
     void AddBook(Book book) throws Exception;
-    List<Book> searchByTitle(String title) throws Exception;
+    List<Book> findByTitle(String title) throws Exception;
+    List<Book> findByYear(int year) throws Exception;
+    List<Book> findByAuthor(String author) throws Exception;
+    List<Book> findByCategory(String category) throws Exception;
+    List<Book> findByRendu() throws Exception;
+    List<Book> findByEnCour() throws Exception;
     List<Book> getAllBooks() throws Exception ;
     void DeleteBook(String book_id) throws Exception;
     void updateBook(Book book) throws Exception;

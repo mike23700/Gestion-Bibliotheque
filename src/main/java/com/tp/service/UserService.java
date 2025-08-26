@@ -3,18 +3,35 @@ package com.tp.service;
 import com.tp.dao.DAOFactory;
 import com.tp.dao.interfaces.UserDAO;
 import com.tp.model.User;
+import com.tp.model.generateID.GenerateUserID;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class UserService {
 
     private final UserDAO userDAO;
+    private final GenerateUserID idGenerator;
 
     public UserService(DAOFactory daoFactory) {
         this.userDAO = daoFactory.getUserDAO();
+        this.idGenerator = new GenerateUserID();
     }
 
+    public boolean createAndAddUser(String name, String surname, int telNum, String email) {
+        User user = new User(
+                idGenerator.generateID(),
+                name,
+                surname,
+                telNum,
+                email,
+                "0000",
+                "MEMBER",
+                LocalDateTime.now()
+        );
+
+        return userDAO.addUser(user);
+    }
 
     public User authenticate(String userId, String password) {
         User user = userDAO.findById(userId);
@@ -26,7 +43,7 @@ public class UserService {
     }
 
     public boolean addUser(User user) {
-        user.setUser_id(UUID.randomUUID().toString());
+        user.setUser_id(idGenerator.generateID());
         user.setPassword("0000");
         user.setRole("MEMBER");
 
@@ -37,11 +54,9 @@ public class UserService {
         return userDAO.updateUser(user);
     }
 
-
     public boolean deleteUser(String userId) {
         return userDAO.deleteUser(userId);
     }
-
 
     public User findUserById(String userId) {
         return userDAO.findById(userId);
@@ -51,15 +66,11 @@ public class UserService {
         return userDAO.findByname(name);
     }
 
-    public List<User> getAllUsers() {
-        return userDAO.getAllUsers();
-    }
-
-    public List<User> getAllAdmins() {
-        return userDAO.getAllAdmins();
-    }
-
     public List<User> getAllMembers() {
         return userDAO.getAllMembers();
+    }
+
+    public int countMembers() {
+        return userDAO.countMembers();
     }
 }

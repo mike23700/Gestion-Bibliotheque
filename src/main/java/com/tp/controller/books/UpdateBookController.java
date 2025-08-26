@@ -40,6 +40,6 @@ public class UpdateBookController extends HttpServlet {
         }catch (Exception e){
             request.getSession().setAttribute("error","Erreur lors de la modification du livre");
         }
-        response.sendRedirect("manageBooks");
+        response.sendRedirect("listBooks");
     }
 }

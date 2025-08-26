@@ -23,7 +23,7 @@ public class BookDAOImpl implements BookDAO {
     public void AddBook(Book book) throws Exception {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "INSERT INTO books(book_id , title , author , year , image , category , description , is_available , loan_count ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO books(book_id , title , author , year , image , category , description , status , loan_count ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book.getId_Book());
             stmt.setString(2, book.getTitle());
@@ -32,7 +32,7 @@ public class BookDAOImpl implements BookDAO {
             stmt.setString(5, book.getImage());
             stmt.setString(6, book.getCategory());
             stmt.setString(7, book.getDescription());
-            stmt.setInt(8, book.getIs_available());
+            stmt.setString(8, book.getStatus());
             stmt.setInt(9, book.getLoan_count());
 
             stmt.executeUpdate();
@@ -42,7 +42,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> searchByTitle(String title) throws Exception{
+    public List<Book> findByTitle(String title) throws Exception{
         List<Book> books = new ArrayList<>();
         try {
             Connection connection = DBConnection.getConnection();
@@ -60,7 +60,164 @@ public class BookDAOImpl implements BookDAO {
                         rs.getString("image"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getInt("is_available"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByYear(int year) throws Exception {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE year = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, year);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByAuthor(String author) throws Exception {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE author = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, author);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByCategory(String category) throws Exception {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE category = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, category);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByRendu() throws Exception {
+        List<Book> books = new ArrayList<>();
+        String Rendu = "rendu";
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE status = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, Rendu);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByEnCour() throws Exception {
+        List<Book> books = new ArrayList<>();
+        String Encour = "en cours";
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books WHERE status = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, Encour);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
                         rs.getInt("loan_count"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                 );
@@ -89,7 +246,7 @@ public class BookDAOImpl implements BookDAO {
                         rs.getString("image"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getInt("is_available"),
+                        rs.getString("status"),
                         rs.getInt("loan_count"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                 );
@@ -126,7 +283,7 @@ public class BookDAOImpl implements BookDAO {
             stmt.setString(4, book.getImage());
             stmt.setString(5, book.getCategory());
             stmt.setString(6, book.getDescription());
-            stmt.setInt(7, book.getIs_available());
+            stmt.setString(7, book.getStatus());
             stmt.setInt(8, book.getLoan_count());
             stmt.setString(9, book.getId_Book());
 
@@ -154,7 +311,7 @@ public class BookDAOImpl implements BookDAO {
                         rs.getString("image"),
                         rs.getString("category"),
                         rs.getString("description"),
-                        rs.getInt("is_available"),
+                        rs.getString("status"),
                         rs.getInt("loan_count"),
                         rs.getTimestamp("created_at").toLocalDateTime()
                 );

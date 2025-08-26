@@ -1,12 +1,13 @@
 package com.tp.service;
 
 import com.tp.dao.DAOFactory;
-import com.tp.dao.interfaceImpl.BookDAOImpl;
 import com.tp.dao.interfaces.BookDAO;
 import com.tp.model.Book;
+import com.tp.model.Loan;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BookService {
 
@@ -33,11 +34,47 @@ public class BookService {
         bookDao.DeleteBook(book_id);
     }
 
-    public List<Book> searchByTitle(String title) throws Exception {
-        return bookDao.searchByTitle(title);
+    public List<Book> findByTitle(String title) throws Exception {
+        return bookDao.findByTitle(title);
+    }
+
+    public List<Book> findByYear(int year) throws Exception {
+        return bookDao.findByYear(year);
+    }
+
+    public List<Book> findByAuthor(String author) throws Exception {
+        return bookDao.findByAuthor(author);
+    }
+
+    public List<Book> findByCategory(String category) throws Exception {
+        return bookDao.findByCategory(category);
+    }
+
+    public  List<Book> findByRendu() throws Exception {
+        return bookDao.findByRendu();
+    }
+
+    public List<Book> findByEnCour() throws Exception {
+        return bookDao.findByEnCour();
     }
 
     public void updateBook(Book book) throws Exception {
         bookDao.updateBook(book);
+    }
+
+    public void verifyBookStatus(List<Book> Books , String user_id) throws Exception {
+        List<Book> list = new ArrayList<>();
+
+        List<Book> books = getAllBook();
+        LoanService loanService = new LoanService();
+        List<Loan> loans = loanService.getAllLoansByUser(user_id);
+        for (Book book : books){
+            for (Loan loan : loans){
+                if(Objects.equals(book.getId_Book(), loan.getBook_id()) && !Objects.equals(book.getStatus(), "rendu")){
+                    list.add(book);
+                }
+            }
+        }
+
     }
 }

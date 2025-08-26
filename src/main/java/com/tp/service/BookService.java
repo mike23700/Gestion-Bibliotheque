@@ -1,12 +1,13 @@
 package com.tp.service;
 
 import com.tp.dao.DAOFactory;
-import com.tp.dao.interfaceImpl.BookDAOImpl;
 import com.tp.dao.interfaces.BookDAO;
 import com.tp.model.Book;
+import com.tp.model.Loan;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class BookService {
 
@@ -59,5 +60,21 @@ public class BookService {
 
     public void updateBook(Book book) throws Exception {
         bookDao.updateBook(book);
+    }
+
+    public void verifyBookStatus(List<Book> Books , String user_id) throws Exception {
+        List<Book> list = new ArrayList<>();
+
+        List<Book> books = getAllBook();
+        LoanService loanService = new LoanService();
+        List<Loan> loans = loanService.getAllLoansByUser(user_id);
+        for (Book book : books){
+            for (Loan loan : loans){
+                if(Objects.equals(book.getId_Book(), loan.getBook_id()) && !Objects.equals(book.getStatus(), "rendu")){
+                    list.add(book);
+                }
+            }
+        }
+
     }
 }

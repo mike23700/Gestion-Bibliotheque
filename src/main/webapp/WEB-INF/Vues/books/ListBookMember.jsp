@@ -107,20 +107,8 @@
         <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
     </c:if>
 
-    <div class="overlay"></div>
-    <jsp:include page="AddBooks.jsp" />
-
     <!-- Script JavaScript pour gérer l'affichage des détails -->
     <script>
-        function ShowFormAddBook() {
-            document.querySelector(".form-container").style.display = "block";
-            document.querySelector(".overlay").style.display = "block";
-        }
-
-        function HideFormAddBook() {
-            document.querySelector(".form-container").style.display = "none";
-            document.querySelector(".overlay").style.display = "none";
-        }
 
         function toggleBookDetails(iconElement) {
             event.stopPropagation();

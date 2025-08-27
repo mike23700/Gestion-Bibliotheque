@@ -34,15 +34,12 @@ public class ReturnBookController extends HttpServlet {
 
         if (loanId != null && !loanId.isEmpty()) {
             try {
-                // ✅ récupérer l’emprunt avec son ID
                 Loan loanToReturn = loanService.getLoanById(loanId);
 
                 if (loanToReturn != null) {
-                    // ✅ mettre à jour la date de retour
                     boolean loanUpdated = loanService.updateLoanReturnDate(loanId, LocalDateTime.now());
 
                     if (loanUpdated) {
-                        // ✅ mettre le livre en disponible
                         boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "disponible");
 
                         if (bookStatusUpdated) {

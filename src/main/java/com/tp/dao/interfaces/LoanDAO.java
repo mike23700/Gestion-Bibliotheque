@@ -15,4 +15,6 @@ public interface LoanDAO {
     List<Loan> findByBooktile(String book_title) throws Exception;
     List<Loan> findByDateAndByUser(LocalDateTime date , String user_id) throws Exception;
     List<Loan> findByBooktitleAndByUser(String book_title , String user_id) throws Exception;
+    boolean updateLoanReturnDate(String loanId, LocalDateTime returnDate);
+    Loan getLoanById(String loanId);
 }

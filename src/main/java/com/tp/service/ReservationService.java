@@ -85,8 +85,12 @@ public class ReservationService {
         return reservationDAO.findById(reservationId);
     }
 
-    public List<Reservation> getReservationsByUserIdAndBookName(String userId, String bookName) {
-        return reservationDAO.findByUserIdAndBookName(userId, bookName);
+    public List<Reservation> getReservationsByUserIdAndBookName(String userId) {
+        return reservationDAO.findByUserIdAndBookName(userId, "");
+    }
+
+    public List<Reservation> getActiveReservationsByUserId(String userId) {
+        return reservationDAO.findActiveByUserId(userId);
     }
 
     public int countReservations() {

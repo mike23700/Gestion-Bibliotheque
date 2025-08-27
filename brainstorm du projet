@@ -159,7 +159,7 @@ CREATE TABLE books (
     image VARCHAR(255),
     category VARCHAR(255),
     description TEXT,
-    is_available ENUM('en cours','rendu'),
+    status ENUM('disponible','emprunté'),
     loan_count INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -6,7 +6,7 @@
 }
 
 * {
-    margin: 0;
+    margin: 20px;
     padding: 0;
     box-sizing: border-box;
     font-family: sans-serif;
@@ -39,7 +39,7 @@ header {
 }
 
 .logo-img {
-    height: 200px;
+    height: 50px;
     margin-right: 5px;
 }
 
@@ -96,7 +96,7 @@ main {
 }
 
 .btn-primary:hover {
-    background-color: #4338CA;
+    background-color: #135776;
     transform: translateY(-1px);
 }
 

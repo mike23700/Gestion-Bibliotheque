@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des utilisateurs</title>
-    <link rel="stylesheet" href="css/manageUsers.css">
+    <link rel="stylesheet" href="css/users/manageUsers.css">
+    <link rel="stylesheet" href="css/users/adminNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -59,7 +60,7 @@
                             <td>${u.surname}</td>
                             <td>${u.tel_num}</td>
                             <td>${u.email}</td>
-                            <td>${u.registration_date}</td>
+                            <td>${u.formattedDateRegister}</td>
                             <td>
                                 <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
                                     <input type="hidden" name="user_id" value="${u.user_id}">

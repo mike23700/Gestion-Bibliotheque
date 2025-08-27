@@ -16,36 +16,52 @@ import java.util.List;
 
 @WebServlet("/listBooks")
 public class ListBookController extends HttpServlet {
-    BookService bookService = new BookService();
-    List<Book> books = new ArrayList<>();
+    private final BookService bookService = new BookService();
 
-    protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
-
-        /*
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        assert currentUser != null;
-        if (currentUser.getRole().equals("MEMBER")) {
-            try {
-                books = bookService.getAllBook();
-            } catch (Exception e) {
-                System.out.println("Erreur lors de la recuperation des livres pour le member");
-            }
-
-            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookMember.jsp").forward(request,response);
+        if (currentUser == null) {
+        
+            response.sendRedirect("login");
+            return;
+            
         }
-        */
 
+        List<Book> Allbooks = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
+
+        
         try {
-            books = bookService.getAllBook();
-            request.setAttribute("listbooks",books);
-            System.out.println("connexion reussis a la BD");
-            System.out.println(books.size());
+            Allbooks = bookService.getAllBook();
+            books = bookService.verifyBookStatus(Allbooks , currentUser.getUser_id());
+
+            request.setAttribute("listbooks", books);
+            System.out.println("connexion reussie a la BD et livres recuperes.");
+            System.out.println("Nombre de livres: " + books.size());
         } catch (Exception e) {
-            System.out.println("Erreur lors de la recuperation des livres pour l'admin");
+            System.err.println("Erreur lors de la recuperation des livres: " + e.getMessage());
+            e.printStackTrace();
+
+            request.setAttribute("errorMessage", "Impossible de charger la liste des livres.");
+
+        }
+        
+
+        if (currentUser.getRole().equals("MEMBER")) {
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookMember.jsp").forward(request, response);
+            return;
+        } else if (currentUser.getRole().equals("ADMIN")) {
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookAdmin.jsp").forward(request, response);
+            return;
+        } else {
+
+            System.err.println("Rôle utilisateur inconnu ou non géré: " + currentUser.getRole());
+
+            response.sendRedirect("login"); 
+            return;
         }
 
-        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookAdmin.jsp").forward(request,response);
     }
 }

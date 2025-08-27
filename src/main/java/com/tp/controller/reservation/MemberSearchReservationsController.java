@@ -37,10 +37,10 @@ public class MemberSearchReservationsController extends HttpServlet {
         List<Reservation> searchResults = null;
 
         if (searchValue != null && !searchValue.trim().isEmpty()) {
-            searchResults = reservationService.getReservationsByUserIdAndBookName(currentUser.getUser_id(), searchValue.trim());
-        }
+            searchResults = reservationService.getReservationsByUserIdAndBookName(currentUser.getUser_id());
 
-        request.setAttribute("searchResults", searchResults);
-        request.getRequestDispatcher("/WEB-INF/reservations.jsp").forward(request, response);
+            request.setAttribute("searchResults", searchResults);
+            request.getRequestDispatcher("/WEB-INF/reservations.jsp").forward(request, response);
+        }
     }
 }

@@ -1,27 +1,4 @@
-.container {
-    width: 90%;
-    margin: auto;
-    padding: 20px;
-}
-.add-user-btn {
-    display: inline-block;
-    background: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px;
-    text-decoration: none;
-    margin-bottom: 15px;
-}
-.add-user-btn:hover {
-    background: #218838;
-}
-.search-user-form {
-    margin-bottom: 20px;
-}
-.search-user-form input, .search-user-form select, .search-user-form button {
-    padding: 8px;
-    margin-right: 5px;
-}
+
 
 .modal {
     display: none;

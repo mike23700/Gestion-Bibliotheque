@@ -9,6 +9,7 @@ public class Loan {
     private String loan_id;
     private String user_id;
     private String book_id;
+    private String book_title;
     private LocalDateTime borrow_date;
     private LocalDateTime due_date;
     private LocalDateTime return_date;
@@ -17,6 +18,17 @@ public class Loan {
         this.loan_id = loan_id;
         this.user_id = user_id;
         this.book_id = book_id;
+        this.borrow_date = borrow_date;
+        this.due_date = due_date;
+        this.return_date = return_date;
+    }
+
+    // Nouveau constructeur avec le titre du livre
+    public Loan(String loan_id, String user_id, String book_id, String book_title, LocalDateTime borrow_date, LocalDateTime due_date, LocalDateTime return_date) {
+        this.loan_id = loan_id;
+        this.user_id = user_id;
+        this.book_id = book_id;
+        this.book_title = book_title;
         this.borrow_date = borrow_date;
         this.due_date = due_date;
         this.return_date = return_date;
@@ -32,6 +44,10 @@ public class Loan {
 
     public String getBook_id() {
         return book_id;
+    }
+
+    public String getBook_title() {
+        return book_title;
     }
 
     public LocalDateTime getBorrow_date() {
@@ -56,6 +72,10 @@ public class Loan {
 
     public void setBook_id(String book_id) {
         this.book_id = book_id;
+    }
+
+    public void setBook_title(String book_title) {
+        this.book_title = book_title;
     }
 
     public void setBorrow_date(LocalDateTime borrow_date) {

@@ -52,4 +52,12 @@ public class LoanService {
     public List<Loan> findByBooktitleAndUser(String book_title , String user_id) throws Exception {
         return loanDAO.findByBooktitleAndByUser(book_title , user_id);
     }
+
+    public boolean updateLoanReturnDate(String userId, LocalDateTime now) {
+        return  loanDAO.updateLoanReturnDate(userId, now);
+    }
+
+    public Loan getLoanById(String loanId){
+        return loanDAO.getLoanById(loanId);
+    }
 }

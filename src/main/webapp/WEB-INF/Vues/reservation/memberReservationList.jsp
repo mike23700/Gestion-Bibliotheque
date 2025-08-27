@@ -44,7 +44,7 @@
                                 <tr>
                                     <td>${res.reservation_id}</td>
                                     <td>${res.book_title}</td>
-                                    <td>${res.reservation_date}</td>
+                                    <td>${res.formattedDateRegister}</td>
                                     <td>${res.status}</td>
                                     <td>
                                         <c:if test="${res.status eq 'ACTIVE'}">

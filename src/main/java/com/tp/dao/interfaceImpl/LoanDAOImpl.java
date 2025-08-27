@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
@@ -40,7 +39,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllLoansByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT loan_id, user_id, book_id, borrow_date, due_date, return_date FROM loans  WHERE user_id = ?";
+        String sql = "SELECT l.loan_id, l.user_id, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title FROM loans l JOIN books b ON l.book_id = b.book_id WHERE l.user_id = ? AND b.status = 'emprunté'";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -53,9 +52,9 @@ public class LoanDAOImpl implements LoanDAO {
                             rs.getString("loan_id"),
                             rs.getString("user_id"),
                             rs.getString("book_id"),
+                            rs.getString("title"),
                             rs.getTimestamp("borrow_date").toLocalDateTime(),
                             rs.getTimestamp("due_date").toLocalDateTime(),
-                            //rs.getTimestamp("return_date").toLocalDateTime()
                             (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
                     );
                     loans.add(loan);
@@ -332,5 +331,49 @@ public class LoanDAOImpl implements LoanDAO {
             System.err.println("Erreur lors de la recuperation des emprunts par titre de livre");
         }
         return loans;
+    }
+
+    @Override
+    public boolean updateLoanReturnDate(String loanId, LocalDateTime returnDate) {
+        String sql = "UPDATE loans SET return_date = ? WHERE loan_id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setTimestamp(1, Timestamp.valueOf(returnDate));
+            stmt.setString(2, loanId);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    @Override
+    public Loan getLoanById(String loanId) {
+        String sql = "SELECT * FROM loans WHERE loan_id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, loanId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Loan(
+                            rs.getString("loan_id"),
+                            rs.getString("user_id"),
+                            rs.getString("book_id"),
+                            rs.getTimestamp("borrow_date").toLocalDateTime(),
+                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

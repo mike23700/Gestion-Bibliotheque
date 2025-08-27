@@ -83,4 +83,8 @@ public class BookService {
         }
         return list;
     }
+
+    public boolean updateBookStatus(String bookId, String status) throws Exception {
+        return bookDao.updateBookStatus(bookId, status);
+    }
 }

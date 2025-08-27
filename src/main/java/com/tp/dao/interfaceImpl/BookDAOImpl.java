@@ -166,9 +166,9 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> findByRendu() throws Exception {
+    public List<Book> findByDisponible() throws Exception {
         List<Book> books = new ArrayList<>();
-        String Rendu = "rendu";
+        String Rendu = "disponible";
         try {
             Connection connection = DBConnection.getConnection();
             String sql = "SELECT * FROM books WHERE status = ? ";
@@ -198,9 +198,9 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> findByEnCour() throws Exception {
+    public List<Book> findByEmprunter() throws Exception {
         List<Book> books = new ArrayList<>();
-        String Encour = "en cours";
+        String Encour = "emprunte";
         try {
             Connection connection = DBConnection.getConnection();
             String sql = "SELECT * FROM books WHERE status = ? ";

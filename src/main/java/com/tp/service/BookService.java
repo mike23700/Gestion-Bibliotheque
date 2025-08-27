@@ -50,19 +50,19 @@ public class BookService {
         return bookDao.findByCategory(category);
     }
 
-    public  List<Book> findByRendu() throws Exception {
-        return bookDao.findByRendu();
+    public  List<Book> findByDisponible() throws Exception {
+        return bookDao.findByDisponible();
     }
 
-    public List<Book> findByEnCour() throws Exception {
-        return bookDao.findByEnCour();
+    public List<Book> findByEmprunter() throws Exception {
+        return bookDao.findByEmprunter();
     }
 
     public void updateBook(Book book) throws Exception {
         bookDao.updateBook(book);
     }
 
-    public void verifyBookStatus(List<Book> Books , String user_id) throws Exception {
+    public List<Book> verifyBookStatus(List<Book> Books , String user_id) throws Exception {
         List<Book> list = new ArrayList<>();
 
         List<Book> books = getAllBook();
@@ -76,5 +76,11 @@ public class BookService {
             }
         }
 
+        for (Book book : books){
+            if(!list.contains(book)){
+                list.add(book);
+            }
+        }
+        return list;
     }
 }

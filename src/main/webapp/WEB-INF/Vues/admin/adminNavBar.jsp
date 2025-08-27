@@ -22,7 +22,7 @@
 
         <a href="logout"
            class="logout-btn"
-           onclick="return confirm('${user.name} ${usersurname} voulez-vous vraiment vous déconnecter ?');">
+           onclick="return confirm('${user.name} ${user.surname}, voulez-vous vraiment vous déconnecter ?');">
             <i class="fas fa-sign-out-alt"></i>
         </a>
     </div>

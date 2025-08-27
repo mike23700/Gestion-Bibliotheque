@@ -20,7 +20,7 @@
 
         <div class="nav-actions">
             <a href="userInfo" class="profile-btn"><i class="fas fa-user"></i></a>
-            <a href="logout" class="logout-btn" onclick="return confirm('${user.name}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
+            <a href="logout" class="logout-btn" onclick="return confirm('${user.name} ${user.surname}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
         </div>
     </div>
 </nav>

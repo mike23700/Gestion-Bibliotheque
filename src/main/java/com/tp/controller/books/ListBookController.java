@@ -16,7 +16,7 @@ import java.util.List;
 
 @WebServlet("/listBooks")
 public class ListBookController extends HttpServlet {
-    private BookService bookService = new BookService();
+    private final BookService bookService = new BookService();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);

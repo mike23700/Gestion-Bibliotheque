@@ -72,13 +72,11 @@
 .profile-btn {
     color: white;
     text-decoration: none;
-    font-size: 1.2rem;
-    transition: color 0.3s ease;
+    font-size: 2rem;
+    align-items: center;
+    justify-content: center;
 }
 
-.profile-btn:hover {
-    color: #e9ecef;
-}
 
 .logout-btn {
     background-color: #dc3545;

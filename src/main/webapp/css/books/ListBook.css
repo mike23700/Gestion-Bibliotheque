@@ -5,66 +5,12 @@ body {
     color: #333;
     line-height: 1.6;
     margin: 0;
-    padding-top: 80px; /* Espace pour la barre de navigation fixe */
     overflow-x: hidden;
-}
-
-/* Navbar principale */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f8f9fa;
-    padding: 10px 30px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    height: 50px;
-}
-
-.navbar-left {
-    display: flex;
-    align-items: center;
-}
-
-.navbar-logo img {
-    height: 90px;
-    width: 110px;
-}
-
-.navbar-logo img:hover {
-    transform: scale(1.1);
-}
-
-.contenair-icon-deconnexion {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 40px;
-}
-
-.icon-deconnexion {
-    color: black;
-    font-size: 25px;
-    padding: 10px 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.icon-deconnexion:hover {
-    transform: scale(1.1);
 }
 
 /* Navbar de recherche et filtre */
 .navbar-menu {
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -102,7 +48,7 @@ body {
 .navbar-menu input[type="submit"]:hover {
     background-color: #0056b3;
 }
-
+/*
 .nav-item {
     text-decoration: none;
     color: rgb(34, 10, 10);
@@ -115,7 +61,7 @@ body {
 .nav-item:hover {
     color: #3498db;
 }
-
+*/
 .page-title {
     text-align: center;
     color: #2c3e50;

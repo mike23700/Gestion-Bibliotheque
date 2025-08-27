@@ -7,22 +7,13 @@
     <title>Liste des Livres</title>
     <link rel="stylesheet" href="css/books/ListBook.css">
     <link rel="stylesheet" href="css/books/AddBook.css">
+    <link rel="stylesheet" href="css/users/adminNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="#" class="navbar-logo">
-                <img src="assets/logo2.png" alt="Logo Bibliothèque">
-            </a>
-        </div>
-        <div class="contenair-icon-deconnexion">
-            <a href="#" class="icon-deconnexion"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </a>
-        </div>
-    </nav>
-    <div style="height: 50px;"></div>
+    <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
 
     <nav class="navbar-menu">
         <div>

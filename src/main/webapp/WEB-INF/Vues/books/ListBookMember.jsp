@@ -64,23 +64,20 @@
                         <strong><p class="card-title">${book.title}</p></strong>
                         <p class="card-year">
                             <c:choose>
-                                <%-- Si le livre est emprunté PAR l'utilisateur connecté --%>
-                                <c:when test="${book.status == 'emprunte'}">
-                                    <button class="status-button render-button" onclick="handleBookAction('${book.id_Book}', 'rendre')">Rendre</button>
-                                </c:when>
-                                <%-- Si le livre est disponible --%>
                                 <c:when test="${book.status == 'disponible'}">
-                                    <button class="status-button borrow-button" onclick="handleBookAction('${book.id_Book}', 'emprunter')">Emprunter</button>
+                                    <button class="status-button borrow-button" onclick="handleBookAction('${book.id_Book}', 'emprunte')">
+                                        Emprunter
+                                    </button>
                                 </c:when>
-                                <%-- Sinon (emprunté par un autre, réservé, etc.) --%>
-                                <c:otherwise>
-                                    <button class="status-button reserve-button" onclick="handleBookAction('${book.id_Book}', 'reserver')">Réserver</button>
-                                </c:otherwise>
+                                <c:when test="${book.status == 'emprunté'}">
+                                    <button class="status-button render-button" onclick="handleBookAction('${book.id_Book}', 'emprunte')">
+                                        Reserver
+                                    </button>
+                                </c:when>
                             </c:choose>
                         </p>
                     </div>
                     <div class="card-full-details">
-                        <p></p>
                         <p><strong>Auteur:</strong> ${book.author}</p>
                         <p><strong>Catégorie:</strong> ${book.category}</p>
                         <p><strong>Description:</strong> ${book.description}</p>
@@ -208,6 +205,75 @@
                 });
             });
         }
+
+
+        function handleBookAction(bookId, actionType) {
+            console.log(`Action: ${actionType} pour le livre ID: ${bookId}`);
+
+            const button = event.target.closest('button');
+            if (!button) {
+                console.error("Impossible de trouver le bouton parent.");
+                return;
+            }
+
+            button.disabled = true;
+            const originalText = button.textContent;
+            button.textContent = 'Chargement...';
+
+            const requestUrl = 'status';
+            const requestBody = JSON.stringify({
+                bookId: bookId,
+                action: actionType
+            });
+
+
+            fetch(requestUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: requestBody
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        throw new Error(`Erreur HTTP ${response.status}: ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    console.log(`Action "${actionType}" réussie pour le livre ${bookId}!`);
+
+                    // Mettre à jour le bouton et le texte de statut
+                    if (actionType === 'emprunter') {
+                        button.textContent = 'Rendre';
+                        button.classList.remove('borrow-button');
+                        button.classList.add('render-button');
+                        
+                    } else if (actionType === 'rendre') {
+                        button.textContent = 'Emprunter';
+                        button.classList.remove('render-button');
+                        button.classList.add('borrow-button');
+                    }
+                } else {
+                    console.error(`Échec de l'action "${actionType}": ${data.message}`);
+                    // Restaurer le texte du bouton en cas d'échec
+                    button.textContent = originalText;
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la requête AJAX:', error);
+                button.textContent = originalText;
+            })
+            .finally(() => {
+                // Réactiver le bouton une fois le processus terminé
+                button.disabled = false;
+            });
+        }
+
+
     </script>
 </body>
 </html>

@@ -18,11 +18,13 @@
         <div class="dashboard-stats"> <div class="stat-card">
         <a href="listBooks">
           <h3>Livres Totaux</h3>
+          <p>${bookCount}</p>
         </a>
         </div>
         <div class="stat-card">
         <a href="manageLoan">
           <h3>Livres Empruntés</h3>
+          <p>${loanCount}</p>
         </a>
         </div> <div class="stat-card">
         <a href="adminListReservations">

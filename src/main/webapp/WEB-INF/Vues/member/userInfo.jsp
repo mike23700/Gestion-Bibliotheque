@@ -11,10 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
-    <main class="dashboard-container">
-        <h1>Informations Personnelles</h1>
-
         <div class="section-card user-profile-card">
             <div class="profile-header">
                 <i class="fas fa-user-circle profile-icon"></i>

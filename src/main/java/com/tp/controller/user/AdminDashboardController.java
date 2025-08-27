@@ -39,6 +39,6 @@ public class AdminDashboardController extends HttpServlet {
         request.setAttribute("memberCount", memberCount);
         request.setAttribute("reservationCount", reservationCount);
 
-        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response); //push
     }
 }

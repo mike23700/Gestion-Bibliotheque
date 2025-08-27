@@ -129,6 +129,10 @@ body {
     background-color: #f2f2f2;
 }
 
+.user-table tr:hover {
+    background-color: #f9f9f9;
+}
+
 .delete-btn {
     background-color: #dc3545;
     color: white;

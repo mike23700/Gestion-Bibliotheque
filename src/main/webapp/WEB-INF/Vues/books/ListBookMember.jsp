@@ -5,8 +5,7 @@
 <html lang="fr">
 <head>
     <title>Liste des Livres</title>
-    <link rel="stylesheet" href="css/books/ListBook.css">
-    <link rel="stylesheet" href="css/books/AddBook.css">
+    <link rel="stylesheet" href="css/books/ListBookMember.css">
     <link rel="stylesheet" href="css/users/memberNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -91,8 +90,6 @@
             </c:forEach>
         </div>
 
-        <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()">Ajouter un livre</a>
-
     </c:if>
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
 
@@ -136,17 +133,17 @@
 
 
         const searchForm = document.getElementById('searchBook');
-        const bookGrid = document.getElementById('bookGrid'); 
+        const bookGrid = document.getElementById('bookGrid');
         const searchMessageContainer = document.getElementById('searchMessageContainer');
-        const emptyListMessage = document.getElementById('emptyListMessage'); 
+        const emptyListMessage = document.getElementById('emptyListMessage');
 
         if (emptyListMessage && bookGrid) {
             const initialBookCardsCount = bookGrid.querySelectorAll('.book-card').length;
             if (initialBookCardsCount === 0) {
                 emptyListMessage.textContent = 'Aucun livre trouvé dans la bibliothèque.';
-                emptyListMessage.style.display = 'block'; 
+                emptyListMessage.style.display = 'block';
             } else {
-                emptyListMessage.style.display = 'none'; 
+                emptyListMessage.style.display = 'none';
             }
         }
 
@@ -155,18 +152,18 @@
             searchForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                
+
                 if (emptyListMessage) emptyListMessage.style.display = 'none';
                 if (searchMessageContainer) searchMessageContainer.style.display = 'none';
-                
+
 
                 if (bookGrid) {
-                   bookGrid.innerHTML = ''; 
+                   bookGrid.innerHTML = '';
                 }
 
                 const formData = new FormData(searchForm);
 
-                
+
 
                 fetch("searchBook", {
                     method: 'POST', // La recherche est souvent une requête GET
@@ -189,7 +186,7 @@
 
                     // Vérifie si des livres ont été trouvés APRÈS la mise à jour de la grille
                     const hasBooks = bookGrid && bookGrid.querySelector('.book-card') !== null;
-                    
+
                     if (searchMessageContainer) {
                         if (!hasBooks) { // Si aucun livre n'est présent dans la grille
                             searchMessageContainer.style.display = 'block';

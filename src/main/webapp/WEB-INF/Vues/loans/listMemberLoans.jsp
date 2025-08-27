@@ -31,7 +31,7 @@
                 <thead>
                     <tr>
                         <th>ID Emprunts</th>
-                        <th>ID du Livre</th>
+                        <th>Titre du Livre</th>
                         <th>Date d'emprunts</th>
                         <th>Date limit</th>
                         <th>Actions</th>
@@ -43,7 +43,7 @@
                             <c:forEach var="l" items="${loans}">
                                 <tr>
                                     <td>${l.loan_id}</td>
-                                    <td>${l.book_id}</td>
+                                    <td>${l.book_title}</td>
                                     <td>${l.formattedBorrowDate}</td>
                                     <td>${l.formattedDueDate}</td>
                                     <td>

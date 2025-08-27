@@ -39,7 +39,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllLoansByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
-        String sql = "SELECT loan_id, user_id, book_id, borrow_date, due_date, return_date FROM loans  WHERE user_id = ?";
+        String sql = "SELECT l.loan_id, l.user_id, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title FROM loans l JOIN books b ON l.book_id = b.book_id WHERE l.user_id = ? AND b.status = 'emprunté'";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -52,9 +52,9 @@ public class LoanDAOImpl implements LoanDAO {
                             rs.getString("loan_id"),
                             rs.getString("user_id"),
                             rs.getString("book_id"),
+                            rs.getString("title"),
                             rs.getTimestamp("borrow_date").toLocalDateTime(),
                             rs.getTimestamp("due_date").toLocalDateTime(),
-                            //rs.getTimestamp("return_date").toLocalDateTime()
                             (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
                     );
                     loans.add(loan);

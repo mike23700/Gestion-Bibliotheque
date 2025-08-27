@@ -8,6 +8,7 @@
     <title>Gestion des utilisateurs</title>
     <link rel="stylesheet" href="css/users/manageUsers.css">
     <link rel="stylesheet" href="css/users/adminNavBar.css">
+    <link rel="stylesheet" href="css/users/manageUsersModal.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -35,7 +36,9 @@
         <button type="submit"><i class="fas fa-search"></i></button>
     </form>
 
-    <a href="addUser" class="add-user-btn"><i class="fas fa-user-plus"></i> Ajouter</a>
+    <a href="#" class="add-user-btn" onclick="openModal('addUser')">
+        <i class="fas fa-user-plus"></i> Ajouter
+    </a>
 </div>
 
         <div class="section-card">
@@ -77,6 +80,28 @@
                 </tbody>
             </table>
         </div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div id="modal-body"></div>
+            </div>
+        </div>
+        <script>
+        function openModal(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("modal-body").innerHTML = html;
+                    document.getElementById("modal").style.display = "flex";
+                })
+                .catch(err => console.error("Erreur modal :", err));
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+            document.getElementById("modal-body").innerHTML = "";
+        }
+        </script>
     </main>
 </body>
 </html>

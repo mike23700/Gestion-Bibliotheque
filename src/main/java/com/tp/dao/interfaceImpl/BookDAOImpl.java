@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PropertyResourceBundle;
 
 public class BookDAOImpl implements BookDAO {
 
@@ -321,4 +320,28 @@ public class BookDAOImpl implements BookDAO {
         }
         return book;
     }
+
+
+    @Override
+    public boolean updateBookStatus(String bookId, String status) {
+        String query = "UPDATE books SET status = ? WHERE book_id = ?";
+        boolean success = false;
+
+        try (Connection connexion = DBConnection.getConnection();
+             PreparedStatement stmt = connexion.prepareStatement(query)) {
+
+            stmt.setString(1, status);
+            stmt.setString(2, bookId);
+
+            int updated = stmt.executeUpdate();
+            if (updated > 0) {
+                success = true;
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du statut du livre : " + e.getMessage());
+            e.printStackTrace();
+        }
+        return success;
+    }
+
 }

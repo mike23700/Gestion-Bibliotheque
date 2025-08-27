@@ -46,7 +46,12 @@
                                     <td>${l.book_id}</td>
                                     <td>${l.formattedBorrowDate}</td>
                                     <td>${l.formattedDueDate}</td>
-                                    <td></td>
+                                    <td>
+                                         <form action="returnBook" method="post" onsubmit="return confirm('Voulez vous vraiment rendre ${l.book_id}');">
+                                             <input type="hidden" name="loanId" value="${l.loan_id}">
+                                             <button type="submit" class="action-btn return-btn">Rendre</button>
+                                         </form>
+                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:when>

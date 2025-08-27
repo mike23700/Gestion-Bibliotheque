@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
@@ -332,5 +331,49 @@ public class LoanDAOImpl implements LoanDAO {
             System.err.println("Erreur lors de la recuperation des emprunts par titre de livre");
         }
         return loans;
+    }
+
+    @Override
+    public boolean updateLoanReturnDate(String loanId, LocalDateTime returnDate) {
+        String sql = "UPDATE loans SET return_date = ? WHERE loan_id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setTimestamp(1, Timestamp.valueOf(returnDate));
+            stmt.setString(2, loanId);
+
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    @Override
+    public Loan getLoanById(String loanId) {
+        String sql = "SELECT * FROM loans WHERE loan_id = ?";
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setString(1, loanId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Loan(
+                            rs.getString("loan_id"),
+                            rs.getString("user_id"),
+                            rs.getString("book_id"),
+                            rs.getTimestamp("borrow_date").toLocalDateTime(),
+                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

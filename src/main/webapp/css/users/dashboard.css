@@ -48,3 +48,11 @@ main h1 {
     font-size: 1.5rem;
     font-weight: bold;
 }
+
+.stat-card a {
+    text-decoration: none;
+}
+
+.stat-card:hover {
+     background-color: #f0f0f0;
+}

@@ -5,23 +5,13 @@
 <html lang="fr">
 <head>
     <title>Liste des Livres</title>
-    <link rel="stylesheet" href="css/books/ListBook.css">
-    <link rel="stylesheet" href="css/books/AddBook.css">
+    <link rel="stylesheet" href="css/books/ListBookMember.css">
+    <link rel="stylesheet" href="css/users/memberNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Barre de navigation principale -->
-    <nav class="navbar">
-        <div class="navbar-left">
-            <a href="#" class="navbar-logo">
-                <img src="assets/logo2.png" alt="Logo Bibliothèque">
-            </a>
-        </div>
-        <div class="contenair-icon-deconnexion">
-            <a href="#" class="icon-deconnexion"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </a>
-        </div>
-    </nav>
+    <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <div style="height: 50px;"></div>
 
     <!-- Barre de navigation du menu/recherche -->
@@ -35,12 +25,20 @@
                     <option value="year">Année</option>
                     <option value="category">Catégorie</option>
                 </select>
-                <input type="search" placeholder="Rechercher..." name="searchValue" required>
+                <input type="search" placeholder="Rechercher..." name="searchValue" >
                 <input type="submit" value="Rechercher">
             </form>
         </div>
         <div>
-            <a href="#" class="nav-item">Filtre</a>
+            <p>Filtrer par :</p>
+            <select id="searchType" name="searchType">
+                <option value="title">Titre</option>
+                <option value="author">Auteur</option>
+                <option value="year">Année</option>
+                <option value="category">Catégorie</option>
+                <option value="disponible">Disponible</option>
+                <option value="emprunter">Emprunter</option>
+            </select>
         </div>
         <div class="header-container">
             <h1 class="page-title">Liste des Livres</h1>
@@ -50,7 +48,7 @@
 
     <!-- Grille des livres -->
     <c:if test="${not empty listbooks}">
-        <div class="book-grid-container">
+        <div class="book-grid-container" id="bookGrid" >
             <c:forEach var="book" items="${listbooks}" varStatus="num">
                 <div class="book-card">
                     <div class="image-And-icon-container">
@@ -61,42 +59,36 @@
                         <div class="card-image-wrapper">
                             <img src="${pageContext.request.contextPath}/${book.image}" alt="Couverture du livre" class="book-card-image" onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/555555?text=Pas+d%27image';"/>
                         </div>
-                        <div>
-                            <p>
-                                <c:choose>
-                                    <c:when test="${book.status == 'emprunte'}">
-                                        <button class="">Rendre</button>
-                                    </c:when>
-                                    <c:when test="${book.status == 'disponible'}">
-                                        <button class="">Emprunter</button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button class="">Réserver</button>
-                                    </c:otherwise>
-                                </c:choose>
-                            </p>
-                        </div>
                     </div>
                     <div class="card-initial-details">
                         <strong><p class="card-title">${book.title}</p></strong>
-                        <p class="card-year">${book.status}</p>
+                        <p class="card-year">
+                            <c:choose>
+                                <%-- Si le livre est emprunté PAR l'utilisateur connecté --%>
+                                <c:when test="${book.status == 'emprunte'}">
+                                    <button class="status-button render-button" onclick="handleBookAction('${book.id_Book}', 'rendre')">Rendre</button>
+                                </c:when>
+                                <%-- Si le livre est disponible --%>
+                                <c:when test="${book.status == 'disponible'}">
+                                    <button class="status-button borrow-button" onclick="handleBookAction('${book.id_Book}', 'emprunter')">Emprunter</button>
+                                </c:when>
+                                <%-- Sinon (emprunté par un autre, réservé, etc.) --%>
+                                <c:otherwise>
+                                    <button class="status-button reserve-button" onclick="handleBookAction('${book.id_Book}', 'reserver')">Réserver</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
                     </div>
-                    <!-- Détails complets du livre, masqués par défaut, affichés au clic de l'icône -->
                     <div class="card-full-details">
                         <p></p>
-                        <!-- <p><strong>ID:</strong> ${book.id_Book}</p> -->
                         <p><strong>Auteur:</strong> ${book.author}</p>
                         <p><strong>Catégorie:</strong> ${book.category}</p>
                         <p><strong>Description:</strong> ${book.description}</p>
                         <p><strong>Année:</strong> ${book.year}</p>
-                        <!-- <p><strong>Nb Emprunts:</strong> ${book.loan_count}</p> -->
-                        <!-- <p><strong>Créé le:</strong> ${book.created_at}</p> -->
                     </div>
                 </div>
             </c:forEach>
         </div>
-
-        <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()">Ajouter un livre</a>
 
     </c:if>
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
@@ -107,10 +99,11 @@
         <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
     </c:if>
 
-    <!-- Script JavaScript pour gérer l'affichage des détails -->
+
     <script>
 
         function toggleBookDetails(iconElement) {
+
             event.stopPropagation();
 
             const bookCard = iconElement.closest('.book-card');
@@ -131,7 +124,7 @@
         document.addEventListener('click', function(event) {
             const openDetails = document.querySelectorAll('.card-full-details.active');
             openDetails.forEach(detail => {
-                // Si l'élément cliqué n'est pas l'icône et n'est pas un détail ouvert, le fermer
+
                 if (!event.target.closest('.icon-container') && !event.target.closest('.card-full-details')) {
                     detail.classList.remove('active');
                 }
@@ -140,64 +133,78 @@
 
 
         const searchForm = document.getElementById('searchBook');
-        const bookGrid = document.querySelector('.book-grid-container');
+        const bookGrid = document.getElementById('bookGrid');
         const searchMessageContainer = document.getElementById('searchMessageContainer');
-        const emptyListMessage = document.getElementById('emptyListMessage'); // Pour le message d'absence de livre initial
+        const emptyListMessage = document.getElementById('emptyListMessage');
+
+        if (emptyListMessage && bookGrid) {
+            const initialBookCardsCount = bookGrid.querySelectorAll('.book-card').length;
+            if (initialBookCardsCount === 0) {
+                emptyListMessage.textContent = 'Aucun livre trouvé dans la bibliothèque.';
+                emptyListMessage.style.display = 'block';
+            } else {
+                emptyListMessage.style.display = 'none';
+            }
+        }
+
 
         if (searchForm) {
             searchForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Empêche le rechargement de la page
+                event.preventDefault();
 
-                // Masquer le message d'absence de livre initial si visible
-                if (emptyListMessage) {
-                    emptyListMessage.style.display = 'none';
+
+                if (emptyListMessage) emptyListMessage.style.display = 'none';
+                if (searchMessageContainer) searchMessageContainer.style.display = 'none';
+
+
+                if (bookGrid) {
+                   bookGrid.innerHTML = '';
                 }
 
                 const formData = new FormData(searchForm);
-                const searchType = formData.get('searchType');
-                const searchValue = formData.get('searchValue');
 
-                // Endpoint de votre Servlet/Controller pour la recherche
-                const searchUrl = searchForm.action + "?searchType=" + encodeURIComponent(searchType) + "&searchValue=" + encodeURIComponent(searchValue);
 
-                bookGrid.innerHTML = ''; // Efface les livres actuels pendant la recherche
 
                 fetch("searchBook", {
                     method: 'POST', // La recherche est souvent une requête GET
-                    headers: {
-                        'Accept': 'text/html' // Indique que nous attendons du HTML en retour
-                    }
+                    body: formData,
                 })
                 .then(response => {
                     // Si le serveur renvoie une erreur (par exemple 500)
                     if (!response.ok) {
                         return response.text().then(text => {
-                            console.log("erreur (500)");
+                            console.error("Erreur (HTTP Status " + response.status + "):", text);
                             throw new Error(`Erreur HTTP ${response.status}: ${text}`);
                         });
                     }
                     return response.text(); // Attendez du HTML en retour
                 })
                 .then(htmlContent => {
-                    // Mettez à jour le conteneur de la grille des livres avec le nouveau HTML
-                    bookGrid.innerHTML = htmlContent;
-                    searchMessageContainer.style.display = 'none'; // Masquer le message de chargement
+                    if (bookGrid) {
+                        bookGrid.innerHTML = htmlContent; // Mette à jour le conteneur de la grille
+                    }
 
-                    if (htmlContent.trim() === '') { // Si la réponse HTML est vide
-                         console.log("reponse vide");
-                    } else {
-                        // Vérifiez si le contenu contient un message "Aucun livre trouvé"
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = htmlContent;
-                        if (tempDiv.querySelector('.empty-list-message')) {
-                            console.log("liste vide");
+                    // Vérifie si des livres ont été trouvés APRÈS la mise à jour de la grille
+                    const hasBooks = bookGrid && bookGrid.querySelector('.book-card') !== null;
+
+                    if (searchMessageContainer) {
+                        if (!hasBooks) { // Si aucun livre n'est présent dans la grille
+                            searchMessageContainer.style.display = 'block';
+                            searchMessageContainer.style.color = 'orange';
+                            searchMessageContainer.textContent = 'Aucun livre trouvé correspondant à votre recherche.';
+                        } else {
+                            // Si des livres ont été trouvés, masquer le message
+                            searchMessageContainer.style.display = 'none';
                         }
                     }
                 })
                 .catch(error => {
-                    console.error('Erreur lors de la recherche:', error);
-                    console.log("erreur lors de la recherhce");
-                    // Optionnel: Recharger la liste initiale des livres ou un message d'erreur plus détaillé
+                   console.error('Erreur lors de la recherche AJAX:', error);
+                    if (searchMessageContainer) {
+                        searchMessageContainer.style.display = 'block';
+                        searchMessageContainer.style.color = 'red';
+                        searchMessageContainer.textContent = `Erreur lors de la recherche: ${error.message}. Veuillez réessayer.`;
+                    }
                 });
             });
         }

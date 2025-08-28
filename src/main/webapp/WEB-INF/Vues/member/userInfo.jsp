@@ -19,13 +19,6 @@
 
             <div class="profile-details">
                 <div class="detail-item">
-                    <i class="fas fa-envelope detail-icon"></i>
-                    <div class="detail-content">
-                        <strong>Email :</strong>
-                        <p>${user.email}</p>
-                    </div>
-                </div>
-                <div class="detail-item">
                     <i class="fas fa-id-badge detail-icon"></i>
                     <div class="detail-content">
                         <strong>ID Utilisateur :</strong>
@@ -33,10 +26,17 @@
                     </div>
                 </div>
                 <div class="detail-item">
-                    <i class="fas fa-user-tag detail-icon"></i>
+                    <i class="fas fa-envelope detail-icon"></i>
                     <div class="detail-content">
-                        <strong>Rôle :</strong>
-                        <p>${user.role}</p>
+                        <strong>Email :</strong>
+                        <p>${user.email}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa fa-mobile detail-icon"></i>
+                    <div class="detail-content">
+                        <strong>Téléphone :</strong>
+                        <p>${user.tel_num}</p>
                     </div>
                 </div>
                 <div class="detail-item">

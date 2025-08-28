@@ -37,7 +37,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("user", authenticatedUser);
 
             if ("0000".equals(password)) {
-                request.getRequestDispatcher("/WEB-INF/Vues/member/changePassword.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/Vues/auth/changePassword.jsp").forward(request, response);
             } else {
                 if ("ADMIN".equals(authenticatedUser.getRole())) {
                     response.sendRedirect("adminDashboard");

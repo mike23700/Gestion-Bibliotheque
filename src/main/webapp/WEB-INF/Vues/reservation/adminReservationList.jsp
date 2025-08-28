@@ -26,28 +26,34 @@
             <c:remove var="error" scope="session"/>
         </c:if>
 
-        <div class="top-controls">
-            <form action="adminListReservations" method="get" class="filter-form">
-                <label for="status">Filtrer par statut :</label>
-                <select name="status" id="status" onchange="this.form.submit()">
-                    <option value="">Tous</option>
-                    <option value="ACTIVE" ${param.status eq 'ACTIVE' ? 'selected' : ''}>Active</option>
-                    <option value="FULFILLED" ${param.status eq 'FULFILLED' ? 'selected' : ''}>Terminée</option>
-                    <option value="CANCELLED" ${param.status eq 'CANCELLED' ? 'selected' : ''}>Annulée</option>
-                </select>
-            </form>
+<div class="top-controls">
+    <form action="adminListReservations" method="get" class="filter-form">
+        <label for="status">Filtrer par statut :</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+            <option value="">Tous</option>
+            <option value="ACTIVE" ${param.status eq 'ACTIVE' ? 'selected' : ''}>Active</option>
+            <option value="FULFILLED" ${param.status eq 'FULFILLED' ? 'selected' : ''}>Terminée</option>
+            <option value="CANCELLED" ${param.status eq 'CANCELLED' ? 'selected' : ''}>Annulée</option>
+        </select>
+    </form>
 
-            <form action="adminSearchReservations" method="post" class="search-user-form">
-                <select name="searchType">
-                    <option value="userId">ID Utilisateur</option>
-                    <option value="userName">Nom d'utilisateur</option>
-                    <option value="bookId">ID du livre</option>
-                    <option value="bookName">Titre du livre</option>
-                </select>
-                <input type="text" name="searchValue" placeholder="Rechercher..." required>
-                <button type="submit"><i class="fas fa-search"></i></button>
-            </form>
+    <form action="adminListReservations" method="get" class="search-user-form">
+        <select name="searchType">
+            <option value="userId" ${param.searchType eq 'userId' ? 'selected' : ''}>ID Utilisateur</option>
+            <option value="userName" ${param.searchType eq 'userName' ? 'selected' : ''}>Nom d'utilisateur</option>
+            <option value="bookId" ${param.searchType eq 'bookId' ? 'selected' : ''}>ID du livre</option>
+            <option value="bookName" ${param.searchType eq 'bookName' ? 'selected' : ''}>Titre du livre</option>
+        </select>
+
+        <div class="search-input-container">
+            <input type="text" name="searchValue" placeholder="Rechercher..."
+                   required value="${param.searchValue != null ? param.searchValue : ''}">
+            <button type="button" class="clear-search-btn"><i class="fas fa-times"></i></button>
         </div>
+
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+</div>
 
         <div class="section-card">
             <h3>Liste des Réservations</h3>
@@ -95,6 +101,31 @@
                 </tbody>
             </table>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchForm = document.querySelector('.search-user-form');
+                const searchInput = searchForm.querySelector('input[name="searchValue"]');
+                const clearBtn = searchForm.querySelector('.clear-search-btn');
+
+                function toggleClearBtn() {
+                    if (searchInput.value.length > 0) {
+                        clearBtn.style.display = 'block';
+                    } else {
+                        clearBtn.style.display = 'none';
+                    }
+                }
+
+                searchInput.addEventListener('input', toggleClearBtn);
+                clearBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    toggleClearBtn();
+                    searchForm.submit();
+                });
+
+                toggleClearBtn();
+            });
+        </script>
     </main>
 </body>
 </html>

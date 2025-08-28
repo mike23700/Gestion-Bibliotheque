@@ -29,18 +29,29 @@ public class ListAllUsersController extends HttpServlet{
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
-            List<User> userList ;
-            String type = request.getParameter("type");
-/*
-            if ("admins".equals(type)) {
-                userList = userService.getAllAdmins();
-            } else if ("members".equals(type)){
-                userList = userService.getAllMembers();
+            List<User> userList;
+            String searchType = request.getParameter("searchType");
+            String searchValue = request.getParameter("searchValue");
+
+
+            if (searchType != null && !searchValue.isEmpty()) {
+                if ("user_id".equals(searchType)) {
+                    User user = userService.findUserById(searchValue);
+                    if (user != null) {
+                        userList = new ArrayList<>();
+                        userList.add(user);
+                    } else {
+                        userList = new ArrayList<>();
+                    }
+                } else if ("name".equals(searchType.trim())) {
+                    userList = userService.findUserByName(searchValue);
+                } else {
+                    userList = userService.getAllMembers();
+                }
             } else {
-                userList = userService.getAllUsers();
+                userList = userService.getAllMembers();
             }
-*/
-            userList = userService.getAllMembers();
+
             request.setAttribute("userList", userList);
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/manageUsers.jsp").forward(request, response);
         } else {

@@ -2,6 +2,8 @@ package com.tp.controller.user;
 
 import com.tp.dao.DAOFactory;
 import com.tp.model.User;
+import com.tp.service.BookService;
+import com.tp.service.LoanService;
 import com.tp.service.ReservationService;
 import com.tp.service.UserService;
 
@@ -23,6 +25,7 @@ public class AdminDashboardController extends HttpServlet {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.userService = new UserService(daoFactory);
         this.reservationService = new ReservationService(daoFactory);
+
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,7 +34,6 @@ public class AdminDashboardController extends HttpServlet {
 
         if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
             response.sendRedirect("login");
-            return;
         }
 
         int memberCount = userService.countMembers();
@@ -40,6 +42,6 @@ public class AdminDashboardController extends HttpServlet {
         request.setAttribute("memberCount", memberCount);
         request.setAttribute("reservationCount", reservationCount);
 
-        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response); //push
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response);
     }
 }

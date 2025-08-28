@@ -34,6 +34,7 @@ public class AdminDashboardController extends HttpServlet {
 
         if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
             response.sendRedirect("login");
+            return;
         }
 
         int memberCount = userService.countMembers();

@@ -11,10 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
-    <main class="dashboard-container">
-        <h1>Informations Personnelles</h1>
-
         <div class="section-card user-profile-card">
             <div class="profile-header">
                 <i class="fas fa-user-circle profile-icon"></i>
@@ -23,13 +19,6 @@
 
             <div class="profile-details">
                 <div class="detail-item">
-                    <i class="fas fa-envelope detail-icon"></i>
-                    <div class="detail-content">
-                        <strong>Email :</strong>
-                        <p>${user.email}</p>
-                    </div>
-                </div>
-                <div class="detail-item">
                     <i class="fas fa-id-badge detail-icon"></i>
                     <div class="detail-content">
                         <strong>ID Utilisateur :</strong>
@@ -37,16 +26,23 @@
                     </div>
                 </div>
                 <div class="detail-item">
-                    <i class="fas fa-user-tag detail-icon"></i>
+                    <i class="fas fa-envelope detail-icon"></i>
                     <div class="detail-content">
-                        <strong>Rôle :</strong>
-                        <p>${user.role}</p>
+                        <strong>Email :</strong>
+                        <p>${user.email}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="fa fa-mobile detail-icon"></i>
+                    <div class="detail-content">
+                        <strong>Téléphone :</strong>
+                        <p>${user.tel_num}</p>
                     </div>
                 </div>
                 <div class="detail-item">
                     <i class="fas fa-calendar-alt detail-icon"></i>
                     <div class="detail-content">
-                        <strong>Date d'inscription :</strong>
+                        <strong>Date d'inscrit :</strong>
                         <p>${user.formattedDateRegister}</p>
                     </div>
                 </div>

@@ -60,7 +60,7 @@ body {
     font-size: 0.95rem;
 }
 
-.search-user-form button {
+.search-user-form button[type="submit"] {
     background-color: #135776;
     color: white;
     border: none;
@@ -70,9 +70,41 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.search-user-form button:hover {
+.search-user-form button[type="submit"]:hover {
     background-color: #0056b3;
 }
+
+.search-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-container input {
+    padding-right: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #888;
+    display: none;
+}
+
+.clear-search-btn:hover {
+    color: #000;            /* assombrir au survol */
+}
+
 
 .add-user-btn {
     background-color: #28a745;

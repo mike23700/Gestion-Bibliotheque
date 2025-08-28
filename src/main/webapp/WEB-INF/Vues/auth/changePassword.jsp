@@ -16,13 +16,9 @@
             </div>
         <h2>Entrez un nouveau  mot de passe</h2>
 
-        <c:if test="${not empty sessionScope.error}">
-            <p class="error-message">${sessionScope.error}</p>
-            <c:remove var="error" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.success}">
-            <p class="success-message">${sessionScope.success}</p>
-            <c:remove var="success" scope="session"/>
+        <c:if test="${not empty sessionScope.changePasswordError}">
+            <p class="error-message">${sessionScope.changePasswordError}</p>
+            <c:remove var="changePasswordError" scope="session"/>
         </c:if>
 
         <form action="changePassword" method="post">

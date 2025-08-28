@@ -42,6 +42,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllLoansByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
+
         String sql = " SELECT l.loan_id, l.user_id, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title " +
                 " FROM " +
                   " loans l " +

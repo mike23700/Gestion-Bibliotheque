@@ -32,7 +32,7 @@
         </div>
         <div class="stat-card">
         <a href="manageUsers">
-          <h3>Utilisateurs Enregistrés</h3>
+          <h3>Membres Enregistrés</h3>
         </a>
           <p>${memberCount}</p>
         </div>

@@ -22,12 +22,25 @@ public class ChangePasswordController extends HttpServlet {
         this.userService = new UserService(daoFactory);
     }
 
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("WEB-INF/Vues/auth/changePassword.jsp").forward(request, response);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
         String newPassword = request.getParameter("new_password");
+        String confirmPassword = request.getParameter("confirm_password");
 
         if (currentUser != null && newPassword != null && !newPassword.trim().isEmpty()) {
+
+            if (!newPassword.equals(confirmPassword)) {
+                session.setAttribute("changePasswordError", "Erreur, les champs ne correspondent pas.");
+                response.sendRedirect("changePassword");
+                return;
+            }
+
             currentUser.setPassword(newPassword);
 
             boolean success = userService.updateUser(currentUser);
@@ -38,13 +51,7 @@ public class ChangePasswordController extends HttpServlet {
                 } else {
                     response.sendRedirect("memberDashboard");
                 }
-            } else {
-                request.setAttribute("error", "Échec du changement de mot de passe.");
-                request.getRequestDispatcher("/WEB-INF/Vues/member/changePassword.jsp").forward(request, response);
             }
-        } else {
-            request.setAttribute("error", "Le nouveau mot de passe ne peut pas être vide.");
-            request.getRequestDispatcher("/WEB-INF/Vues/member/changePassword.jsp").forward(request, response);
         }
     }
 }

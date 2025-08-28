@@ -42,7 +42,7 @@
                 <div class="detail-item">
                     <i class="fas fa-calendar-alt detail-icon"></i>
                     <div class="detail-content">
-                        <strong>Date d'inscription :</strong>
+                        <strong>Date d'inscrit :</strong>
                         <p>${user.formattedDateRegister}</p>
                     </div>
                 </div>

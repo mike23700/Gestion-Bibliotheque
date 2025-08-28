@@ -22,27 +22,33 @@
         <div class="nav-actions">
             <a href="#" class="profile-btn" onclick="openModal('userInfo'); return false;"><i class="fas fa-user-circle"></i></a>
             <a href="logout" class="logout-btn" onclick="return confirm('${user.name} ${user.surname}, voulez-vous vraiment vous déconnecter ?');"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
-    </div>
+
             <div id="modal" class="modal">
                 <div class="modal-content">
                     <div id="modal-body"></div>
                 </div>
             </div>
-            <script>
-            function openModal(url) {
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById("modal-body").innerHTML = html;
-                        document.getElementById("modal").style.display = "flex";
-                    })
-                    .catch(err => console.error("Erreur modal :", err));
-            }
-
-            function closeModal() {
-                document.getElementById("modal").style.display = "none";
-                document.getElementById("modal-body").innerHTML = "";
-            }
-            </script>
+        </div>
+    </div>
 </nav>
+<script>
+    function openModal(url) {
+        const modal = document.getElementById("modal");
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("modal-body").innerHTML = html;
+                modal.style.display = "block";
+            })
+            .catch(err => console.error("Erreur modal :", err));
+    }
+
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById("modal");
+        const profileBtn = document.querySelector('.profile-btn');
+        if (modal.style.display === "block" && !profileBtn.contains(event.target) && !modal.contains(event.target)) {
+            modal.style.display = "none";
+            document.getElementById("modal-body").innerHTML = "";
+        }
+    });
+</script>

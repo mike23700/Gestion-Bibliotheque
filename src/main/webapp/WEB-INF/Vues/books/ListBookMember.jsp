@@ -65,14 +65,21 @@
                         <p class="card-year">
                             <c:choose>
                                 <c:when test="${book.status == 'disponible'}">
-                                    <button class="status-button borrow-button" onclick="handleBookAction('${book.id_Book}', 'emprunte')">
-                                        Emprunter
-                                    </button>
+                                    <form action="status" method="post">
+                                        <input type="hidden" name="id_book" id="" value="${book.id_Book}">
+                                        <input type="hidden" name="action" id="" value="emprunté">
+                                        <input type="submit" value="Emprunter">
+                                    </form>
                                 </c:when>
                                 <c:when test="${book.status == 'emprunté'}">
-                                    <button class="status-button render-button" onclick="handleBookAction('${book.id_Book}', 'emprunte')">
-                                        Reserver
-                                    </button>
+                                    <form action="status" method="post">
+                                        <input type="hidden" name="id_book" id="" value="${book.id_Book}">
+                                        <input type="hidden" name="action" id="" value="reserver">
+                                        <input type="submit" value="Reserver">
+                                    </form>
+                                </c:when>
+                                <c:when test="${book.status == 'reserver'}">
+                                    <button disabled >Reserver</button>
                                 </c:when>
                             </c:choose>
                         </p>
@@ -205,74 +212,6 @@
                 });
             });
         }
-
-
-        function handleBookAction(bookId, actionType) {
-            console.log(`Action: ${actionType} pour le livre ID: ${bookId}`);
-
-            const button = event.target.closest('button');
-            if (!button) {
-                console.error("Impossible de trouver le bouton parent.");
-                return;
-            }
-
-            button.disabled = true;
-            const originalText = button.textContent;
-            button.textContent = 'Chargement...';
-
-            const requestUrl = 'status';
-            const requestBody = JSON.stringify({
-                bookId: bookId,
-                action: actionType
-            });
-
-
-            fetch(requestUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: requestBody
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => {
-                        throw new Error(`Erreur HTTP ${response.status}: ${text}`);
-                    });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    console.log(`Action "${actionType}" réussie pour le livre ${bookId}!`);
-
-                    // Mettre à jour le bouton et le texte de statut
-                    if (actionType === 'emprunter') {
-                        button.textContent = 'Rendre';
-                        button.classList.remove('borrow-button');
-                        button.classList.add('render-button');
-                        
-                    } else if (actionType === 'rendre') {
-                        button.textContent = 'Emprunter';
-                        button.classList.remove('render-button');
-                        button.classList.add('borrow-button');
-                    }
-                } else {
-                    console.error(`Échec de l'action "${actionType}": ${data.message}`);
-                    // Restaurer le texte du bouton en cas d'échec
-                    button.textContent = originalText;
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la requête AJAX:', error);
-                button.textContent = originalText;
-            })
-            .finally(() => {
-                // Réactiver le bouton une fois le processus terminé
-                button.disabled = false;
-            });
-        }
-
 
     </script>
 </body>

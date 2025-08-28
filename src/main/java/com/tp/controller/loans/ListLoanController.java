@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/manageLoan")
+@WebServlet("/listLoan")
 public class ListLoanController extends HttpServlet {
     LoanService loanService = new LoanService();
     List<Loan> loans = new ArrayList<>();
@@ -38,6 +38,6 @@ public class ListLoanController extends HttpServlet {
         } catch (Exception e) {
             System.err.println("Erreur lors de la recuperation des reservations");
         }
-        this.getServletContext().getRequestDispatcher("/WEB-INF/ManageLoan.jsp").forward(request,response);
+        this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/loans/listLoan.jsp").forward(request,response);
     }
 }

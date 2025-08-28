@@ -33,16 +33,44 @@ public class AdminListReservationsController extends HttpServlet {
             return;
         }
 
-        String statusFilter = request.getParameter("status");
-        List<Reservation> reservations;
+        List<Reservation> reservations = reservationService.getAllReservations();
 
-        if (statusFilter != null && !statusFilter.isEmpty()) {
+        String searchType = request.getParameter("searchType");
+        String searchValue = request.getParameter("searchValue");
+        String statusFilter = request.getParameter("status");
+
+        if (searchValue != null && !searchValue.trim().isEmpty()) {
+            try {
+                switch (searchType) {
+                    case "userId":
+                        reservations = reservationService.getReservationsByUserId(searchValue.trim());
+                        break;
+                    case "userName":
+                        reservations = reservationService.getReservationsByUserName(searchValue.trim());
+                        break;
+                    case "bookId":
+                        reservations = reservationService.getReservationsByBookId(searchValue.trim());
+                        break;
+                    case "bookName":
+                        reservations = reservationService.getReservationsByBookName(searchValue.trim());
+                        break;
+                    default:
+                        reservations = reservationService.getAllReservations();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (statusFilter != null && !statusFilter.isEmpty()) {
             reservations = reservationService.getReservationsByStatus(statusFilter);
         } else {
             reservations = reservationService.getAllReservations();
         }
 
         request.setAttribute("reservations", reservations);
+        request.setAttribute("searchType", searchType);
+        request.setAttribute("searchValue", searchValue);
+        request.setAttribute("status", statusFilter);
+
         request.getRequestDispatcher("/WEB-INF/Vues/reservation/adminReservationList.jsp").forward(request, response);
     }
 }

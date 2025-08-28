@@ -64,23 +64,27 @@
                         <strong><p class="card-title">${book.title}</p></strong>
                         <p class="card-year">
                             <c:choose>
-                                <%-- Si le livre est emprunté PAR l'utilisateur connecté --%>
-                                <c:when test="${book.status == 'emprunte'}">
-                                    <button class="status-button render-button" onclick="handleBookAction('${book.id_Book}', 'rendre')">Rendre</button>
-                                </c:when>
-                                <%-- Si le livre est disponible --%>
                                 <c:when test="${book.status == 'disponible'}">
-                                    <button class="status-button borrow-button" onclick="handleBookAction('${book.id_Book}', 'emprunter')">Emprunter</button>
+                                    <form action="status" method="post">
+                                        <input type="hidden" name="id_book" id="" value="${book.id_Book}">
+                                        <input type="hidden" name="action" id="" value="emprunté">
+                                        <input type="submit" value="Emprunter">
+                                    </form>
                                 </c:when>
-                                <%-- Sinon (emprunté par un autre, réservé, etc.) --%>
-                                <c:otherwise>
-                                    <button class="status-button reserve-button" onclick="handleBookAction('${book.id_Book}', 'reserver')">Réserver</button>
-                                </c:otherwise>
+                                <c:when test="${book.status == 'emprunté'}">
+                                    <form action="status" method="post">
+                                        <input type="hidden" name="id_book" id="" value="${book.id_Book}">
+                                        <input type="hidden" name="action" id="" value="reserver">
+                                        <input type="submit" value="Reserver">
+                                    </form>
+                                </c:when>
+                                <c:when test="${book.status == 'reserver'}">
+                                    <button disabled >Reserver</button>
+                                </c:when>
                             </c:choose>
                         </p>
                     </div>
                     <div class="card-full-details">
-                        <p></p>
                         <p><strong>Auteur:</strong> ${book.author}</p>
                         <p><strong>Catégorie:</strong> ${book.category}</p>
                         <p><strong>Description:</strong> ${book.description}</p>
@@ -208,6 +212,7 @@
                 });
             });
         }
+
     </script>
 </body>
 </html>

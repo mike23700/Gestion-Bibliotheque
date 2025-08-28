@@ -2,6 +2,8 @@ package com.tp.controller.user;
 
 import com.tp.dao.DAOFactory;
 import com.tp.model.User;
+import com.tp.service.BookService;
+import com.tp.service.LoanService;
 import com.tp.service.ReservationService;
 import com.tp.service.UserService;
 
@@ -18,11 +20,15 @@ public class AdminDashboardController extends HttpServlet {
 
     private UserService userService;
     private ReservationService reservationService;
+    private BookService bookService;
+    private LoanService loanService;
 
     public void init() throws ServletException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.userService = new UserService(daoFactory);
         this.reservationService = new ReservationService(daoFactory);
+        bookService = new BookService();
+        loanService = new LoanService();
     }
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,14 +37,33 @@ public class AdminDashboardController extends HttpServlet {
 
         if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
             response.sendRedirect("login");
+            return;
         }
 
         int memberCount = userService.countMembers();
         int reservationCount = reservationService.countReservations();
 
+        int bookCount = 0;
+        try {
+            bookCount = bookService.getAllBook().size();
+            System.out.println("nbre de livre "+bookCount);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        int loanCount = 0;
+        try {
+            loanCount = loanService.getAllLoans().size();
+            System.out.println("nbre de loan "+loanCount);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        request.setAttribute("bookCount", bookCount);
+        request.setAttribute("loanCount", loanCount);
         request.setAttribute("memberCount", memberCount);
         request.setAttribute("reservationCount", reservationCount);
 
-        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response); //push
     }
 }

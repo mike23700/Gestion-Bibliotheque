@@ -4,21 +4,22 @@ body {
     background-color: #f0f2f5;
     color: #333;
     line-height: 1.6;
-    margin: 0;
+    padding-top: 0;
     overflow-x: hidden;
 }
 
 /* Navbar de recherche et filtre */
 .navbar-menu {
-    width: 90%;
+    width: 100%; /* Corrigé, car la valeur de 110% cause un défilement horizontal */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 10px 30px;
     height: 50px;
-    background-color: #e9ecef; /* Couleur de fond pour le menu */
+    background-color: #e9ecef;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px; /* Ajoute un espace sous la barre de menu */
+    margin-bottom: 20px;
+    margin-top: 60px;
 }
 
 .navbar-menu form {
@@ -48,25 +49,12 @@ body {
 .navbar-menu input[type="submit"]:hover {
     background-color: #0056b3;
 }
-/*
-.nav-item {
-    text-decoration: none;
-    color: rgb(34, 10, 10);
-    font-weight: bold;
-    font-size: 1.1em;
-    padding: 5px 0;
-    transition: color 0.3s ease;
-}
 
-.nav-item:hover {
-    color: #3498db;
-}
-*/
 .page-title {
     text-align: center;
     color: #2c3e50;
-    margin-bottom: 20px; /* Ajusté pour moins d'espace */
-    font-size: 2.2em; /* Ajusté pour une meilleure proportion */
+    margin-bottom: 20px;
+    font-size: 2.2em;
     font-weight: 600;
 }
 
@@ -77,7 +65,7 @@ body {
     gap: 20px;
     padding: 20px;
     max-width: 1800px;
-    margin: 0 auto; /* Centrer la grille */
+    margin: 0 auto;
 }
 
 /* Carte de livre */
@@ -89,7 +77,7 @@ body {
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
-    position: relative; /* Indispensable pour positionner l'icône de manière absolue */
+    position: relative;
 }
 
 .book-card:hover {
@@ -100,48 +88,47 @@ body {
 
 /* Conteneur image et icône */
 .image-And-icon-container {
-    position: relative; /* Indispensable pour positionner l'icône de manière absolue */
+    position: relative;
     width: 100%;
-    padding-top: 140%; /* Pour un ratio 1:1.4 (hauteur / largeur), 140% de la largeur */
+    padding-top: 140%;
     overflow: hidden;
 }
 
-/* Styles pour l'icône des trois points */
+/* Icône des 3 points */
 .icon-container {
     position: absolute;
-    top: 10px; /* Positionnement en haut */
-    right: 10px; /* Positionnement à droite */
-    z-index: 20; /* S'assure que l'icône est au-dessus de l'image et des détails */
-    opacity: 0; /* Initiallement invisible */
-    visibility: hidden; /* Cache l'icône par défaut */
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Transition douce */
-    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent pour la visibilité */
-    padding: 8px 10px; /* Espace autour de l'icône */
-    border-radius: 5px; /* Coins arrondis pour l'icône */
-    cursor: pointer; /* Indique que c'est cliquable */
+    top: 10px;
+    right: 10px;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .book-card:hover .icon-container {
-    opacity: 1; /* Rendre l'icône visible au survol de la carte */
+    opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
 .icon-container i {
-    color: white; /* Couleur de l'icône */
-    font-size: 1.2em; /* Taille de l'icône */
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Légère ombre pour le contraste */
+    color: white;
+    font-size: 1.2em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
 .icon-container:hover {
-    background-color: rgba(0, 0, 0, 0.8); /* Changement de couleur au survol de l'icône */
-    transform: scale(1.1); /* Effet d'agrandissement au survol de l'icône */
+    background-color: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
 }
 
-/* Image de couverture du livre */
 .book-card-image {
     position: absolute;
     top: 0;
@@ -163,45 +150,44 @@ body {
     font-size: 1em;
     margin: 0;
     color: #2c3e50;
-    white-space: nowrap; /* Empêche le titre de se casser */
-    overflow: hidden; /* Cache le texte qui déborde */
-    text-overflow: ellipsis; /* Ajoute des points de suspension */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.card-year {
+.card-status {
     font-size: 0.8em;
     color: #7f8c8d;
     margin: 0;
 }
 
-/* Détails complets du livre (masqués par défaut, affichés via JS) */
+/* Détails complets du livre (masqués par défaut) */
 .card-full-details {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(46, 100, 155, 0.95); /* Fond semi-transparent */
+    background-color: rgba(46, 100, 155, 0.95);
     color: white;
     padding: 10px;
     box-sizing: border-box;
-    opacity: 0; /* Masqué par défaut */
-    visibility: hidden; /* Masqué par défaut */
-    transform: translateY(100%); /* Masqué par défaut (glisse de bas en haut) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, visibility 0.4s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    overflow-y: scroll; /* Permet le défilement si le contenu est trop long */
-    z-index: 15; /* S'assure que les détails sont au-dessus de l'image mais sous l'icône */
+    overflow-y: scroll;
+    z-index: 15;
 }
 
-/* Quand la classe 'active' est ajoutée par JavaScript */
 .card-full-details.active {
-    opacity: 1; /* Rendu visible */
+    opacity: 1;
     visibility: visible;
-    transform: translateY(0); /* Glisse en position */
+    transform: translateY(0);
 }
 
 .card-full-details p {
@@ -250,12 +236,12 @@ body {
 }
 
 .overlay {
-    display: none; 
-    position: fixed;
+    display: none;
+    position: fixed; /* Positionnement par rapport à la fenêtre de visualisation */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); 
+    width: 100%; /* Couvre toute la largeur de l'écran */
+    height: 100%; /* Couvre toute la hauteur de l'écran */
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 500;
 }

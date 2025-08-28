@@ -6,15 +6,16 @@
 <head>
     <title>Liste des Livres</title>
     <link rel="stylesheet" href="css/books/ListBook.css">
-    <link rel="stylesheet" href="css/books/AddBook.css">
     <link rel="stylesheet" href="css/users/adminNavBar.css">
+    <link rel="stylesheet" href="css/books/AddBook.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
     <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
+    <div style="height: 50px;"></div>
 
+    <!-- Barre de navigation du menu/recherche -->
     <nav class="navbar-menu">
         <div>
             <form id="searchBook" action="searchBook" method="post" >
@@ -29,27 +30,35 @@
                 <input type="submit" value="Rechercher">
             </form>
         </div>
+        <div class="header-container">
+            <h1 class="page-title">Liste des Livres</h1>
+        </div>
         <div>
-            <form action="searchBook" method="post">
+            <form action="post" method="" >
                 <p>Filtrer par :</p>
                 <select id="searchType" name="searchType">
-                    <option value="disponible" ${param.status eq 'disponible' ? 'selected' : ''}>Disponible</option>
-                    <option value="emprunter" ${param.status eq 'emprunter' ? 'selected' : ''}>Emprunter</option>
+                    <option value="title">Titre</option>
+                    <option value="author">Auteur</option>
+                    <option value="year">Année</option>
+                    <option value="category">Catégorie</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="emprunter">Emprunter</option>
                 </select>
             </form>
         </div>
-        <div class="header-container">
-            <h1 class="page-title">Liste des Livres</h1>
+        <div>
+            <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()"><i class="fa-regular fa-book"></i>Ajouter</a>
         </div>
     </nav>
     <div style="height: 50px;"></div>
 
+    <!-- Grille des livres -->
     <c:if test="${not empty listbooks}">
         <div class="book-grid-container" id="bookGrid" >
             <c:forEach var="book" items="${listbooks}" varStatus="num">
                 <div class="book-card">
                     <div class="image-And-icon-container">
-                      
+                        <!-- L'icône pour afficher les détails au clic -->
                         <div class="icon-container" onclick="toggleBookDetails(this)">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                         </div>
@@ -59,40 +68,25 @@
                     </div>
                     <div class="card-initial-details">
                         <strong><p class="card-title">${book.title}</p></strong>
-                        <p class="card-year">
-                            <c:choose>
-                                <%-- Si le livre est emprunté PAR l'utilisateur connecté --%>
-                                <c:when test="${book.status == 'emprunte'}">
-                                    <button class="status-button render-button" onclick="handleBookAction('${book.id_Book}', 'rendre')">Rendre</button>
-                                </c:when>
-                                <%-- Si le livre est disponible --%>
-                                <c:when test="${book.status == 'disponible'}">
-                                    <button class="status-button borrow-button" onclick="handleBookAction('${book.id_Book}', 'emprunter')">Emprunter</button>
-                                </c:when>
-                                <%-- Sinon (emprunté par un autre, réservé, etc.) --%>
-                                <c:otherwise>
-                                    <button class="status-button reserve-button" onclick="handleBookAction('${book.id_Book}', 'reserver')">Réserver</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </p>
+                        <p class="card-status">${book.status}</p>
                     </div>
                     <div class="card-full-details">
-                        <p><strong>ID:</strong> ${book.id_Book}</p>
-                        <p><strong>Auteur:</strong> ${book.author}</p>
-                        <p><strong>Catégorie:</strong> ${book.category}</p>
-                        <p><strong>Description:</strong> ${book.description}</p>
-                        <p><strong>Année:</strong> ${book.year}</p>
-                        <p><strong>Date:</strong> ${book.created_at}</p>
+                        <p><strong>ID: </strong>${book.id_Book}</p>
+                        <p><strong>Auteur: </strong> ${book.author}</p>
+                        <p><strong>Catégorie: </strong> ${book.category}</p>
+                        <p><strong>Description: </strong> ${book.description}</p>
+                        <p><strong>Année: </strong> ${book.year}</p>
+                        <p><strong>creer la: </strong>${book.created_at}</p>
                     </div>
                 </div>
             </c:forEach>
         </div>
 
-        <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()">Ajouter un livre</a>
 
     </c:if>
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
 
+    <!-- Si la liste est vide -->
     <c:if test="${empty listbooks}">
         <p class="empty-list-message">Aucun livre trouvé dans la bibliothèque.</p>
         <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
@@ -100,7 +94,6 @@
 
     <div class="overlay"></div>
     <jsp:include page="AddBooks.jsp" />
-
 
     <script>
 
@@ -145,17 +138,17 @@
 
 
         const searchForm = document.getElementById('searchBook');
-        const bookGrid = document.getElementById('bookGrid'); 
+        const bookGrid = document.getElementById('bookGrid');
         const searchMessageContainer = document.getElementById('searchMessageContainer');
-        const emptyListMessage = document.getElementById('emptyListMessage'); // Pour le message d'absence de livre initial
+        const emptyListMessage = document.getElementById('emptyListMessage');
 
         if (emptyListMessage && bookGrid) {
             const initialBookCardsCount = bookGrid.querySelectorAll('.book-card').length;
             if (initialBookCardsCount === 0) {
                 emptyListMessage.textContent = 'Aucun livre trouvé dans la bibliothèque.';
-                emptyListMessage.style.display = 'block'; 
+                emptyListMessage.style.display = 'block';
             } else {
-                emptyListMessage.style.display = 'none'; 
+                emptyListMessage.style.display = 'none';
             }
         }
 
@@ -164,47 +157,48 @@
             searchForm.addEventListener('submit', function(event) {
                 event.preventDefault();
 
-                
+
                 if (emptyListMessage) emptyListMessage.style.display = 'none';
                 if (searchMessageContainer) searchMessageContainer.style.display = 'none';
-                
+
 
                 if (bookGrid) {
-                   bookGrid.innerHTML = ''; 
+                   bookGrid.innerHTML = '';
                 }
 
                 const formData = new FormData(searchForm);
 
-                
+
 
                 fetch("searchBook", {
-                    method: 'POST',
+                    method: 'POST', // La recherche est souvent une requête GET
                     body: formData,
                 })
                 .then(response => {
-
+                    // Si le serveur renvoie une erreur (par exemple 500)
                     if (!response.ok) {
                         return response.text().then(text => {
                             console.error("Erreur (HTTP Status " + response.status + "):", text);
                             throw new Error(`Erreur HTTP ${response.status}: ${text}`);
                         });
                     }
-                    return response.text();
+                    return response.text(); // Attendez du HTML en retour
                 })
                 .then(htmlContent => {
                     if (bookGrid) {
-                        bookGrid.innerHTML = htmlContent;
+                        bookGrid.innerHTML = htmlContent; // Mette à jour le conteneur de la grille
                     }
 
+                    // Vérifie si des livres ont été trouvés APRÈS la mise à jour de la grille
                     const hasBooks = bookGrid && bookGrid.querySelector('.book-card') !== null;
-                    
+
                     if (searchMessageContainer) {
-                        if (!hasBooks) { 
+                        if (!hasBooks) { // Si aucun livre n'est présent dans la grille
                             searchMessageContainer.style.display = 'block';
                             searchMessageContainer.style.color = 'orange';
                             searchMessageContainer.textContent = 'Aucun livre trouvé correspondant à votre recherche.';
                         } else {
-                            
+                            // Si des livres ont été trouvés, masquer le message
                             searchMessageContainer.style.display = 'none';
                         }
                     }
@@ -219,6 +213,7 @@
                 });
             });
         }
+
     </script>
 </body>
 </html>

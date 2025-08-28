@@ -8,6 +8,7 @@
     <title>Gestion des utilisateurs</title>
     <link rel="stylesheet" href="css/users/manageUsers.css">
     <link rel="stylesheet" href="css/users/adminNavBar.css">
+    <link rel="stylesheet" href="css/users/manageUsersModal.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -26,33 +27,39 @@
         </c:if>
 
 <div class="top-controls">
-    <form action="searchUser" method="post" class="search-user-form">
-        <select name="type">
-            <option value="user_id">ID Utilisateur</option>
-            <option value="name">Nom</option>
+    <form action="listUser" method="get" class="search-user-form">
+        <select name="searchType">
+            <option value="user_id" ${param.searchType eq 'user_id' ? 'selected' : ''}>ID Utilisateur</option>
+            <option value="name" ${param.searchType eq 'name' ? 'selected' : ''}>Nom</option>
         </select>
-        <input type="text" name="input" placeholder="Rechercher..." required>
+        <div class="search-input-container">
+            <input type="text" name="searchValue" placeholder="Rechercher..." required value="${param.searchValue != null ? param.searchValue : ''}">
+            <button type="button" class="clear-search-btn"><i class="fas fa-times"></i></button>
+        </div>
         <button type="submit"><i class="fas fa-search"></i></button>
     </form>
-
-    <a href="addUser" class="add-user-btn"><i class="fas fa-user-plus"></i> Ajouter</a>
+    <a href="#" class="add-user-btn" onclick="openModal('addUser')">
+        <i class="fas fa-user-plus"></i> Ajouter
+    </a>
 </div>
 
-        <div class="section-card">
-            <h3>Liste des utilisateurs</h3>
-            <table class="user-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Téléphone</th>
-                        <th>Email</th>
-                        <th>Date d'inscription</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+<div class="section-card">
+    <h3>Liste des utilisateurs</h3>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Date d'inscription</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:choose>
+                <c:when test="${not empty userList}">
                     <c:forEach var="u" items="${userList}">
                         <tr>
                             <td>${u.user_id}</td>
@@ -60,23 +67,69 @@
                             <td>${u.surname}</td>
                             <td>${u.tel_num}</td>
                             <td>${u.email}</td>
-                            <td>${u.formattedDateRegister}</td>
+                            <td>${lu.formattedDateRegister}</td>
                             <td>
-                                <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
+                                <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ${u.name} ${u.surname}?');">
                                     <input type="hidden" name="user_id" value="${u.user_id}">
                                     <button type="submit" class="delete-btn"><i class="fas fa-trash-alt"></i></button>
                                 </form>
                             </td>
                         </tr>
                     </c:forEach>
-                    <c:if test="${empty userList}">
-                        <tr>
-                            <td colspan="6" style="text-align:center;">Aucun utilisateur trouvé</td>
-                        </tr>
-                    </c:if>
-                </tbody>
-            </table>
+                </c:when>
+                <c:otherwise>
+                    <tr>
+                        <td colspan="7" style="text-align:center;">Aucun utilisateur trouvé</td>
+                    </tr>
+                </c:otherwise>
+            </c:choose>
+        </tbody>
+    </table>
+</div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <div id="modal-body"></div>
+            </div>
         </div>
+        <script>
+        function openModal(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("modal-body").innerHTML = html;
+                    document.getElementById("modal").style.display = "flex";
+                })
+                .catch(err => console.error("Erreur modal :", err));
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+            document.getElementById("modal-body").innerHTML = "";
+        }
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.querySelector('.search-user-form input[name="searchValue"]');
+                const clearBtn = document.querySelector('.clear-search-btn');
+
+                function toggleClearBtn() {
+                    if (searchInput.value.length > 0) {
+                        clearBtn.style.display = 'block';
+                    } else {
+                        clearBtn.style.display = 'none';
+                    }
+                }
+
+                searchInput.addEventListener('input', toggleClearBtn);
+                clearBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    toggleClearBtn();
+                    document.querySelector('.search-user-form').submit();
+                });
+                toggleClearBtn();
+            });
+        </script>
     </main>
 </body>
 </html>

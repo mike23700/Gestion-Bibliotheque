@@ -30,19 +30,24 @@
                 <input type="submit" value="Rechercher">
             </form>
         </div>
-        <div>
-            <p>Filtrer par :</p>
-            <select id="searchType" name="searchType">
-                <option value="title">Titre</option>
-                <option value="author">Auteur</option>
-                <option value="year">Année</option>
-                <option value="category">Catégorie</option>
-                <option value="disponible">Disponible</option>
-                <option value="emprunter">Emprunter</option>
-            </select>
-        </div>
         <div class="header-container">
             <h1 class="page-title">Liste des Livres</h1>
+        </div>
+        <div>
+            <form action="post" method="" >
+                <p>Filtrer par :</p>
+                <select id="searchType" name="searchType">
+                    <option value="title">Titre</option>
+                    <option value="author">Auteur</option>
+                    <option value="year">Année</option>
+                    <option value="category">Catégorie</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="emprunter">Emprunter</option>
+                </select>
+            </form>
+        </div>
+        <div>
+            <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()"><i class="fa-regular fa-book"></i>Ajouter</a>
         </div>
     </nav>
     <div style="height: 50px;"></div>
@@ -77,7 +82,6 @@
             </c:forEach>
         </div>
 
-        <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()">Ajouter un livre</a>
 
     </c:if>
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>

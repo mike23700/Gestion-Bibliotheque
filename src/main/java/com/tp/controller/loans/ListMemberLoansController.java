@@ -28,9 +28,9 @@ public class ListMemberLoansController extends HttpServlet {
             return;
         }
 
-        List<Loan> loans = null;
         try {
             loans = loanService.getAllLoansByUser(currentUser.getUser_id());
+            System.out.println("EMPRUNT DU USER "+loans.size());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

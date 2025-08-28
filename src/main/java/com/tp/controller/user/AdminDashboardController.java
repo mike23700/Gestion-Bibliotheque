@@ -37,6 +37,7 @@ public class AdminDashboardController extends HttpServlet {
 
         if (currentUser == null || !"ADMIN".equals(currentUser.getRole())) {
             response.sendRedirect("login");
+            return;
         }
 
         int memberCount = userService.countMembers();
@@ -45,6 +46,7 @@ public class AdminDashboardController extends HttpServlet {
         int bookCount = 0;
         try {
             bookCount = bookService.getAllBook().size();
+            System.out.println("nbre de livre "+bookCount);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -52,11 +54,12 @@ public class AdminDashboardController extends HttpServlet {
         int loanCount = 0;
         try {
             loanCount = loanService.getAllLoans().size();
+            System.out.println("nbre de loan "+loanCount);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-        request.setAttribute("bookCount", loanCount);
+        request.setAttribute("bookCount", bookCount);
         request.setAttribute("loanCount", loanCount);
         request.setAttribute("memberCount", memberCount);
         request.setAttribute("reservationCount", reservationCount);

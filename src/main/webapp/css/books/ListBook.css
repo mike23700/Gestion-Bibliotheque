@@ -4,8 +4,7 @@ body {
     background-color: #f0f2f5;
     color: #333;
     line-height: 1.6;
-    margin: 0;
-    padding-top: 80px; /* Espace pour la barre de navigation fixe */
+    padding-top: 0;
     overflow-x: hidden;
 }
 
@@ -13,13 +12,14 @@ body {
 .navbar-menu {
     width: 100%; /* Corrigé, car la valeur de 110% cause un défilement horizontal */
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 10px 30px;
     height: 50px;
     background-color: #e9ecef;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
+    margin-top: 60px;
 }
 
 .navbar-menu form {

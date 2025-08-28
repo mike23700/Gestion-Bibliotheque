@@ -16,26 +16,20 @@
     <main>
         <h1>Bienvenue sur le tableau de bord</h1>
         <div class="dashboard-stats"> <div class="stat-card">
-        <a href="listBooks">
-          <h3>Livres Totaux</h3>
-        </a>
+          <a href="listBooks"><h3>Livres Totaux</h3></a>
+          <p>${bookCount}</p>
         </div>
         <div class="stat-card">
-        <a href="manageLoan">
-          <h3>Livres Empruntés</h3>
-        </a>
-        </div> <div class="stat-card">
-        <a href="adminListReservations">
-          <h3>Livres Reservés</h3>
-        </a>
+          <a href="listLoan"><h3>Livres Empruntés</h3></a>
+          <p>${loanCount}</p>
+        </div>
+        <div class="stat-card">
+          <a href="adminListReservations"><h3>Livres Reservés</h3></a>
           <p>${reservationCount}</p>
         </div>
         <div class="stat-card">
-        <a href="manageUsers">
-          <h3>Membres Enregistrés</h3>
-        </a>
+          <a href="manageUsers"><h3>Utilisateurs Enregistrés</h3></a>
           <p>${memberCount}</p>
-        </div>
         </div>
     </main>
 </body>

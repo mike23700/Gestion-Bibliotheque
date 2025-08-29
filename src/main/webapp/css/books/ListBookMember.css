@@ -240,3 +240,23 @@ body {
 }
 }
 
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    width: 400px;
+    background: transparent;
+    overflow: visible;
+}
+
+.modal-content {
+    background: #fff;
+    margin: 5px;
+    padding: 20px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+

@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
-<%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="UTF-8">
     <title>Liste des Livres</title>
     <link rel="stylesheet" href="css/books/ListBookMember.css">
     <link rel="stylesheet" href="css/users/memberNavBar.css">
@@ -79,7 +79,7 @@
                                     <form action="status" method="post">
                                         <input type="hidden" name="id_book" id="" value="${book.id_Book}">
                                         <input type="hidden" name="action" id="" value="reserver">
-                                        <input type="submit" value="Reserver">
+                                        <input type="submit" value="Reserver" >
                                     </form>
                                 </c:when>
                                 <c:when test="${book.status == 'reserver'}">

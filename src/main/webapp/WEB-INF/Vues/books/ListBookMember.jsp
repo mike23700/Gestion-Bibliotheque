@@ -174,7 +174,7 @@
 
 
                 fetch("listBooks", {
-                    method: 'POST', // La recherche est souvent une requête GET
+                    method: 'GET', // La recherche est souvent une requête GET
                     body: formData,
                 })
                 .then(response => {

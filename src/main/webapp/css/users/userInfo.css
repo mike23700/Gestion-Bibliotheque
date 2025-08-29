@@ -54,3 +54,26 @@
     font-size: 1rem;
     color: #333;
 }
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.profile-actions a{
+    margin-top: 20px;
+    text-align: center;
+    color: #135776;
+    padding: 10px 20px;
+    border: 2px solid #135776;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.profile-actions a:hover {
+    background-color: #135776;
+    color: #fff;
+}

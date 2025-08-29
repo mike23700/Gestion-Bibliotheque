@@ -77,7 +77,7 @@
                                     <form action="status" method="post">
                                         <input type="hidden" name="id_book" id="" value="${book.id_Book}">
                                         <input type="hidden" name="action" id="" value="reserver">
-                                        <input type="submit" value="Reserver">
+                                        <input type="submit" value="Reserver" >
                                     </form>
                                 </c:when>
                                 <c:when test="${book.status == 'reserver'}">

@@ -59,7 +59,7 @@ public class ListBookController extends HttpServlet {
 
             System.err.println("Rôle utilisateur inconnu ou non géré: " + currentUser.getRole());
 
-            response.sendRedirect("login"); 
+            response.sendRedirect("login");
             return;
         }
 

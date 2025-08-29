@@ -40,6 +40,7 @@ public class UpdateStatusBookController extends HttpServlet {
         try {
             success = bookService.updateBookStatus(bookId, action);
         } catch (Exception e) {
+            System.out.println("Erreur lors de la mise a jour du status");
             throw new RuntimeException(e);
         }
 
@@ -60,6 +61,7 @@ public class UpdateStatusBookController extends HttpServlet {
                 try {
                     loanService.AddLoan(loan);
                 } catch (Exception e) {
+                    System.out.println("Erreur lors de l'insertion dans la table loan");
                     throw new RuntimeException(e);
                 }
             }
@@ -67,6 +69,7 @@ public class UpdateStatusBookController extends HttpServlet {
             try {
                 bookService.AddLoanCountOfBook(bookId);
             } catch (Exception e) {
+                System.out.println("Erreur lors de l'incrementation du loan_count dans la table book");
                 throw new RuntimeException(e);
             }
 

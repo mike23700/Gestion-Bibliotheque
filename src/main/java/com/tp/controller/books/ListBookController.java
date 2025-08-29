@@ -23,7 +23,7 @@ public class ListBookController extends HttpServlet {
 
     public void init() {
         DAOFactory daoFactory = DAOFactory.getInstance();
-        this.bookService = new BookService(daoFactory);
+        this.bookService = new BookService();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

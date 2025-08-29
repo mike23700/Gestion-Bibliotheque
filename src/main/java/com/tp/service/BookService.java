@@ -13,11 +13,9 @@ public class BookService {
 
     private BookDAO bookDao;
 
-    public BookService(DAOFactory daoFactory) {
-        this.bookDao = daoFactory.getBookDAO();
-    }
-
     public BookService() {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        this.bookDao = daoFactory.getBookDAO();
     }
 
     public void addBook(Book book) throws Exception {

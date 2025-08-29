@@ -1,20 +1,11 @@
 .modal {
     display: none;
-    position: absolute; /* Positionnement par rapport au parent */
+    position: absolute;
     z-index: 100;
-    top: 100%; /* Juste en dessous du parent */
-    right: 0; /* Alignez à droite du parent */
-    width: 300px;
-    background: transparent; /* Pas de flou d'arrière-plan */
+    top: 100%;
+    right: 40px;
+    width: 400px;
+    background: transparent;
     overflow: visible;
 }
 
-.modal-content {
-    background: #fff;
-    margin: 5px; /* Petit espace en haut */
-    padding: 20px;
-    border-radius: 12px;
-    width: 300px; /* Taille fixe pour le popover */
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    animation: fadeIn 0.3s ease-in-out;
-}

@@ -27,7 +27,7 @@ public class AdminDashboardController extends HttpServlet {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.userService = new UserService(daoFactory);
         this.reservationService = new ReservationService(daoFactory);
-        bookService = new BookService();
+        this.bookService = new BookService(daoFactory);
         loanService = new LoanService();
     }
     

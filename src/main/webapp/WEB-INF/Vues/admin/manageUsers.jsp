@@ -67,7 +67,7 @@
                             <td>${u.surname}</td>
                             <td>${u.tel_num}</td>
                             <td>${u.email}</td>
-                            <td>${lu.formattedDateRegister}</td>
+                            <td>${u.formattedDateRegister}</td>
                             <td>
                                 <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ${u.name} ${u.surname}?');">
                                     <input type="hidden" name="user_id" value="${u.user_id}">

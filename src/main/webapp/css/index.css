@@ -86,7 +86,7 @@ main {
 
 .btn-primary {
     text-decoration: none;
-    background-color: var(--primary-color);
+    background-color: #137657;
     color: white;
     padding: 12px 24px;
     border-radius: 6px;

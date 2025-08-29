@@ -13,6 +13,7 @@ public interface BookDAO {
     List<Book> findByCategory(String category) throws Exception;
     List<Book> findByDisponible() throws Exception;
     List<Book> findByEmprunter() throws Exception;
+    List<Book> findByPopularity();
     List<Book> getAllBooks() throws Exception ;
     void DeleteBook(String book_id) throws Exception;
     void updateBook(Book book) throws Exception;

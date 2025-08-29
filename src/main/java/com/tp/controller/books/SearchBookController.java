@@ -69,6 +69,9 @@ public class SearchBookController extends HttpServlet {
                     case "emprunter":
                         searchResults = bookService.findByEmprunter();
                         break;
+                    case "popularity":
+                        searchResults = bookService.findByPopularity();
+                        break;
                     default:
                         System.err.println("Type de recherche inconnu ou non géré: " + searchType);
                         searchResults = new ArrayList<>();

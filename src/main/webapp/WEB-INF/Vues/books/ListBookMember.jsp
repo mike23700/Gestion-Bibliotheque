@@ -39,6 +39,7 @@
                     <option value="category">Catégorie</option>
                     <option value="disponible">Disponible</option>
                     <option value="emprunter">Emprunter</option>
+                    <option value="popularity">Top Livres</option>
                 </select>
             </form>
         </div>

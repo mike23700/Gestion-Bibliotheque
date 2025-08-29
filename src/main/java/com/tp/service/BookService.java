@@ -58,6 +58,9 @@ public class BookService {
         return bookDao.findByEmprunter();
     }
 
+    public List<Book> findByPopularity() {
+        return bookDao.findByPopularity();
+    }
     public void updateBook(Book book) throws Exception {
         bookDao.updateBook(book);
     }

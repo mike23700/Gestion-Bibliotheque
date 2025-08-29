@@ -50,12 +50,7 @@ public class ListBookController extends HttpServlet {
                         books = bookService.findByAuthor(searchValue);
                         break;
                     case "year":
-                        try {
                             books = bookService.findByYear(Integer.parseInt(searchValue));
-                        } catch (NumberFormatException e) {
-                            System.err.println("Erreur de format pour l'année: " + searchValue);
-                            books = new ArrayList<>();
-                        }
                         break;
                     case "category":
                         books = bookService.findByCategory(searchValue);

@@ -58,7 +58,7 @@ body {
     border-color: #137657;
 }
 
-.navbar-menu input[type="submit"] {
+.navbar-menu button[type="submit"] {
     background-color: #137657;
     color: white;
     border: none;

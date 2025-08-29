@@ -103,8 +103,7 @@
 
     <!-- Si la liste est vide -->
     <c:if test="${empty listbooks}">
-        <p class="empty-list-message">Aucun livre trouvé dans la bibliothèque.</p>
-        <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
+        <p class="empty-list-message">Aucun livre ne correspond a la recherche demandé</p>
     </c:if>
 
 

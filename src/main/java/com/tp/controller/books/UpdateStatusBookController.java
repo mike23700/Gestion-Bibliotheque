@@ -88,7 +88,6 @@ public class UpdateStatusBookController extends HttpServlet {
         }
         if (Objects.equals(action, "reserver")){
             reservationService.createReservation(currentUser.getUser_id() , bookId);
-
             request.setAttribute("reserver", "Livre reserver avec succes");
         }
         if(Objects.equals(action, "rien")){

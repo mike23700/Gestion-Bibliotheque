@@ -297,7 +297,7 @@ public class BookDAOImpl implements BookDAO {
         Book book = null;
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM books WHERE 3book_id = ?";
+            String sql = "SELECT * FROM books WHERE book_id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();

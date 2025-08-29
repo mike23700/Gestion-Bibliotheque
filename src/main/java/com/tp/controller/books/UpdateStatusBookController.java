@@ -1,10 +1,13 @@
 package com.tp.controller.books;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Loan;
 import com.tp.model.User;
 import com.tp.model.generateID.GenerateIdLoans;
 import com.tp.service.BookService;
 import com.tp.service.LoanService;
+import com.tp.service.ReservationService;
+import com.tp.service.UserService;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -19,11 +22,18 @@ import java.util.Objects;
 @WebServlet("/status")
 public class UpdateStatusBookController extends HttpServlet {
 
-    BookService bookService = new BookService();
-    LoanService loanService = new LoanService();
+    BookService bookService;
+    LoanService loanService;
+    ReservationService reservationService;
     GenerateIdLoans G = new GenerateIdLoans();
     Loan loan = new Loan();
 
+    public void init() throws ServletException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        this.reservationService = new ReservationService(daoFactory);
+        bookService = new BookService();
+        loanService = new LoanService();
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,6 +41,7 @@ public class UpdateStatusBookController extends HttpServlet {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
         assert currentUser != null;
+        request.setCharacterEncoding("UTF-8");
 
         String bookId = request.getParameter("id_book");
         String action = request.getParameter("action");
@@ -48,7 +59,7 @@ public class UpdateStatusBookController extends HttpServlet {
         System.out.println("ID du livre: " + bookId);
         System.out.println("Action demandée: " + action);
 
-        if(Objects.equals(action, "emprunter")){
+        if(Objects.equals(action, "emprunté")){
 
             if(success) {
                 loan.setLoan_id(G.generateID());
@@ -76,6 +87,8 @@ public class UpdateStatusBookController extends HttpServlet {
             request.setAttribute("emprunter", "livre Emprunter avec succes");
         }
         if (Objects.equals(action, "reserver")){
+            reservationService.createReservation(currentUser.getUser_id() , bookId);
+
             request.setAttribute("reserver", "Livre reserver avec succes");
         }
         if(Objects.equals(action, "rien")){
@@ -83,8 +96,6 @@ public class UpdateStatusBookController extends HttpServlet {
             response.sendRedirect("listBooks");
             return;
         }
-
-
 
 
         response.sendRedirect("listBooks");

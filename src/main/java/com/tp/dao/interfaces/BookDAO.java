@@ -16,6 +16,7 @@ public interface BookDAO {
     List<Book> getAllBooks() throws Exception ;
     void DeleteBook(String book_id) throws Exception;
     void updateBook(Book book) throws Exception;
-    Book getBook(String book_id) throws Exception;
+    Book getBook(String book_id) throws Exception; 
     boolean updateBookStatus(String bookId, String status);
+    void AddLoanCountOfBook(String book_id) throws Exception;
 }

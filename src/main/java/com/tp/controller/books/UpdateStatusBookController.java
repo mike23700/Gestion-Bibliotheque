@@ -64,6 +64,12 @@ public class UpdateStatusBookController extends HttpServlet {
                 }
             }
 
+            try {
+                bookService.AddLoanCountOfBook(bookId);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             request.setAttribute("emprunter", "livre Emprunter avec succes");
         }
         if (Objects.equals(action, "reserver")){

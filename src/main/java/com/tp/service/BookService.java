@@ -87,4 +87,8 @@ public class BookService {
     public boolean updateBookStatus(String bookId, String status) throws Exception {
         return bookDao.updateBookStatus(bookId, status);
     }
+
+    public void AddLoanCountOfBook(String book_id) throws Exception {
+        bookDao.AddLoanCountOfBook(book_id);
+    }
 }

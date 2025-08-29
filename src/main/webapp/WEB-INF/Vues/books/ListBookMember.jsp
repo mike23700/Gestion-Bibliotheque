@@ -30,15 +30,17 @@
             </form>
         </div>
         <div>
-            <p>Filtrer par :</p>
-            <select id="searchType" name="searchType">
-                <option value="title">Titre</option>
-                <option value="author">Auteur</option>
-                <option value="year">Année</option>
-                <option value="category">Catégorie</option>
-                <option value="disponible">Disponible</option>
-                <option value="emprunter">Emprunter</option>
-            </select>
+            <form>
+                <p>Filtrer par :</p>
+                <select id="searchType" name="searchType">
+                    <option value="title">Titre</option>
+                    <option value="author">Auteur</option>
+                    <option value="year">Année</option>
+                    <option value="category">Catégorie</option>
+                    <option value="disponible">Disponible</option>
+                    <option value="emprunter">Emprunter</option>
+                </select>
+            </form>
         </div>
         <div class="header-container">
             <h1 class="page-title">Liste des Livres</h1>

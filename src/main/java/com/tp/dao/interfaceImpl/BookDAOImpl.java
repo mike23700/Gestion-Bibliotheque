@@ -344,4 +344,20 @@ public class BookDAOImpl implements BookDAO {
         return success;
     }
 
+    @Override
+    public void AddLoanCountOfBook(String book_id) throws Exception {
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "UPDATE books " +
+                    " SET loan_count = loan_count + 1 "+
+                    " WHERE book_id = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, book_id);
+
+            stmt.executeUpdate();
+        }catch (Exception e){
+            System.out.println("Erreur lors de l'incrementation");
+        }
+    }
+
 }

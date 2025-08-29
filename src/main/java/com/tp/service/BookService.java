@@ -13,9 +13,11 @@ public class BookService {
 
     private BookDAO bookDao;
 
-    public BookService(){
-        DAOFactory daoFactory = DAOFactory.getInstance();
+    public BookService(DAOFactory daoFactory) {
         this.bookDao = daoFactory.getBookDAO();
+    }
+
+    public BookService() {
     }
 
     public void addBook(Book book) throws Exception {
@@ -50,7 +52,7 @@ public class BookService {
         return bookDao.findByCategory(category);
     }
 
-    public  List<Book> findByDisponible() throws Exception {
+    public List<Book> findByDisponible() throws Exception {
         return bookDao.findByDisponible();
     }
 
@@ -61,6 +63,13 @@ public class BookService {
     public List<Book> findByPopularity() {
         return bookDao.findByPopularity();
     }
+    public List<Book> findByRecent() {
+        return bookDao.findByRecent();
+    }
+    public List<Book> findByOld() {
+        return bookDao.findByOld();
+    }
+
     public void updateBook(Book book) throws Exception {
         bookDao.updateBook(book);
     }

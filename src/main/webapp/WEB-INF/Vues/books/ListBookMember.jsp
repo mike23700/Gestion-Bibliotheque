@@ -15,38 +15,39 @@
     <div style="height: 50px;"></div>
 
     <!-- Barre de navigation du menu/recherche -->
-    <nav class="navbar-menu">
-        <div>
-            <form id="searchBook" action="searchBook" method="post" >
-                <p>Rechercher par: </p>
-                <select id="searchType" name="searchType">
-                    <option value="title">Titre</option>
-                    <option value="author">Auteur</option>
-                    <option value="year">Année</option>
-                    <option value="category">Catégorie</option>
-                </select>
-                <input type="search" placeholder="Rechercher..." name="searchValue" >
-                <input type="submit" value="Rechercher">
-            </form>
-        </div>
-        <div>
-            <form>
-                <p>Filtrer par :</p>
-                <select id="searchType" name="searchType">
-                    <option value="title">Titre</option>
-                    <option value="author">Auteur</option>
-                    <option value="year">Année</option>
-                    <option value="category">Catégorie</option>
-                    <option value="disponible">Disponible</option>
-                    <option value="emprunter">Emprunter</option>
-                    <option value="popularity">Top Livres</option>
-                </select>
-            </form>
-        </div>
-        <div class="header-container">
-            <h1 class="page-title">Liste des Livres</h1>
-        </div>
-    </nav>
+<nav class="navbar-menu">
+    <div class="search-section">
+        <form id="searchForm" action="listBooks" method="get">
+            <p>Rechercher par: </p>
+            <select id="searchType" name="searchType">
+                <option value="title" ${param.searchType eq 'title' ? 'selected' : ''}>Titre</option>
+                <option value="author" ${param.searchType eq 'author' ? 'selected' : ''}>Auteur</option>
+                <option value="year" ${param.searchType eq 'year' ? 'selected' : ''}>Année</option>
+                <option value="category" ${param.searchType eq 'category' ? 'selected' : ''}>Catégorie</option>
+            </select>
+            <input type="search" placeholder="Rechercher..." name="searchValue" value="${param.searchValue != null ? param.searchValue : ''}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <div class="filter-section">
+        <form id="filterForm" action="listBooks" method="get">
+            <p>Filtrer par :</p>
+            <select id="filterType" name="filterType" onchange="this.form.submit()">
+                <option value="all" ${param.filterType eq 'all' ? 'selected' : ''}>Tout</option>
+                <option value="recent" ${param.filterType eq 'recent' ? 'selected' : ''}>Plus récent</option>
+                <option value="old" ${param.filterType eq 'old' ? 'selected' : ''}>Plus ancien</option>
+                <option value="disponible" ${param.filterType eq 'disponible' ? 'selected' : ''}>Disponible</option>
+                <option value="emprunter" ${param.filterType eq 'emprunter' ? 'selected' : ''}>Emprunter</option>
+                <option value="popularity" ${param.filterType eq 'popularity' ? 'selected' : ''}>Populaires</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="header-container">
+        <h1 class="page-title">Liste des Livres</h1>
+    </div>
+</nav>
     <div style="height: 50px;"></div>
 
     <!-- Grille des livres -->
@@ -139,7 +140,7 @@
         });
 
 
-        const searchForm = document.getElementById('searchBook');
+        const searchForm = document.getElementById('listBooks');
         const bookGrid = document.getElementById('bookGrid');
         const searchMessageContainer = document.getElementById('searchMessageContainer');
         const emptyListMessage = document.getElementById('emptyListMessage');
@@ -172,7 +173,7 @@
 
 
 
-                fetch("searchBook", {
+                fetch("listBooks", {
                     method: 'POST', // La recherche est souvent une requête GET
                     body: formData,
                 })

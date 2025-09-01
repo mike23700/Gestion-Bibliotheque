@@ -60,4 +60,8 @@ public class LoanService {
     public Loan getLoanById(String loanId){
         return loanDAO.getLoanById(loanId);
     }
+
+    public boolean isBookBorrowedBy(String user_id , String book_id){
+        return loanDAO.isBookBorrowedBy(user_id , book_id);
+    }
 }

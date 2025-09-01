@@ -8,7 +8,8 @@ body {
 
 .dashboard-container {
     max-width: 1200px;
-    margin: 40px auto;
+    margin: auto;
+    margin-top: 110px;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;

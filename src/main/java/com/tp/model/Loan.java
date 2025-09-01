@@ -141,7 +141,10 @@ public class Loan {
     }
 
     public String getFormattedReturnDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return return_date.format(formatter);
+        if (return_date != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            return return_date.format(formatter);
+        }
+        return "Non retourné";
     }
 }

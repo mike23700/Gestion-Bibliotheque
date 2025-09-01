@@ -34,8 +34,8 @@
                         <th>Emprunteur</th>
                         <th>Titre du Livre</th>
                         <th>Date d'emprunts</th>
-                        <th>Date retour</th>
                         <th>Date limit</th>
+                        <th>Date retour</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                                     <td>${loan.book_title}</td>
                                     <td>${loan.formattedBorrowDate}</td>
                                     <td>${loan.formattedDueDate}</td>
-                                    <td>${loan.formattedBorrowDate}</td>
+                                    <td>${loan.formattedReturnDate}</td>
                                     <td>${loan.status}</td>
                                 </tr>
                             </c:forEach>

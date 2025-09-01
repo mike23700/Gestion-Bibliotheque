@@ -28,8 +28,6 @@ public class SearchBookController extends HttpServlet {
 
         if (currentUser == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.getWriter().write("Vous devez être connecté pour effectuer une recherche.");
             return;
         }
 
@@ -49,6 +47,9 @@ public class SearchBookController extends HttpServlet {
                     case "title":
                         searchResults = bookService.findByTitle(searchValue);
                         break;
+                    case "author":
+                        searchResults = bookService.findByAuthor(searchValue);
+                        break;
                     case "year":
                         try {
                             searchResults = bookService.findByYear(Integer.parseInt(searchValue));
@@ -60,18 +61,27 @@ public class SearchBookController extends HttpServlet {
                     case "category":
                         searchResults = bookService.findByCategory(searchValue);
                         break;
-                    case "author":
-                        searchResults = bookService.findByAuthor(searchValue);
-                        break;
                     case "disponible":
                         searchResults = bookService.findByDisponible();
+                        break;
+                    case "all":
+                        searchResults = bookService.getAllBook();
+                        break;
+                    case "recent":
+                        searchResults = bookService.getAllBook();
+                        break;
+                    case "old":
+                        searchResults = bookService.getAllBook();
                         break;
                     case "emprunter":
                         searchResults = bookService.findByEmprunter();
                         break;
+                    case "popularity":
+                        searchResults = bookService.findByPopularity();
+                        break;
                     default:
-                        System.err.println("Type de recherche inconnu ou non géré: " + searchType);
-                        searchResults = new ArrayList<>();
+                        System.err.println("Type de recherche inconnu " + searchType);
+                        return;
                 }
             }
 

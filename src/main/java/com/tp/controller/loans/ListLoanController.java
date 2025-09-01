@@ -21,15 +21,11 @@ public class ListLoanController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
         HttpSession session = request.getSession(false);
-        User currentUser = (session == null ) ? null : (User) session.getAttribute("user");
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        assert currentUser != null;
-        if(currentUser.getRole().equals("MEMBER")){
-            try {
-                loans = loanService.getAllLoansByUser(currentUser.getUser_id());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (currentUser == null) {
+            response.sendRedirect("login");
+            return;
         }
 
         try {

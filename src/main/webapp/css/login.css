@@ -57,7 +57,7 @@ body {
 .btn-submit {
     width: 100%;
     padding: 10px;
-    background-color: #135776;
+    background-color: #137657;
     border: none;
     border-radius: 4px;
     color: white;
@@ -66,7 +66,7 @@ body {
     transition: background-color 0.3s ease;
 }
 .btn-submit:hover {
-    background-color: #0056b3;
+    background-color: #135776;
 }
 .error-message {
      color: #d9534f;

@@ -23,17 +23,16 @@ public class LoanDAOImpl implements LoanDAO {
     public void AddLoan(Loan loan) throws Exception {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "INSERT INTO loans (loan_id , user_id , book_id , borrow_date, due_date, return_date) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO loans (loan_id, user_id, book_id, borrow_date, due_date) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
+
             stmt.setString(1, loan.getLoan_id());
             stmt.setString(2, loan.getUser_id());
             stmt.setString(3, loan.getBook_id());
             stmt.setTimestamp(4, Timestamp.valueOf(loan.getBorrow_date()));
             stmt.setTimestamp(5, Timestamp.valueOf(loan.getDue_date()));
-            stmt.setTimestamp(6, Timestamp.valueOf(loan.getReturn_date()));
-
             stmt.executeUpdate();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Erreur lors de l'emprunt");
             e.printStackTrace();
         }
@@ -121,7 +120,7 @@ public class LoanDAOImpl implements LoanDAO {
                         rs.getString("status"),
                         rs.getTimestamp("borrow_date").toLocalDateTime(),
                         rs.getTimestamp("due_date").toLocalDateTime(),
-                        rs.getTimestamp("return_date").toLocalDateTime()
+                        (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
                 );
                 loans.add(loan);
             }

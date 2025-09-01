@@ -229,6 +229,96 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    public List<Book> findByPopularity() {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books ORDER BY loan_count DESC LIMIT 10";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByRecent() {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books ORDER BY year DESC ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findByOld() {
+        List<Book> books = new ArrayList<>();
+        try {
+            Connection connection = DBConnection.getConnection();
+            String sql = "SELECT * FROM books ORDER BY year ASC";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
+            }
+        }catch (SQLException e){
+            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        }
+        return books;
+    }
+
+    @Override
     public List<Book> getAllBooks() throws Exception {
         List<Book> books = new ArrayList<>();
         try {
@@ -261,7 +351,7 @@ public class BookDAOImpl implements BookDAO {
     public void DeleteBook(String book_id) throws Exception {
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "DELETE * FROM books WHERE book_id = ? ";
+            String sql = "DELETE FROM books WHERE book_id = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book_id);
             stmt.executeUpdate();

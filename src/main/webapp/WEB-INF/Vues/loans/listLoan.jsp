@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main class="dashboard-container">
-        <h1>Mes Emprunts</h1>
+        <h1>Gestion Des Emprunts</h1>
 
         <c:if test="${not empty sessionScope.message}">
             <div class="alert success">${sessionScope.message}</div>
@@ -56,7 +56,7 @@
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="5" style="text-align: center;">Vous n'avez emprunter aucun livre.</td>
+                                <td colspan="7" style="text-align: center;">Vous n'avez emprunter aucun livre.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>

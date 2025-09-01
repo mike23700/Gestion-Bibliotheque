@@ -47,6 +47,9 @@
                     </div>
                 </div>
             </div>
+            <div class="profile-actions">
+                <a href="changePassword">Changer le mot de passe</a>
+            </div>
         </div>
     </main>
 </body>

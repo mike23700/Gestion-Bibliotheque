@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main>
-        <h1>Bienvenue sur le tableau de bord</h1>
+        <h1>Tableau de Bord</h1>
         <div class="dashboard-stats"> <div class="stat-card">
           <a href="listBooks"><h3>Livres Totaux</h3></a>
           <p>${bookCount}</p>
@@ -31,6 +31,52 @@
           <a href="manageUsers"><h3>Utilisateurs Enregistrés</h3></a>
           <p>${memberCount}</p>
         </div>
+
+        <div class="dashboard-section">
+            <h2>Livres les plus populaires</h2>
+            <div class="popular-books">
+                <c:forEach var="book" items="${popularBooks}">
+                    <div class="book-card">
+                        <img src="${pageContext.request.contextPath}/${book.image}"
+                             alt="Couverture de ${book.title}"
+                             class="book-cover"
+                             onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/555555?text=Pas+d%27image';">
+                        <div class="book-info">
+                            <h3>${book.title}</h3>
+                            <p>Auteur: ${book.author}</p>
+                            <p>Emprunts: ${book.loan_count}</p>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+
+                <div class="dashboard-section">
+                    <h2>Emprunts en cours</h2>
+                    <div class="loan-list">
+                        <c:forEach var="loan" items="${currentLoans}">
+                            <div class="loan-item">
+                                <p><strong>Livre:</strong> ${loan.book_title}</p>
+                                <p><strong>Emprunteur:</strong> ${loan.username}</p>
+                                <p><strong>Date d'emprunt:</strong> ${loan.formattedBorrowDate}</p>
+                                <p><strong>Date d'échéance:</strong> ${loan.formattedDueDate}</p>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+
+                <div class="dashboard-section">
+                    <h2>Réservations en cours</h2>
+                    <div class="reservation-list">
+                        <c:forEach var="reservation" items="${activeReservations}">
+                            <div class="reservation-item">
+                                <p><strong>Livre:</strong> ${reservation.book_title}</p>
+                                <p><strong>Réservateur:</strong> ${reservation.user_name}</p>
+                                <p><strong>Date de réservation:</strong> ${reservation.formattedDateRegister}</p>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
     </main>
 </body>
 </html>

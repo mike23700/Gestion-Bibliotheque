@@ -14,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List; // Import the List class
+import com.tp.model.Book; // Import Book model
+import com.tp.model.Loan; // Import Loan model
+import com.tp.model.Reservation; // Import Reservation model
 
 @WebServlet("/adminDashboard")
 public class AdminDashboardController extends HttpServlet {
@@ -28,9 +32,9 @@ public class AdminDashboardController extends HttpServlet {
         this.userService = new UserService(daoFactory);
         this.reservationService = new ReservationService(daoFactory);
         this.bookService = new BookService();
-        loanService = new LoanService();
+        this.loanService = new LoanService();
     }
-    
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
@@ -40,30 +44,31 @@ public class AdminDashboardController extends HttpServlet {
             return;
         }
 
-        int memberCount = userService.countMembers();
-        int reservationCount = reservationService.countReservations();
-
-        int bookCount = 0;
         try {
-            bookCount = bookService.getAllBook().size();
-            System.out.println("nbre de livre "+bookCount);
+            int memberCount = userService.countMembers();
+            int reservationCount = reservationService.countReservations();
+            int bookCount = bookService.getAllBook().size();
+            int loanCount = loanService.getAllLoans().size();
+
+            request.setAttribute("bookCount", bookCount);
+            request.setAttribute("loanCount", loanCount);
+            request.setAttribute("memberCount", memberCount);
+            request.setAttribute("reservationCount", reservationCount);
+
+            List<Book> popularBooks = bookService.findByPopularity();
+            List<Loan> currentLoans = loanService.getAllLoans();
+            List<Reservation> activeReservations = reservationService.getActiveReservations();
+
+            request.setAttribute("popularBooks", popularBooks);
+            request.setAttribute("currentLoans", currentLoans);
+            request.setAttribute("activeReservations", activeReservations);
+
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.err.println("Erreur lors de la récupération des données pour le tableau de bord.");
+            e.printStackTrace();
+            request.setAttribute("error", "Une erreur est survenue lors du chargement des données. Veuillez réessayer.");
         }
 
-        int loanCount = 0;
-        try {
-            loanCount = loanService.getAllLoans().size();
-            System.out.println("nbre de loan "+loanCount);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        request.setAttribute("bookCount", bookCount);
-        request.setAttribute("loanCount", loanCount);
-        request.setAttribute("memberCount", memberCount);
-        request.setAttribute("reservationCount", reservationCount);
-
-        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response); //push
+        request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response);
     }
 }

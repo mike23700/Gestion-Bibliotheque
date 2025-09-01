@@ -104,7 +104,7 @@ public class LoanDAOImpl implements LoanDAO {
                        " INNER JOIN "+
                           " users U ON L.user_id = U.user_id "+
                        " INNER JOIN "+
-                          " books B ON L.book_id = B.book_id "
+                          " books B ON L.book_id = B.book_id  ORDER BY borrow_date DESC"
                     ;
 
             PreparedStatement stmt = connection.prepareStatement(sql);

@@ -67,7 +67,7 @@ main h1 {
     padding: 25px;
     border-radius: 8px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
-    margin-top: 30px;
+    margin-top: 30px;l
 }
 
 .dashboard-section h2 {
@@ -126,4 +126,24 @@ main h1 {
 
 .loan-item p, .reservation-item p {
     margin-bottom: 8px;
+}
+
+.voir-plus-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.voir-plus-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #135776;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.voir-plus-btn:hover {
+    background-color: #0c3c52;
 }

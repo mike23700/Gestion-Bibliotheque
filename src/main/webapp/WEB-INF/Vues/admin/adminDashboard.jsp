@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,7 +36,7 @@
         <div class="dashboard-section">
             <h2>Livres les plus populaires</h2>
             <div class="popular-books">
-                <c:forEach var="book" items="${popularBooks}">
+                <c:forEach var="book" items="${popularBooks}" begin="0" end="2">
                     <div class="book-card">
                         <img src="${pageContext.request.contextPath}/${book.image}"
                              alt="Couverture de ${book.title}"
@@ -49,34 +50,49 @@
                     </div>
                 </c:forEach>
             </div>
+            <c:if test="${fn:length(popularBooks) > 3}">
+                <div class="voir-plus-container">
+                    <a href="listBooks" class="voir-plus-btn">Voir plus de livres</a>
+                </div>
+            </c:if>
         </div>
 
-                <div class="dashboard-section">
-                    <h2>Emprunts en cours</h2>
-                    <div class="loan-list">
-                        <c:forEach var="loan" items="${currentLoans}">
-                            <div class="loan-item">
-                                <p><strong>Livre:</strong> ${loan.book_title}</p>
-                                <p><strong>Emprunteur:</strong> ${loan.username}</p>
-                                <p><strong>Date d'emprunt:</strong> ${loan.formattedBorrowDate}</p>
-                                <p><strong>Date d'échéance:</strong> ${loan.formattedDueDate}</p>
-                            </div>
-                        </c:forEach>
+        <div class="dashboard-section">
+            <h2>Emprunts en cours</h2>
+            <div class="loan-list">
+                <c:forEach var="loan" items="${currentLoans}" begin="0" end="1">
+                    <div class="loan-item">
+                        <p><strong>Livre:</strong> ${loan.book_title}</p>
+                        <p><strong>Emprunteur:</strong> ${loan.username}</p>
+                        <p><strong>Date d'emprunt:</strong> ${loan.formattedBorrowDate}</p>
+                        <p><strong>Date d'échéance:</strong> ${loan.formattedDueDate}</p>
                     </div>
+                </c:forEach>
+            </div>
+            <c:if test="${fn:length(currentLoans) > 3}">
+                <div class="voir-plus-container">
+                    <a href="listLoan" class="voir-plus-btn">Voir les emprunts</a>
                 </div>
+            </c:if>
+        </div>
 
-                <div class="dashboard-section">
-                    <h2>Réservations en cours</h2>
-                    <div class="reservation-list">
-                        <c:forEach var="reservation" items="${activeReservations}">
-                            <div class="reservation-item">
-                                <p><strong>Livre:</strong> ${reservation.book_title}</p>
-                                <p><strong>Réservateur:</strong> ${reservation.user_name}</p>
-                                <p><strong>Date de réservation:</strong> ${reservation.formattedDateRegister}</p>
-                            </div>
-                        </c:forEach>
+        <div class="dashboard-section">
+            <h2>Réservations en cours</h2>
+            <div class="reservation-list">
+                <c:forEach var="reservation" items="${activeReservations}" begin="0" end="2">
+                    <div class="reservation-item">
+                        <p><strong>Livre:</strong> ${reservation.book_title}</p>
+                        <p><strong>Réservateur:</strong> ${reservation.user_name}</p>
+                        <p><strong>Date de réservation:</strong> ${reservation.formattedDateRegister}</p>
                     </div>
+                </c:forEach>
+            </div>
+            <c:if test="${fn:length(activeReservations) > 3}">
+                <div class="voir-plus-container">
+                    <a href="adminListReservations" class="voir-plus-btn">Voir les réservations</a>
                 </div>
+            </c:if>
+        </div>
     </main>
 </body>
 </html>

@@ -18,13 +18,13 @@
     <!-- Barre de navigation du menu/recherche -->
     <nav class="navbar-menu">
         <div>
-            <form id="searchBook" action="searchBook" method="post" >
+            <form id="searchBook" action="listBooks" method="get" >
                 <p>Rechercher par: </p>
                 <select id="searchType" name="searchType">
-                    <option value="title">Titre</option>
-                    <option value="author">Auteur</option>
-                    <option value="year">Année</option>
-                    <option value="category">Catégorie</option>
+                    <option value="title" ${param.searchType eq 'title' ? 'selected' : ''}>Titre</option>
+                    <option value="author" ${param.searchType eq 'author' ? 'selected' : ''}>Auteur</option>
+                    <option value="year"  ${param.searchType eq 'year' ? 'selected' : ''}>Année</option>
+                    <option value="category" ${param.searchType eq 'category' ? 'selected' : ''}>Catégorie</option>
                 </select>
                 <input type="search" placeholder="Rechercher..." name="searchValue" >
                 <input type="submit" value="Rechercher">
@@ -34,15 +34,15 @@
             <h1 class="page-title">Liste des Livres</h1>
         </div>
         <div>
-            <form action="post" method="" >
+            <form action="listBooks" method="get" >
                 <p>Filtrer par :</p>
-                <select id="searchType" name="searchType">
-                    <option value="title">Titre</option>
-                    <option value="author">Auteur</option>
-                    <option value="year">Année</option>
-                    <option value="category">Catégorie</option>
-                    <option value="disponible">Disponible</option>
-                    <option value="emprunter">Emprunter</option>
+                <select id="filterType" name="filterType" onchange="this.form.submit()">
+                    <option value="all" ${param.filterType eq 'all' ? 'selected' : ''}>Tout</option>
+                    <option value="recent" ${param.filterType eq 'recent' ? 'selected' : ''}>Plus récent</option>
+                    <option value="old" ${param.filterType eq 'old' ? 'selected' : ''}>Plus ancien</option>
+                    <option value="disponible" ${param.filterType eq 'disponible' ? 'selected' : ''}>Disponible</option>
+                    <option value="emprunter" ${param.filterType eq 'emprunter' ? 'selected' : ''}>Emprunter</option>
+                    <option value="popularity" ${param.filterType eq 'popularity' ? 'selected' : ''}>Populaires</option>
                 </select>
             </form>
         </div>
@@ -81,12 +81,19 @@
                 </div>
             </c:forEach>
         </div>
-
-
     </c:if>
+
+        <c:if test="${not empty sessionScope.succes}">
+            <div class="success">${sessionScope.succes}</div>
+            <c:remove var="succes" scope="session"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.error}">
+            <div class="error">${sessionScope.error}</div>
+            <c:remove var="error" scope="session"/>
+        </c:if>
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
 
-    <!-- Si la liste est vide -->
+
     <c:if test="${empty listbooks}">
         <p class="empty-list-message">Aucun livre trouvé dans la bibliothèque.</p>
         <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
@@ -136,83 +143,6 @@
             });
         });
 
-
-        const searchForm = document.getElementById('searchBook');
-        const bookGrid = document.getElementById('bookGrid');
-        const searchMessageContainer = document.getElementById('searchMessageContainer');
-        const emptyListMessage = document.getElementById('emptyListMessage');
-
-        if (emptyListMessage && bookGrid) {
-            const initialBookCardsCount = bookGrid.querySelectorAll('.book-card').length;
-            if (initialBookCardsCount === 0) {
-                emptyListMessage.textContent = 'Aucun livre trouvé dans la bibliothèque.';
-                emptyListMessage.style.display = 'block';
-            } else {
-                emptyListMessage.style.display = 'none';
-            }
-        }
-
-
-        if (searchForm) {
-            searchForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-
-                if (emptyListMessage) emptyListMessage.style.display = 'none';
-                if (searchMessageContainer) searchMessageContainer.style.display = 'none';
-
-
-                if (bookGrid) {
-                   bookGrid.innerHTML = '';
-                }
-
-                const formData = new FormData(searchForm);
-
-
-
-                fetch("searchBook", {
-                    method: 'POST', // La recherche est souvent une requête GET
-                    body: formData,
-                })
-                .then(response => {
-                    // Si le serveur renvoie une erreur (par exemple 500)
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            console.error("Erreur (HTTP Status " + response.status + "):", text);
-                            throw new Error(`Erreur HTTP ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.text(); // Attendez du HTML en retour
-                })
-                .then(htmlContent => {
-                    if (bookGrid) {
-                        bookGrid.innerHTML = htmlContent; // Mette à jour le conteneur de la grille
-                    }
-
-                    // Vérifie si des livres ont été trouvés APRÈS la mise à jour de la grille
-                    const hasBooks = bookGrid && bookGrid.querySelector('.book-card') !== null;
-
-                    if (searchMessageContainer) {
-                        if (!hasBooks) { // Si aucun livre n'est présent dans la grille
-                            searchMessageContainer.style.display = 'block';
-                            searchMessageContainer.style.color = 'orange';
-                            searchMessageContainer.textContent = 'Aucun livre trouvé correspondant à votre recherche.';
-                        } else {
-                            // Si des livres ont été trouvés, masquer le message
-                            searchMessageContainer.style.display = 'none';
-                        }
-                    }
-                })
-                .catch(error => {
-                   console.error('Erreur lors de la recherche AJAX:', error);
-                    if (searchMessageContainer) {
-                        searchMessageContainer.style.display = 'block';
-                        searchMessageContainer.style.color = 'red';
-                        searchMessageContainer.textContent = `Erreur lors de la recherche: ${error.message}. Veuillez réessayer.`;
-                    }
-                });
-            });
-        }
 
     </script>
 </body>

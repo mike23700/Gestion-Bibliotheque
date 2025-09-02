@@ -9,18 +9,24 @@ import java.time.LocalDateTime;
 
 public class ReservationService {
     private final ReservationDAO reservationDAO;
+    LoanService loanService = new LoanService();
 
     public ReservationService(DAOFactory daoFactory) {
         this.reservationDAO = daoFactory.getReservationDAO();
     }
 
     public boolean createReservation(String userId, String bookId) {
+        if (loanService.isBookBorrowedBy(userId , bookId)){
+            return false;
+        }
+
         Reservation reservation = new Reservation(
                 userId,
                 bookId,
                 LocalDateTime.now(),
                 "ACTIVE"
         );
+
         return reservationDAO.addReservation(reservation);
     }
 

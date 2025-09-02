@@ -48,7 +48,7 @@ public class LoanDAOImpl implements LoanDAO {
                 " INNER JOIN " +
                   " books b ON l.book_id = b.book_id " +
                 " WHERE " +
-                  " l.user_id = ? AND b.status = 'emprunté' ";
+                  " l.user_id = ? OR b.status = 'emprunté' ";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -398,5 +398,29 @@ public class LoanDAOImpl implements LoanDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean isBookBorrowedBy(String user_id, String book_id) {
+        String query = "SELECT COUNT(*) FROM loans WHERE book_id = ? AND user_id = ? AND return_date IS NULL ";
+        int count = 0;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, book_id);
+            stmt.setString(2, user_id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL lors de la vérification de l'emprunt: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+
     }
 }

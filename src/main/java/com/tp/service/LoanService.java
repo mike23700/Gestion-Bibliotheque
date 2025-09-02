@@ -35,6 +35,10 @@ public class LoanService {
         return loanDAO.getAllLoansByUser(user_id);
     }
 
+    public List<Loan> getEveryLoanByUser(String user_id) throws Exception {
+        return loanDAO.getEveryLoanByUser(user_id);
+    }
+
     public List<Loan> getAllLoans() throws Exception {
         return loanDAO.getAllLoans();
     }

@@ -29,7 +29,7 @@ public class LoanHistoryController extends HttpServlet {
         }
 
         try {
-            loans = loanService.getAllLoansByUser(currentUser.getUser_id());
+            loans = loanService.getEveryLoanByUser(currentUser.getUser_id());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

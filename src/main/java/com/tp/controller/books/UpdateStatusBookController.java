@@ -90,13 +90,17 @@ public class UpdateStatusBookController extends HttpServlet {
             }
         }
         if (Objects.equals(action, "reserver")){
-            boolean succes = false;
+            int nbre ;
             try {
-                succes = reservationService.createReservation(currentUser.getUser_id() , bookId);
-                if(succes){
-                    session.setAttribute("succes", "Livre reserver avec succes");
-                }else {
+                nbre = reservationService.createReservationForInt(currentUser.getUser_id() , bookId);
+                if(nbre == 0){
                     session.setAttribute("error", "Vous avez deja ce livre a votre possession");
+                }else if (nbre == 1) {
+                    session.setAttribute("error", "Vous avez deja Reserver ce livre");
+                }else if(nbre == 2){
+                    session.setAttribute("succes", "Livre Reserver avec succes");
+                }else {
+                    session.setAttribute("error", "Erreur lors de la Reservation  veillez ressayer");
                 }
             }catch (Exception e){
                 System.err.println("l'utilisateur a deja ce livre a sa possession");

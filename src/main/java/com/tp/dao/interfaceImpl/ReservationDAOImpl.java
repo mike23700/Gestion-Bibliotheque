@@ -444,7 +444,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean isTwoReservationByBook(String user_id, String book_id) {
-        String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ? AND return_date IS NULL ";
+        String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ?";
         int count = 0;
 
         try (Connection conn = DBConnection.getConnection();

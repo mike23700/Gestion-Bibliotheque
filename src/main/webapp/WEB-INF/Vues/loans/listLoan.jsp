@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Réservations</title>
-    <link rel="stylesheet" href="css/loans/listMemberLoans.css">
+    <link rel="stylesheet" href="css/loans/listAdminLoans.css">
     <link rel="stylesheet" href="css/users/adminNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -34,8 +34,8 @@
                         <th>Emprunteur</th>
                         <th>Titre du Livre</th>
                         <th>Date d'emprunts</th>
-                        <th>Date retour</th>
                         <th>Date limit</th>
+                        <th>Date retour</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@
                                     <td>${loan.book_title}</td>
                                     <td>${loan.formattedBorrowDate}</td>
                                     <td>${loan.formattedDueDate}</td>
-                                    <td>${loan.formattedBorrowDate}</td>
+                                    <td>${loan.formattedReturnDate}</td>
                                     <td>${loan.status}</td>
                                 </tr>
                             </c:forEach>

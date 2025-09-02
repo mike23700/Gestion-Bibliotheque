@@ -23,7 +23,7 @@ public class ListMemberLoansController extends HttpServlet {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (currentUser == null) {
+        if (currentUser == null || !currentUser.getRole().equals("MEMBER")) {
             response.sendRedirect("login");
             return;
         }

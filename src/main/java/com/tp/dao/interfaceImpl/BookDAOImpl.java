@@ -233,7 +233,7 @@ public class BookDAOImpl implements BookDAO {
         List<Book> books = new ArrayList<>();
         try {
             Connection connection = DBConnection.getConnection();
-            String sql = "SELECT * FROM books ORDER BY loan_count DESC LIMIT 10";
+            String sql = "SELECT * FROM books ORDER BY loan_count DESC LIMIT 5";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
             ResultSet rs = stmt.executeQuery();

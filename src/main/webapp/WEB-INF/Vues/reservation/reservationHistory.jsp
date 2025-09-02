@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mes Réservations</title>
-    <link rel="stylesheet" href="css/loans/listMemberLoans.css">
+    <link rel="stylesheet" href="css/reservations/reservationList.css">
     <link rel="stylesheet" href="css/users/memberNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -14,8 +14,7 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
-        <h1>Mes Emprunts</h1>
-        <a href="loanHistory"><h3>Voir L'historique</h3></a>
+        <h1>Historique</h1>
 
         <c:if test="${not empty sessionScope.message}">
             <div class="alert success">${sessionScope.message}</div>
@@ -27,38 +26,31 @@
         </c:if>
 
         <div class="section-card">
-            <h3>Liste de mes emprunts</h3>
+            <h3>Historique de réservations</h3>
             <table class="user-table">
                 <thead>
                     <tr>
-                        <th>ID Emprunts</th>
+                        <th>ID Réservation</th>
                         <th>Titre du Livre</th>
-                        <th>Date d'emprunts</th>
-                        <th>Date limit</th>
-                        <th>Actions</th>
+                        <th>Date de Réservation</th>
+                        <th>Date d'expiration</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:choose>
-                        <c:when test="${not empty loans}">
-                            <c:forEach var="l" items="${loans}">
+                        <c:when test="${not empty reservations}">
+                            <c:forEach var="res" items="${reservations}">
                                 <tr>
-                                    <td>${l.loan_id}</td>
-                                    <td>${l.book_title}</td>
-                                    <td>${l.formattedBorrowDate}</td>
-                                    <td>${l.formattedDueDate}</td>
-                                    <td>
-                                         <form action="returnBook" method="post" onsubmit="return confirm('Voulez vous vraiment rendre ${l.book_id}');">
-                                             <input type="hidden" name="loanId" value="${l.loan_id}">
-                                             <button type="submit" class="action-btn return-btn">Rendre</button>
-                                         </form>
-                                    </td>
+                                    <td>${res.reservation_id}</td>
+                                    <td>${res.book_title}</td>
+                                    <td>${res.formattedDateRegister}</td>
+                                    <td>${res.formattedDueRegister}</td>
                                 </tr>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="5" style="text-align: center;">Vous n'avez emprunter aucun livre.</td>
+                                <td colspan="4" style="text-align: center;">Vous n'avez jamais reservé de livres.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>

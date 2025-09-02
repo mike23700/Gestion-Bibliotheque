@@ -20,7 +20,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean addReservation(Reservation reservation) {
-        String query = "INSERT INTO reservations (reservation_id ,user_id, book_id, reservation_date, due_date, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reservations (reservation_id ,user_id, book_id, reservation_date, expire_date, status) VALUES (?, ?, ?, ?, ?, ?)";
         boolean success = false;
 
         try (Connection connexion = DBConnection.getConnection();
@@ -30,7 +30,7 @@ public class ReservationDAOImpl implements ReservationDAO {
             stmt.setString(2, reservation.getUser_id());
             stmt.setString(3, reservation.getBook_id());
             stmt.setTimestamp(4, Timestamp.valueOf(reservation.getReservation_date()));
-            stmt.setTimestamp(5, Timestamp.valueOf(reservation.getDue_date()));
+            stmt.setTimestamp(5, Timestamp.valueOf(reservation.getExpire_date()));
             stmt.setString(6, reservation.getStatus());
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {
@@ -67,7 +67,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public Reservation findById(String reservationId) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date,r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.reservation_id = ?";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date,r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.reservation_id = ?";
         Reservation reservation = null;
 
         try (Connection connexion = DBConnection.getConnection();
@@ -84,7 +84,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                 }
@@ -98,7 +98,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByUserId(String userId) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -115,7 +115,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -130,7 +130,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByUserName(String name) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE u.name LIKE ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE u.name LIKE ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -147,7 +147,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -162,7 +162,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByBookId(String bookId) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.book_id = ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.book_id = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -179,7 +179,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -194,7 +194,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByBookName(String bookName) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE b.title LIKE ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE b.title LIKE ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -212,7 +212,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -227,7 +227,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByStatus(String status) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.status = ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -244,7 +244,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -259,7 +259,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> getAllReservations() {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -274,7 +274,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                         rs.getString("user_name"),
                         rs.getString("book_title"),
                         rs.getTimestamp("reservation_date").toLocalDateTime(),
-                        rs.getTimestamp("due_date").toLocalDateTime(),
+                        rs.getTimestamp("expire_date").toLocalDateTime(),
                         rs.getString("status")
                 );
                 list.add(reservation);
@@ -288,7 +288,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findByUserIdAndBookName(String userId, String bookName) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND b.title LIKE ? AND r.status = ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND b.title LIKE ? AND r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -307,7 +307,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -357,7 +357,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findActiveByUserId(String userId) {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.due_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND r.status = ? ORDER BY r.reservation_date DESC";
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND r.status = ? ORDER BY r.reservation_date DESC";
 
         List<Reservation> list = new ArrayList<>();
 
@@ -376,7 +376,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     list.add(reservation);
@@ -391,9 +391,9 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public List<Reservation> findExpiredReservations() {
-        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.status, r.due_date " +
+        String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.status, r.expire_date " +
                 "FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id " +
-                "WHERE r.status = 'ACTIVE' AND r.due_date < ?";
+                "WHERE r.status = 'ACTIVE' AND r.expire_date < ?";
         List<Reservation> expiredReservations = new ArrayList<>();
 
         try (Connection connexion = DBConnection.getConnection();
@@ -410,7 +410,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                             rs.getString("user_name"),
                             rs.getString("book_title"),
                             rs.getTimestamp("reservation_date").toLocalDateTime(),
-                            rs.getTimestamp("due_date").toLocalDateTime(),
+                            rs.getTimestamp("expire_date").toLocalDateTime(),
                             rs.getString("status")
                     );
                     expiredReservations.add(reservation);

@@ -14,8 +14,7 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
-        <h1>Mes Emprunts</h1>
-        <a href="loanHistory"><h3>Voir L'historique</h3></a>
+        <h1>Historique</h1>
 
         <c:if test="${not empty sessionScope.message}">
             <div class="alert success">${sessionScope.message}</div>
@@ -27,7 +26,7 @@
         </c:if>
 
         <div class="section-card">
-            <h3>Liste de mes emprunts</h3>
+            <h3>Historique des emprunts</h3>
             <table class="user-table">
                 <thead>
                     <tr>
@@ -35,7 +34,6 @@
                         <th>Titre du Livre</th>
                         <th>Date d'emprunts</th>
                         <th>Date limit</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,18 +45,12 @@
                                     <td>${l.book_title}</td>
                                     <td>${l.formattedBorrowDate}</td>
                                     <td>${l.formattedDueDate}</td>
-                                    <td>
-                                         <form action="returnBook" method="post" onsubmit="return confirm('Voulez vous vraiment rendre ${l.book_id}');">
-                                             <input type="hidden" name="loanId" value="${l.loan_id}">
-                                             <button type="submit" class="action-btn return-btn">Rendre</button>
-                                         </form>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="5" style="text-align: center;">Vous n'avez emprunter aucun livre.</td>
+                                <td colspan="4" style="text-align: center;">Vous n'avez emprunter aucun livre.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>

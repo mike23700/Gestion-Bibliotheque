@@ -54,6 +54,9 @@ public class AddBookController extends HttpServlet {
             return;
         }
         */
+        if(session == null){
+            response.sendRedirect("login");
+        }
 
 
         String ImageFileNameInBD = null;
@@ -90,9 +93,9 @@ public class AddBookController extends HttpServlet {
 
         try {
             bookService.addBook(book);
-            request.getSession().setAttribute("succes","Book add successfully");
+            session.setAttribute("succes","Livre ajouter avec succes");
         } catch (Exception e) {
-            request.getSession().setAttribute("error","Failed to delete book");
+            session.setAttribute("error","Erreur lors de l'ajout du livre");
         }
         response.sendRedirect("listBooks");
     }

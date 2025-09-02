@@ -37,15 +37,6 @@
                 <label for="description">Description :</label>
                 <textarea name="description" id="description" rows="7" class="form-textarea" placeholder="Entrez la description complète du livre ici..."></textarea>
             </div>
-            <div class="form-group">
-                <label>Statut :</label>
-                <div class="radio-group">
-                    <input type="radio" name="status" id="emprunte" value="emprunté">
-                    <label for="emprunte">Emprunté</label>
-                    <input type="radio" name="status" id="disponible" value="disponible" checked>
-                    <label for="disponible">Disponible</label>
-                </div>
-            </div>
             <div class="form-group1">
                 <div>
                     <button type="submit" class="submit-button">Ajouter le Livre</button>

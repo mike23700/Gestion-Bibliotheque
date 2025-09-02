@@ -51,46 +51,53 @@ public class UpdateStatusBookController extends HttpServlet {
         System.out.println("ID du livre: " + bookId);
         System.out.println("Action demandée: " + action);
 
-        boolean success = false;
-
-        try {
-            success = bookService.updateBookStatus(bookId , action);
-        } catch (Exception e) {
-            System.out.println("Erreur lors de la mise a jour du status");
-            throw new RuntimeException(e);
-        }
 
 
-        if(Objects.equals(action, "emprunté") && success){
+        if(Objects.equals(action, "emprunté")){
 
-
-            loan.setLoan_id(G.generateID());
-            loan.setUser_id(currentUser.getUser_id());
-            loan.setBook_id(bookId);
-            loan.setBorrow_date(LocalDateTime.now());
-            loan.setDue_date(LocalDateTime.now().plusDays(14));
-            loan.setReturn_date(null);
+            boolean success = false;
 
             try {
-                loanService.AddLoan(loan);
+                success = bookService.updateBookStatus(bookId , action);
             } catch (Exception e) {
-                System.out.println("Erreur lors de l'insertion dans la table loan");
+                System.out.println("Erreur lors de la mise a jour du status");
                 throw new RuntimeException(e);
             }
 
-            try {
-                bookService.AddLoanCountOfBook(bookId);
-            } catch (Exception e) {
-                System.out.println("Erreur lors de l'incrementation du loan_count dans la table book");
-                throw new RuntimeException(e);
-            }
+            if(success) {
+                loan.setLoan_id(G.generateID());
+                loan.setUser_id(currentUser.getUser_id());
+                loan.setBook_id(bookId);
+                loan.setBorrow_date(LocalDateTime.now());
+                loan.setDue_date(LocalDateTime.now().plusDays(14));
+                loan.setReturn_date(null);
 
-            request.setAttribute("emprunter", "livre Emprunter avec succes");
+                try {
+                    loanService.AddLoan(loan);
+                } catch (Exception e) {
+                    System.out.println("Erreur lors de l'insertion dans la table loan");
+                    throw new RuntimeException(e);
+                }
+
+                try {
+                    bookService.AddLoanCountOfBook(bookId);
+                } catch (Exception e) {
+                    System.out.println("Erreur lors de l'incrementation du loan_count dans la table book");
+                    throw new RuntimeException(e);
+                }
+
+                session.setAttribute("succes", "livre Emprunter avec succes");
+            }
         }
-        if (Objects.equals(action, "reserver") && success){
+        if (Objects.equals(action, "reserver")){
+            boolean succes = false;
             try {
-                reservationService.createReservation(currentUser.getUser_id() , bookId);
-                request.setAttribute("reserver", "Livre reserver avec succes");
+                succes = reservationService.createReservation(currentUser.getUser_id() , bookId);
+                if(succes){
+                    session.setAttribute("succes", "Livre reserver avec succes");
+                }else {
+                    session.setAttribute("error", "Vous avez deja ce livre a votre possession");
+                }
             }catch (Exception e){
                 System.err.println("l'utilisateur a deja ce livre a sa possession");
             }

@@ -35,6 +35,7 @@ public class MemberListReservationsController extends HttpServlet {
 
         List<Reservation> reservations = reservationService.getActiveReservationsByUserId(currentUser.getUser_id());
         request.setAttribute("reservations", reservations);
+        System.out.println("reservation du user "+currentUser.getName()+" est "+reservations.size());
         request.getRequestDispatcher("/WEB-INF/Vues/reservation/memberReservationList.jsp").forward(request, response);
     }
 }

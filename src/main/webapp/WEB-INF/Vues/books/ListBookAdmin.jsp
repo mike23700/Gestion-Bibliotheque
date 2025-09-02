@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/books/ListBook.css">
     <link rel="stylesheet" href="css/users/adminNavBar.css">
     <link rel="stylesheet" href="css/books/AddBook.css">
+    <link rel="stylesheet" href="css/books/PopupSuppressionLivre.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -47,7 +48,7 @@
             </form>
         </div>
         <div>
-            <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()"><i class="fa-regular fa-book"></i>Ajouter</a>
+            <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()"><i class="fa-solid fa-book" style="font-size: 30px;"></i>  Ajouter</a>
         </div>
     </nav>
     <div style="height: 50px;"></div>
@@ -59,6 +60,9 @@
                 <div class="book-card">
                     <div class="image-And-icon-container">
                         <!-- L'icône pour afficher les détails au clic -->
+                        <div class="delete" onclick="showPopupDeleteBook('${book.id_Book}' , '${book.title}')">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </div>
                         <div class="icon-container" onclick="toggleBookDetails(this)">
                             <i class="fa-solid fa-ellipsis-vertical"></i>
                         </div>
@@ -83,14 +87,21 @@
         </div>
     </c:if>
 
-        <c:if test="${not empty sessionScope.succes}">
+    <c:if test="${not empty sessionScope.succes}">
+        <div class="message-container">
             <div class="success">${sessionScope.succes}</div>
-            <c:remove var="succes" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.error}">
+        </div>
+        <c:remove var="succes" scope="session"/>
+    </c:if>
+    <c:if test="${not empty sessionScope.error}">
+        <div class="message-container">
             <div class="error">${sessionScope.error}</div>
-            <c:remove var="error" scope="session"/>
-        </c:if>
+        </div>
+        <c:remove var="error" scope="session"/>
+    </c:if>
+
+        
+
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
 
 
@@ -101,6 +112,7 @@
 
     <div class="overlay"></div>
     <jsp:include page="AddBooks.jsp" />
+    <jsp:include page="PopupSuppressionLivre.jsp" />
 
     <script>
 
@@ -133,6 +145,7 @@
             fullDetails.classList.toggle('active');
         }
 
+
         document.addEventListener('click', function(event) {
             const openDetails = document.querySelectorAll('.card-full-details.active');
             openDetails.forEach(detail => {
@@ -142,6 +155,50 @@
                 }
             });
         });
+
+        window.onload = function() {
+            var messageDiv = document.querySelector(".message-container");
+            if (messageDiv) {
+                messageDiv.style.display = 'block';
+                
+            
+                setTimeout(function() {
+                    messageDiv.style.opacity = '0';
+                    setTimeout(function() {
+                        messageDiv.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            }
+        };
+
+        //modale de confirmation de livre
+
+        var modal = document.getElementById('modalSuppression');
+        var messageElement = document.getElementById('messageConfirmation');
+
+        
+        var livreASupprimer = null;
+
+        function showPopupDeleteBook(book_id , titreLivre) {
+            livreASupprimer = book_id;
+            messageElement.textContent = "Êtes-vous sûr de vouloir supprimer le livre : '" + titreLivre + "' ?";
+            modal.style.display = 'block';
+            document.querySelector(".overlay").style.display = "block";
+        }
+
+        
+        function hiddePopupDeleteBook() {
+            modal.style.display = 'none';
+            livreASupprimer = null;
+            document.querySelector(".overlay").style.display = "none";
+        }
+
+        
+        function ConfirmDelete() {
+            if (livreASupprimer) {
+                window.location.href = "deleteBook?id_book=" + livreASupprimer;
+            }
+        }
 
 
     </script>

@@ -10,7 +10,7 @@ public interface ReservationDAO {
 
     boolean addReservation(Reservation reservation);
     boolean updateReservation(Reservation reservation);
-    Reservation findById(int reservationId);
+    Reservation findById(String reservationId);
     List<Reservation> findByUserId(String userId);
     List<Reservation> findByUserName(String name);
     List<Reservation> findByBookId(String bookId);

@@ -3,6 +3,7 @@ package com.tp.service;
 import com.tp.dao.DAOFactory;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.model.Reservation;
+import com.tp.model.generateID.GenerateReservationID;
 
 import java.util.List;
 import java.time.LocalDateTime;
@@ -15,7 +16,12 @@ public class ReservationService {
     }
 
     public boolean createReservation(String userId, String bookId) {
+
+        GenerateReservationID generator = new GenerateReservationID();
+        String reservationId = generator.generateID();
+
         Reservation reservation = new Reservation(
+                reservationId,
                 userId,
                 bookId,
                 LocalDateTime.now(),
@@ -24,7 +30,7 @@ public class ReservationService {
         return reservationDAO.addReservation(reservation);
     }
 
-    public boolean updateReservationStatus(int reservationId, String newStatus) {
+    public boolean updateReservationStatus(String reservationId, String newStatus) {
         Reservation reservation = reservationDAO.findById(reservationId);
         if (reservation != null) {
             reservation.setStatus(newStatus);
@@ -33,11 +39,11 @@ public class ReservationService {
         return false;
     }
 
-    public boolean fulfillReservation(int reservationId) {
+    public boolean fulfillReservation(String reservationId) {
         return updateReservationStatus(reservationId, "FULFILLED");
     }
 
-    public boolean cancelReservation(int reservationId) {
+    public boolean cancelReservation(String reservationId) {
         return updateReservationStatus(reservationId, "CANCELLED");
     }
 
@@ -91,7 +97,7 @@ public class ReservationService {
         return reservationDAO.findByStatus(status);
     }
 
-    public Reservation findById(int reservationId) {
+    public Reservation findById(String reservationId) {
         return reservationDAO.findById(reservationId);
     }
 

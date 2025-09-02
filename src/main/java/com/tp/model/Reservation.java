@@ -10,7 +10,7 @@ public class Reservation {
     private String user_name;
     private String book_title;
     private LocalDateTime reservation_date;
-    private LocalDateTime due_date;
+    private LocalDateTime expire_date;
     private String status;
 
     // Constructeur pour les opérations d'ajout'
@@ -19,19 +19,19 @@ public class Reservation {
         this.user_id = user_id;
         this.book_id = book_id;
         this.reservation_date = reservation_date;
-        this.due_date = reservation_date.plusDays(2);
+        this.expire_date = reservation_date.plusDays(2);
         this.status = status;
     }
 
     // Nouveau constructeur pour les requêtes de recherche/affichage
-    public Reservation(String reservation_id, String userId, String bookId, String userName, String bookTitle, LocalDateTime reservation_date, LocalDateTime due_date, String status) {
+    public Reservation(String reservation_id, String userId, String bookId, String userName, String bookTitle, LocalDateTime reservation_date, LocalDateTime expire_date, String status) {
         this.reservation_id = reservation_id;
         this.user_id = userId;
         this.book_id = bookId;
         this.user_name = userName;
         this.book_title = bookTitle;
         this.reservation_date = reservation_date;
-        this.due_date = due_date;
+        this.expire_date = expire_date;
         this.status = status;
     }
 
@@ -60,8 +60,8 @@ public class Reservation {
         return reservation_date;
     }
 
-    public LocalDateTime getDue_date() {
-        return due_date;
+    public LocalDateTime getExpire_date() {
+        return expire_date;
     }
 
     public String getStatus() {
@@ -83,8 +83,8 @@ public class Reservation {
         this.reservation_date = reservation_date;
     }
 
-    public void setDue_date(LocalDateTime due_date) {
-        this.due_date = due_date;
+    public void setexpire_date(LocalDateTime expire_date) {
+        this.expire_date = expire_date;
     }
 
     public String getFormattedDateRegister() {
@@ -94,7 +94,7 @@ public class Reservation {
 
     public String getFormattedDueRegister() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        return reservation_date.format(formatter);
+        return expire_date.format(formatter);
     }
 
     public void setStatus(String status) {

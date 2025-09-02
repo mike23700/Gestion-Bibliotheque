@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
-        <h1>Mes Réservations</h1>
+        <h1>Historique</h1>
 
         <c:if test="${not empty sessionScope.message}">
             <div class="alert success">${sessionScope.message}</div>
@@ -26,7 +26,7 @@
         </c:if>
 
         <div class="section-card">
-            <h3>Liste de mes réservations</h3>
+            <h3>Historique de réservations</h3>
             <table class="user-table">
                 <thead>
                     <tr>
@@ -34,8 +34,6 @@
                         <th>Titre du Livre</th>
                         <th>Date de Réservation</th>
                         <th>Date d'expiration</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,30 +45,18 @@
                                     <td>${res.book_title}</td>
                                     <td>${res.formattedDateRegister}</td>
                                     <td>${res.formattedDueRegister}</td>
-                                    <td>${res.status}</td>
-                                    <td>
-                                        <c:if test="${res.status eq 'ACTIVE'}">
-                                            <form action="cancelReservation" method="post" onsubmit="return confirm('Voulez-vous vraiment annuler cette réservation ?');">
-                                                <input type="hidden" name="reservationId" value="${res.reservation_id}">
-                                                <button type="submit" class="action-btn cancel-btn">
-                                                    <i class="fas fa-times"></i> Annuler
-                                                </button>
-                                            </form>
-                                        </c:if>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="6" style="text-align: center;">Vous n'avez aucune réservation en cours.</td>
+                                <td colspan="4" style="text-align: center;">Vous n'avez jamais reservé de livres.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
                 </tbody>
             </table>
         </div>
-
     </main>
 </body>
 </html>

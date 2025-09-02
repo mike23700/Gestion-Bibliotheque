@@ -41,6 +41,16 @@ public class ReservationService {
         return updateReservationStatus(reservationId, "CANCELLED");
     }
 
+    public void cancelExpiredReservations() {
+        List<Reservation> expiredReservations = reservationDAO.findExpiredReservations();
+        for (Reservation reservation : expiredReservations) {
+            boolean success = updateReservationStatus(reservation.getReservation_id(), "EXPIRED");
+            if (success) {
+                System.out.println("Réservation expirée et annulée : " + reservation.getReservation_id());
+            }
+        }
+    }
+
     public List<Reservation> getReservationsByUserId(String userId) {
         return reservationDAO.findByUserId(userId);
     }

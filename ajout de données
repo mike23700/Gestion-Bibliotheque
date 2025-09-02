@@ -18,3 +18,8 @@ INSERT INTO loans (loan_id, user_id, book_id, due_date)
 VALUES ('L001', 'MEM001', 'B001', '2025-09-10');
 
 #135776        #137657    #007bff
+
+ALTER TABLE reservations ADD COLUMN due_date DATETIME;
+
+ALTER TABLE reservations
+MODIFY COLUMN status ENUM('ACTIVE', 'CANCELLED', 'FULFILLED', 'EXPIRED');

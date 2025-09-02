@@ -19,6 +19,7 @@ public interface ReservationDAO {
     List<Reservation> getAllReservations();
     List<Reservation> findActiveByUserId(String userId);
     List<Reservation> findByUserIdAndBookName(String userId, String bookName);
+    List<Reservation> findExpiredReservations();
     int countReservations();
     //List<Reservation> findByDate(LocalDateTime date);
 }

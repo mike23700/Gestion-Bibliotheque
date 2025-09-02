@@ -76,14 +76,7 @@
                                     </form>
                                 </c:when>
                                 <c:when test="${book.status == 'emprunté'}">
-                                    <form action="status" method="post">
-                                        <input type="hidden" name="id_book" id="" value="${book.id_Book}">
-                                        <input type="hidden" name="action" id="" value="reserver">
-                                        <input type="submit" value="Reserver" >
-                                    </form>
-                                </c:when>
-                                <c:when test="${book.status == 'reserver'}">
-                                    <button disabled >Reserver</button>
+                                    <p style="font-size: 15px;">déja emprunter</p>
                                 </c:when>
                             </c:choose>
                         </p>
@@ -137,84 +130,6 @@
                 }
             });
         });
-
-
-        const searchForm = document.getElementById('listBooks');
-        const bookGrid = document.getElementById('bookGrid');
-        const searchMessageContainer = document.getElementById('searchMessageContainer');
-        const emptyListMessage = document.getElementById('emptyListMessage');
-
-        if (emptyListMessage && bookGrid) {
-            const initialBookCardsCount = bookGrid.querySelectorAll('.book-card').length;
-            if (initialBookCardsCount === 0) {
-                emptyListMessage.textContent = 'Aucun livre trouvé dans la bibliothèque.';
-                emptyListMessage.style.display = 'block';
-            } else {
-                emptyListMessage.style.display = 'none';
-            }
-        }
-
-
-        if (searchForm) {
-            searchForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-
-                if (emptyListMessage) emptyListMessage.style.display = 'none';
-                if (searchMessageContainer) searchMessageContainer.style.display = 'none';
-
-
-                if (bookGrid) {
-                   bookGrid.innerHTML = '';
-                }
-
-                const formData = new FormData(searchForm);
-
-
-
-                fetch("listBooks", {
-                    method: 'GET', // La recherche est souvent une requête GET
-                    body: formData,
-                })
-                .then(response => {
-                    // Si le serveur renvoie une erreur (par exemple 500)
-                    if (!response.ok) {
-                        return response.text().then(text => {
-                            console.error("Erreur (HTTP Status " + response.status + "):", text);
-                            throw new Error(`Erreur HTTP ${response.status}: ${text}`);
-                        });
-                    }
-                    return response.text(); // Attendez du HTML en retour
-                })
-                .then(htmlContent => {
-                    if (bookGrid) {
-                        bookGrid.innerHTML = htmlContent; // Mette à jour le conteneur de la grille
-                    }
-
-                    // Vérifie si des livres ont été trouvés APRÈS la mise à jour de la grille
-                    const hasBooks = bookGrid && bookGrid.querySelector('.book-card') !== null;
-
-                    if (searchMessageContainer) {
-                        if (!hasBooks) { // Si aucun livre n'est présent dans la grille
-                            searchMessageContainer.style.display = 'block';
-                            searchMessageContainer.style.color = 'orange';
-                            searchMessageContainer.textContent = 'Aucun livre trouvé correspondant à votre recherche.';
-                        } else {
-                            // Si des livres ont été trouvés, masquer le message
-                            searchMessageContainer.style.display = 'none';
-                        }
-                    }
-                })
-                .catch(error => {
-                   console.error('Erreur lors de la recherche AJAX:', error);
-                    if (searchMessageContainer) {
-                        searchMessageContainer.style.display = 'block';
-                        searchMessageContainer.style.color = 'red';
-                        searchMessageContainer.textContent = `Erreur lors de la recherche: ${error.message}. Veuillez réessayer.`;
-                    }
-                });
-            });
-        }
 
     </script>
 </body>

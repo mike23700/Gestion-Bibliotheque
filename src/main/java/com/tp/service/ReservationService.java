@@ -16,16 +16,17 @@ public class ReservationService {
     }
 
     public boolean createReservation(String userId, String bookId) {
+        if (loanService.isBookBorrowedBy(userId , bookId)){
+            return false;
+        }
+
         Reservation reservation = new Reservation(
                 userId,
                 bookId,
                 LocalDateTime.now(),
                 "ACTIVE"
         );
-        if (loanService.isBookBorrowedBy(userId , bookId)){
-            System.err.println("l'utilisateur a deja ce livre a sa possession");
-            return false;
-        }
+
         return reservationDAO.addReservation(reservation);
     }
 

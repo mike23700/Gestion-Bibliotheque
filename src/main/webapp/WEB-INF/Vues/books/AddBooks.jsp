@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label for="image">Image :</label>
-                <input type="file" name="image" id="image" required class="form-input" placeholder="Ex: https://example.com/cover.jpg">
+                <input type="file" name="image" id="image" class="form-input" placeholder="Ex: https://example.com/cover.jpg">
             </div>
             <div class="form-group">
                 <label for="description">Description :</label>

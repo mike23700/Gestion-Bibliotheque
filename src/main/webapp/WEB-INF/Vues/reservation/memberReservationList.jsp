@@ -17,6 +17,14 @@
         <h1>Mes Réservations</h1>
         <a href="reservationHistory"><h3>Voir L'historique</h3></a>
 
+        <c:if test="${not empty sessionScope.message}">
+            <div class="alert success">${sessionScope.message}</div>
+            <c:remove var="message" scope="session"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.error}">
+            <div class="alert error">${sessionScope.error}</div>
+            <c:remove var="error" scope="session"/>
+        </c:if>
         <div class="section-card">
             <h3>Liste de mes réservations</h3>
             <table class="user-table">

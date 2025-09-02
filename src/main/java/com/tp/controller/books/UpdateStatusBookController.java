@@ -55,16 +55,8 @@ public class UpdateStatusBookController extends HttpServlet {
 
         if(Objects.equals(action, "emprunté")){
 
-            boolean success = false;
 
-            try {
-                success = bookService.updateBookStatus(bookId , action);
-            } catch (Exception e) {
-                System.out.println("Erreur lors de la mise a jour du status");
-                throw new RuntimeException(e);
-            }
-
-            if(success) {
+            if(true) {
                 loan.setLoan_id(G.generateID());
                 loan.setUser_id(currentUser.getUser_id());
                 loan.setBook_id(bookId);
@@ -73,7 +65,22 @@ public class UpdateStatusBookController extends HttpServlet {
                 loan.setReturn_date(null);
 
                 try {
-                    loanService.AddLoan(loan);
+                    int nbre;
+                    nbre = loanService.AddLoan(loan);
+                    if(nbre == 0){
+                        session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligibe");
+                    }else if(nbre == 1){
+                        session.setAttribute("succes", "livre Emprunter avec succes");
+
+                        try {
+                            bookService.updateBookStatus(bookId , action);
+                        } catch (Exception e) {
+                            System.out.println("Erreur lors de la mise a jour du status");
+                            throw new RuntimeException(e);
+                        }
+                    }else {
+                        session.setAttribute("error", "erreur lors de l'emprunt veillez ressayer");
+                    }
                 } catch (Exception e) {
                     System.out.println("Erreur lors de l'insertion dans la table loan");
                     throw new RuntimeException(e);
@@ -86,7 +93,6 @@ public class UpdateStatusBookController extends HttpServlet {
                     throw new RuntimeException(e);
                 }
 
-                session.setAttribute("succes", "livre Emprunter avec succes");
             }
         }
         if (Objects.equals(action, "reserver")){

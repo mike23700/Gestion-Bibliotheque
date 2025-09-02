@@ -99,13 +99,13 @@
 
     <c:if test="${not empty sessionScope.succes}">
         <div class="message-container">
-            <div class="success">${sessionScope.succes}</div>
+            <div class="success">${sessionScope.succes}<span>  </span><i class="fa-solid fa-circle-check"></i></div>
         </div>
         <c:remove var="succes" scope="session"/>
     </c:if>
     <c:if test="${not empty sessionScope.error}">
         <div class="message-container">
-            <div class="error">${sessionScope.error}</div>
+            <div class="error">${sessionScope.error}<span>  </span><i class="fa-solid fa-xmark"></i></div>
         </div>
         <c:remove var="error" scope="session"/>
     </c:if>

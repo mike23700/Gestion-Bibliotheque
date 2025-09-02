@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface LoanDAO {
-    void AddLoan(Loan loan) throws Exception;
+    boolean AddLoan(Loan loan) throws Exception;
     //void DeleteLoan(String loan_id) throws Exception;
     List<Loan> getAllLoansByUser(String user_id) throws Exception;
     List<Loan> getAllLoans() throws Exception;
@@ -18,4 +18,5 @@ public interface LoanDAO {
     boolean updateLoanReturnDate(String loanId, LocalDateTime returnDate);
     Loan getLoanById(String loanId);
     boolean isBookBorrowedBy(String user_id , String book_id);
+    boolean countLoanByUser(String user_id) throws Exception;
 }

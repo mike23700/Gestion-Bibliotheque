@@ -15,8 +15,14 @@ public class LoanService {
         this.loanDAO = daoFactory.getLoanDAO();
     }
 
-    public void AddLoan(Loan loan) throws Exception {
-        loanDAO.AddLoan(loan);
+    public int AddLoan(Loan loan) throws Exception {
+        if(loanDAO.countLoanByUser(loan.getUser_id())){
+            return 0 ; //l'utilisateur a deja trois emprunt en cours
+        }else if(loanDAO.AddLoan(loan)){
+            return 1;   //l'utilisateur n'a pas trois emprunt  en cours
+        }else {
+            return 2;  //Erreur interne
+        }
     }
 
     /*

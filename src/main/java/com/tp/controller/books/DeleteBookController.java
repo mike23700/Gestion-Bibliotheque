@@ -17,12 +17,8 @@ public class DeleteBookController extends HttpServlet {
 
     BookService bookService = new BookService();
 
-    /*
+
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
-        this.getServletContext().getRequestDispatcher("/WEB-INF/DeleteBook.jsp").forward(request,response);
-    }
-    */
-    protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
         HttpSession session = request.getSession(false);
         User currentUser = (session == null )? null : (User) session.getAttribute("user");
 
@@ -31,15 +27,16 @@ public class DeleteBookController extends HttpServlet {
             return;
         }
 
-        String book_id = request.getParameter("book_id");
+        String book_id = request.getParameter("id_book");
 
         try {
             bookService.deleteBook(book_id);
-            request.getSession().setAttribute("succes","Book deleted successfully");
+            session.setAttribute("succes","Livre supprimer avec Succes");
         } catch (Exception e) {
-            request.getSession().setAttribute("error","Failed to delete book");
+            session.setAttribute("error","Erreur lors de la suppression");
         }
 
         response.sendRedirect("listBooks");
     }
+
 }

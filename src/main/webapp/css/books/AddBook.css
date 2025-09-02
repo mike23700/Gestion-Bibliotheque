@@ -8,14 +8,14 @@
             line-height: 1.6;
         }
 
-        /* Conteneur principal du formulaire */
+        
         .form-container {
-            max-width: 450px; /* Réduction de la largeur maximale du formulaire */
-            margin: 40px auto; /* Centre le formulaire horizontalement et réduit l'espace */
-            padding: 20px; /* Réduction de l'espacement interne */
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 20px;
             background-color: #ffffff;
-            border-radius: 10px; /* Coins légèrement moins arrondis */
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* Ombre ajustée */
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
             display: none;
             z-index: 1000;
             position: fixed;
@@ -23,18 +23,18 @@
             left: 40%;
         }
 
-        /* Titre du formulaire */
+        
         .form-title {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 25px; /* Espacement ajusté */
-            font-size: 1.8em; /* Réduction de la taille du titre */
+            margin-bottom: 25px;
+            font-size: 1.8em; 
             font-weight: 700;
         }
 
-        /* Chaque groupe de champ (label + input/select/textarea) */
+        
         .form-group {
-            margin-bottom: 15px; /* Espacement réduit entre les groupes de champs */
+            margin-bottom: 15px;
         }
 
         .form-group1 {
@@ -46,7 +46,7 @@
             height: 50px;
         }
 
-        /* Labels des champs */
+        
         .form-group label {
             display: block; /* Chaque label prend sa propre ligne et est aligné à gauche */
             margin-bottom: 6px; /* Espacement réduit */

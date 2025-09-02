@@ -76,7 +76,11 @@
                                     </form>
                                 </c:when>
                                 <c:when test="${book.status == 'emprunté'}">
-                                    <p style="font-size: 15px;">déja emprunter</p>
+                                    <form action="status" method="post">
+                                        <input type="hidden" name="id_book" id="" value="${book.id_Book}">
+                                        <input type="hidden" name="action" id="" value="reserver">
+                                        <input type="submit" value="Reserver">
+                                    </form>
                                 </c:when>
                             </c:choose>
                         </p>
@@ -92,6 +96,20 @@
         </div>
 
     </c:if>
+
+    <c:if test="${not empty sessionScope.succes}">
+        <div class="message-container">
+            <div class="success">${sessionScope.succes}</div>
+        </div>
+        <c:remove var="succes" scope="session"/>
+    </c:if>
+    <c:if test="${not empty sessionScope.error}">
+        <div class="message-container">
+            <div class="error">${sessionScope.error}</div>
+        </div>
+        <c:remove var="error" scope="session"/>
+    </c:if>
+
     <p id="emptyListMessage" class="empty-list-message" style="display: none;"></p>
 
     <!-- Si la liste est vide -->
@@ -130,6 +148,21 @@
                 }
             });
         });
+
+        window.onload = function() {
+            var messageDiv = document.querySelector(".message-container");
+            if (messageDiv) {
+                messageDiv.style.display = 'block';
+                
+            
+                setTimeout(function() {
+                    messageDiv.style.opacity = '0';
+                    setTimeout(function() {
+                        messageDiv.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            }
+        };
 
     </script>
 </body>

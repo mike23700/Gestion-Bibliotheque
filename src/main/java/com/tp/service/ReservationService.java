@@ -10,9 +10,11 @@ import java.time.LocalDateTime;
 
 public class ReservationService {
     private final ReservationDAO reservationDAO;
+    LoanService loanService;
 
     public ReservationService(DAOFactory daoFactory) {
         this.reservationDAO = daoFactory.getReservationDAO();
+        loanService = new LoanService();
     }
 
     public boolean createReservation(String userId, String bookId) {
@@ -28,6 +30,30 @@ public class ReservationService {
                 "ACTIVE"
         );
         return reservationDAO.addReservation(reservation);
+    }
+
+    public int createReservationForInt(String userId , String bookId){
+        GenerateReservationID generator = new GenerateReservationID();
+        String reservationId = generator.generateID();
+
+        Reservation reservation = new Reservation(
+                reservationId,
+                userId,
+                bookId,
+                LocalDateTime.now(),
+                "ACTIVE"
+        );
+
+        if(loanService.isBookBorrowedBy(userId , bookId)){
+            return 0;  //si tu veut reserver le livre que tu as emprunter
+        }else if(reservationDAO.isTwoReservationByBook(userId , bookId)){
+            return 1;  //si tu veut emprunter un livre deux fois
+        }else if(reservationDAO.addReservation(reservation)){
+            return 2;
+        }else {
+            return 3;  //erreur interne
+
+        }
     }
 
     public boolean updateReservationStatus(String reservationId, String newStatus) {

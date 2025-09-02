@@ -36,7 +36,7 @@
         <div class="dashboard-section">
             <h2>Livres les plus populaires</h2>
             <div class="popular-books">
-                <c:forEach var="book" items="${popularBooks}" begin="0" end="2">
+                <c:forEach var="book" items="${popularBooks}" begin="0" end="3">
                     <div class="book-card">
                         <img src="${pageContext.request.contextPath}/${book.image}"
                              alt="Couverture de ${book.title}"
@@ -60,7 +60,7 @@
         <div class="dashboard-section">
             <h2>Emprunts en cours</h2>
             <div class="loan-list">
-                <c:forEach var="loan" items="${currentLoans}" begin="0" end="1">
+                <c:forEach var="loan" items="${currentLoans}" begin="0" end="2">
                     <div class="loan-item">
                         <p><strong>Livre:</strong> ${loan.book_title}</p>
                         <p><strong>Emprunteur:</strong> ${loan.username}</p>

@@ -33,6 +33,7 @@ public class AdminListReservationsController extends HttpServlet {
             return;
         }
 
+        reservationService.cancelExpiredReservations();
         List<Reservation> reservations = reservationService.getAllReservations();
 
         String searchType = request.getParameter("searchType");

@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/memberListReservations")
-public class MemberListReservationsController extends HttpServlet {
+@WebServlet("/reservationHistory")
+public class ReservationHistoryController extends HttpServlet {
 
     private ReservationService reservationService;
 
@@ -33,10 +33,8 @@ public class MemberListReservationsController extends HttpServlet {
             return;
         }
 
-        reservationService.cancelExpiredReservations();
-        List<Reservation> reservations = reservationService.getActiveReservationsByUserId(currentUser.getUser_id());
+        List<Reservation> reservations = reservationService.getReservationsByUserId(currentUser.getUser_id());
         request.setAttribute("reservations", reservations);
-        System.out.println("reservation du user "+currentUser.getName()+" est "+reservations.size());
-        request.getRequestDispatcher("/WEB-INF/Vues/reservation/memberReservationList.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/Vues/reservation/reservationHistory.jsp").forward(request, response);
     }
 }

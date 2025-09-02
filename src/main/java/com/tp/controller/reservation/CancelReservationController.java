@@ -35,7 +35,7 @@ public class CancelReservationController extends HttpServlet {
 
         if (reservationIdParam != null && !reservationIdParam.isEmpty()) {
             try {
-                int reservationId = Integer.parseInt(reservationIdParam);
+                String reservationId = reservationIdParam;
                 boolean success = reservationService.cancelReservation(reservationId);
 
                 if (success) {

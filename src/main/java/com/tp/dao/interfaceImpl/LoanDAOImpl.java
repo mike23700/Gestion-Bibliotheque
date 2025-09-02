@@ -20,7 +20,7 @@ public class LoanDAOImpl implements LoanDAO {
     }
 
     @Override
-    public void AddLoan(Loan loan) throws Exception {
+    public boolean AddLoan(Loan loan) throws Exception {
         try {
             Connection connection = DBConnection.getConnection();
             String sql = "INSERT INTO loans (loan_id, user_id, book_id, borrow_date, due_date) VALUES (?, ?, ?, ?, ?)";
@@ -32,9 +32,14 @@ public class LoanDAOImpl implements LoanDAO {
             stmt.setTimestamp(4, Timestamp.valueOf(loan.getBorrow_date()));
             stmt.setTimestamp(5, Timestamp.valueOf(loan.getDue_date()));
             stmt.executeUpdate();
+
+            return true;
+
         } catch (Exception e) {
             System.err.println("Erreur lors de l'emprunt");
             e.printStackTrace();
+
+            return false;
         }
     }
 
@@ -48,7 +53,7 @@ public class LoanDAOImpl implements LoanDAO {
                 " INNER JOIN " +
                   " books b ON l.book_id = b.book_id " +
                 " WHERE " +
-                  " l.user_id = ? OR b.status = 'emprunté' ";
+                  " l.user_id = ? AND b.status = 'emprunté' ";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -403,7 +408,6 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public boolean isBookBorrowedBy(String user_id, String book_id) {
         String query = "SELECT COUNT(*) FROM loans WHERE book_id = ? AND user_id = ? AND return_date IS NULL ";
-        int count = 0;
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -422,5 +426,34 @@ public class LoanDAOImpl implements LoanDAO {
         }
         return false;
 
+    }
+
+    @Override
+    public boolean countLoanByUser(String user_id) throws Exception {
+
+        String query = " SELECT COUNT(*) " +
+                "FROM " +
+                  " loans L " +
+                " INNER JOIN "+
+                  " books B ON B.book_id = L.book_id "+
+                "WHERE " +
+                " L.user_id = ? AND B.status = 'emprunté' ";
+
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, user_id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 2;
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL lors de la vérification de l'emprunt: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 }

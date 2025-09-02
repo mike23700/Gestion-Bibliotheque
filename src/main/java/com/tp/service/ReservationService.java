@@ -3,34 +3,34 @@ package com.tp.service;
 import com.tp.dao.DAOFactory;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.model.Reservation;
+import com.tp.model.generateID.GenerateReservationID;
 
 import java.util.List;
 import java.time.LocalDateTime;
 
 public class ReservationService {
     private final ReservationDAO reservationDAO;
-    LoanService loanService = new LoanService();
 
     public ReservationService(DAOFactory daoFactory) {
         this.reservationDAO = daoFactory.getReservationDAO();
     }
 
     public boolean createReservation(String userId, String bookId) {
-        if (loanService.isBookBorrowedBy(userId , bookId)){
-            return false;
-        }
+
+        GenerateReservationID generator = new GenerateReservationID();
+        String reservationId = generator.generateID();
 
         Reservation reservation = new Reservation(
+                reservationId,
                 userId,
                 bookId,
                 LocalDateTime.now(),
                 "ACTIVE"
         );
-
         return reservationDAO.addReservation(reservation);
     }
 
-    public boolean updateReservationStatus(int reservationId, String newStatus) {
+    public boolean updateReservationStatus(String reservationId, String newStatus) {
         Reservation reservation = reservationDAO.findById(reservationId);
         if (reservation != null) {
             reservation.setStatus(newStatus);
@@ -39,12 +39,22 @@ public class ReservationService {
         return false;
     }
 
-    public boolean fulfillReservation(int reservationId) {
+    public boolean fulfillReservation(String reservationId) {
         return updateReservationStatus(reservationId, "FULFILLED");
     }
 
-    public boolean cancelReservation(int reservationId) {
+    public boolean cancelReservation(String reservationId) {
         return updateReservationStatus(reservationId, "CANCELLED");
+    }
+
+    public void cancelExpiredReservations() {
+        List<Reservation> expiredReservations = reservationDAO.findExpiredReservations();
+        for (Reservation reservation : expiredReservations) {
+            boolean success = updateReservationStatus(reservation.getReservation_id(), "EXPIRED");
+            if (success) {
+                System.out.println("Réservation expirée et annulée : " + reservation.getReservation_id());
+            }
+        }
     }
 
     public List<Reservation> getReservationsByUserId(String userId) {
@@ -87,7 +97,7 @@ public class ReservationService {
         return reservationDAO.findByStatus(status);
     }
 
-    public Reservation findById(int reservationId) {
+    public Reservation findById(String reservationId) {
         return reservationDAO.findById(reservationId);
     }
 

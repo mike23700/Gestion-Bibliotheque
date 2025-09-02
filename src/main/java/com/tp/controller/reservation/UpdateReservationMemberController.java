@@ -37,7 +37,7 @@ public class UpdateReservationMemberController extends HttpServlet {
 
         if (reservationIdParam != null && !reservationIdParam.isEmpty() && newStatus != null && !newStatus.isEmpty()) {
             try {
-                int reservationId = Integer.parseInt(reservationIdParam);
+                String reservationId = reservationIdParam;
 
                 Reservation existingReservation = reservationService.findById(reservationId);
 

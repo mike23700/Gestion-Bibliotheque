@@ -9,6 +9,9 @@ public interface LoanDAO {
     boolean AddLoan(Loan loan) throws Exception;
     //void DeleteLoan(String loan_id) throws Exception;
     List<Loan> getAllLoansByUser(String user_id) throws Exception;
+
+    List<Loan> getEveryLoanByUser(String user_id);
+
     List<Loan> getAllLoans() throws Exception;
     List<Loan> findByDate(LocalDateTime date) throws Exception;
     List<Loan> findByUsername(String user_name) throws Exception;

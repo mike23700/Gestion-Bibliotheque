@@ -33,6 +33,7 @@ public class AdminListReservationsController extends HttpServlet {
             return;
         }
 
+        reservationService.cancelExpiredReservations();
         List<Reservation> reservations = reservationService.getAllReservations();
 
         String searchType = request.getParameter("searchType");
@@ -70,8 +71,6 @@ public class AdminListReservationsController extends HttpServlet {
         request.setAttribute("searchType", searchType);
         request.setAttribute("searchValue", searchValue);
         request.setAttribute("status", statusFilter);
-
-        reservationService.cancelExpiredReservations();
 
         request.getRequestDispatcher("/WEB-INF/Vues/reservation/adminReservationList.jsp").forward(request, response);
     }

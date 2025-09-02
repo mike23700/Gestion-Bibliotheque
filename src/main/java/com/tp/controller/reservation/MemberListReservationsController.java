@@ -33,6 +33,7 @@ public class MemberListReservationsController extends HttpServlet {
             return;
         }
 
+        reservationService.cancelExpiredReservations();
         List<Reservation> reservations = reservationService.getActiveReservationsByUserId(currentUser.getUser_id());
         request.setAttribute("reservations", reservations);
         request.getRequestDispatcher("/WEB-INF/Vues/reservation/memberReservationList.jsp").forward(request, response);

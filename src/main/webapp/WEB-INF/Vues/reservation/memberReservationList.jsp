@@ -15,15 +15,7 @@
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Mes Réservations</h1>
-
-        <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message}</div>
-            <c:remove var="message" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.error}">
-            <div class="alert error">${sessionScope.error}</div>
-            <c:remove var="error" scope="session"/>
-        </c:if>
+        <a href="reservationHistory"><h3>Voir L'historique</h3></a>
 
         <div class="section-card">
             <h3>Liste de mes réservations</h3>
@@ -34,7 +26,6 @@
                         <th>Titre du Livre</th>
                         <th>Date de Réservation</th>
                         <th>Date d'expiration</th>
-                        <th>Statut</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -47,7 +38,6 @@
                                     <td>${res.book_title}</td>
                                     <td>${res.formattedDateRegister}</td>
                                     <td>${res.formattedDueRegister}</td>
-                                    <td>${res.status}</td>
                                     <td>
                                         <c:if test="${res.status eq 'ACTIVE'}">
                                             <form action="cancelReservation" method="post" onsubmit="return confirm('Voulez-vous vraiment annuler cette réservation ?');">
@@ -63,7 +53,7 @@
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="6" style="text-align: center;">Vous n'avez aucune réservation en cours.</td>
+                                <td colspan="5" style="text-align: center;">Vous n'avez aucune réservation en cours.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>

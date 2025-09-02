@@ -16,15 +16,6 @@
     <main class="dashboard-container">
         <h1>Historique</h1>
 
-        <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message}</div>
-            <c:remove var="message" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.error}">
-            <div class="alert error">${sessionScope.error}</div>
-            <c:remove var="error" scope="session"/>
-        </c:if>
-
         <div class="section-card">
             <h3>Historique de réservations</h3>
             <table class="user-table">

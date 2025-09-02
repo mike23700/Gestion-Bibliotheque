@@ -23,3 +23,6 @@ ALTER TABLE reservations ADD COLUMN expire_date TIMESTAMP;
 
 ALTER TABLE reservations
 MODIFY COLUMN status ENUM('ACTIVE', 'CANCELLED', 'FULFILLED', 'EXPIRED');
+
+ALTER TABLE reservations
+MODIFY reservation_id VARCHAR(30) NOT NULL;

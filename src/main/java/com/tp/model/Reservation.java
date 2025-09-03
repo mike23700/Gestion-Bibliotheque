@@ -13,6 +13,17 @@ public class Reservation {
     private LocalDateTime expire_date;
     private String status;
 
+    // Simple Constructeur
+
+    public Reservation(){
+        this.reservation_id = "";
+        this.user_id = "";
+        this.book_id = "";
+        this.reservation_date = null;
+        this.expire_date = null;
+        this.status = "";
+    }
+
     // Constructeur pour les opérations d'ajout'
     public Reservation(String reservation_id,String user_id, String book_id, LocalDateTime reservation_date,  String status) {
         this.reservation_id = reservation_id;

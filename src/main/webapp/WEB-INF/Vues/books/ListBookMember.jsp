@@ -72,14 +72,14 @@
                                     <form action="status" method="post">
                                         <input type="hidden" name="id_book" id="" value="${book.id_Book}">
                                         <input type="hidden" name="action" id="" value="emprunté">
-                                        <input type="submit" value="Emprunter">
+                                        <input type="submit" value="Emprunter" style="cursor: pointer;">
                                     </form>
                                 </c:when>
                                 <c:when test="${book.status == 'emprunté'}">
                                     <form action="status" method="post">
                                         <input type="hidden" name="id_book" id="" value="${book.id_Book}">
                                         <input type="hidden" name="action" id="" value="reserver">
-                                        <input type="submit" value="Reserver">
+                                        <input type="submit" value="Reserver" style="cursor: pointer;">
                                     </form>
                                 </c:when>
                             </c:choose>

@@ -444,7 +444,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean isTwoReservationByBook(String user_id, String book_id) {
-        String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ?";
+        String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ? AND status = 'ACTIVE' ";
         int count = 0;
 
         try (Connection conn = DBConnection.getConnection();
@@ -465,4 +465,35 @@ public class ReservationDAOImpl implements ReservationDAO {
         return false;
     }
 
+    @Override
+    public Reservation getFirstReservation(String bookId) {
+        Reservation reservation = null;
+
+        String sql = " SELECT * FROM reservations WHERE book_id = ? AND status = 'ACTIVE' AND expire_date > NOW() ORDER BY reservation_date ASC LIMIT 1 ";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, bookId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    reservation = new Reservation(
+                            resultSet.getString("reservation_id"),
+                            resultSet.getString("user_id"),
+                            resultSet.getString("book_id"),
+                            resultSet.getTimestamp("reservation_date").toLocalDateTime(),
+                            resultSet.getString("status")
+                    );
+                    return reservation;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recuperation de la premiere reservation");
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

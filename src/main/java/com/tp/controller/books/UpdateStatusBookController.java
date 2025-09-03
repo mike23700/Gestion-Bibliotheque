@@ -106,7 +106,7 @@ public class UpdateStatusBookController extends HttpServlet {
                 }else if(nbre == 2){
                     session.setAttribute("succes", "Livre Reserver avec succes");
                 }else {
-                    session.setAttribute("error", "Erreur lors de la Reservation  veillez ressayer");
+                    session.setAttribute("error", "Nombres maximum de reservation atteint.");
                 }
             }catch (Exception e){
                 System.err.println("l'utilisateur a deja ce livre a sa possession");

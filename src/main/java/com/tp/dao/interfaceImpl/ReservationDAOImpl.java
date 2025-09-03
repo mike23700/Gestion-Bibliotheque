@@ -26,7 +26,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         try (Connection connexion = DBConnection.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
-            stmt.setString(1, reservation.getReservation_id());    
+            stmt.setString(1, reservation.getReservation_id());
             stmt.setString(2, reservation.getUser_id());
             stmt.setString(3, reservation.getBook_id());
             stmt.setTimestamp(4, Timestamp.valueOf(reservation.getReservation_date()));
@@ -464,5 +464,26 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
         return false;
     }
+
+    @Override
+    public boolean canUserReserve(String user_id) {
+        String query = "SELECT COUNT(*) FROM reservations WHERE user_id = ? AND status = 'ACTIVE'";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, user_id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int activeCount = rs.getInt(1);
+                    System.out.println("Nombre de réservations actives pour " + user_id + " : " + activeCount);
+                    return activeCount < 3;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
 }

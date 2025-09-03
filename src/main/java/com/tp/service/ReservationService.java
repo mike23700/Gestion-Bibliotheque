@@ -19,9 +19,11 @@ public class ReservationService {
 
     public boolean createReservation(String userId, String bookId) {
 
-        GenerateReservationID generator = new GenerateReservationID();
-        String reservationId = generator.generateID();
-
+        if (!reservationDAO.canUserReserve(userId)) {
+            System.err.println("Limite de 3 réservations atteinte.");
+            return false;
+        }
+        String reservationId = new GenerateReservationID().generateID();
         Reservation reservation = new Reservation(
                 reservationId,
                 userId,
@@ -31,6 +33,7 @@ public class ReservationService {
         );
         return reservationDAO.addReservation(reservation);
     }
+
 
     public int createReservationForInt(String userId , String bookId){
         GenerateReservationID generator = new GenerateReservationID();

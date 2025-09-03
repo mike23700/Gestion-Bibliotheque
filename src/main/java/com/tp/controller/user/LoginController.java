@@ -33,8 +33,15 @@ public class LoginController extends HttpServlet {
         User authenticatedUser = userService.authenticate(userId, password);
 
         if (authenticatedUser != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("user", authenticatedUser);
+            // Bloquer toute session existante pour empeher la contamination.
+            HttpSession oldSession = request.getSession(false);
+            if (oldSession != null) {
+                oldSession.invalidate();
+            }
+
+            // Creer une nouvelle session pour l'utilisateur logger.
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("user", authenticatedUser);
 
             if ("0000".equals(password)) {
                 request.getRequestDispatcher("/WEB-INF/Vues/auth/changePassword.jsp").forward(request, response);

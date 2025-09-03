@@ -59,18 +59,26 @@ public class ReturnBookController extends HttpServlet {
 
                         reservation = reservationService.getFirstReservation(loanToReturn.getBook_id());  // si il ya aucune reservation pour ce livre rendu
 
-                        if( reservation != null){
+                        if( reservation != null ){
                             loan.setLoan_id(G.generateID());
                             loan.setUser_id(reservation.getUser_id());
                             loan.setBook_id(reservation.getBook_id());
                             loan.setBorrow_date(LocalDateTime.now());
                             loan.setDue_date(LocalDateTime.now().plusDays(14));
 
-                            loanService.AddLoan(loan);
+                            int nbre = loanService.AddLoan(loan);
+                            if(nbre == 0){
+                                session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligible");
+                            }else if(nbre == 1){
+                                session.setAttribute("succes", "le livre que vous avez reserver vient d'etre disponible vous pouvez deja l'utiliser");
+                            }else {
+                                session.setAttribute("error", "erreur lors de l'emprunt veillez ressayer");
+                            }
 
                             //changeons le status de la reservation en FULFILLED
 
                             boolean update = reservationService.updateReservationStatus(reservation.getReservation_id(), "FULFILLED");
+
                             if(update){
                                 System.out.println("Changement du statut de la reservation en FULFILLED OK");
                             }else {

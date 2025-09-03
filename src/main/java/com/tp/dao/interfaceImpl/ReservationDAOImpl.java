@@ -12,21 +12,16 @@ import java.util.ArrayList;
 
 public class ReservationDAOImpl implements ReservationDAO {
 
-    private DAOFactory daoFactory;
-
     public ReservationDAOImpl(DAOFactory daoFactory) {
-        this.daoFactory = daoFactory;
     }
 
     @Override
     public boolean addReservation(Reservation reservation) {
-        String query = "INSERT INTO reservations (reservation_id ,user_id, book_id, reservation_date, expire_date, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO reservations (reservation_id, user_id, book_id, reservation_date, expire_date, status) VALUES (?, ?, ?, ?, ?, ?)";
         boolean success = false;
-
         try (Connection connexion = DBConnection.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
-            stmt.setString(1, reservation.getReservation_id());    
+            stmt.setString(1, reservation.getReservation_id());
             stmt.setString(2, reservation.getUser_id());
             stmt.setString(3, reservation.getBook_id());
             stmt.setTimestamp(4, Timestamp.valueOf(reservation.getReservation_date()));
@@ -35,6 +30,9 @@ public class ReservationDAOImpl implements ReservationDAO {
             int rowsInserted = stmt.executeUpdate();
             if (rowsInserted > 0) {
                 success = true;
+                System.out.println("Réservation ajoutée avec succès : " + reservation.getReservation_id());
+            } else {
+                System.err.println("Échec de l'insertion de la réservation : " + reservation.getReservation_id());
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la réservation : " + e.getMessage());
@@ -496,4 +494,28 @@ public class ReservationDAOImpl implements ReservationDAO {
 
         return null;
     }
+
+    @Override
+    public boolean canUserReserve(String user_id) {
+        String query = "SELECT COUNT(*) FROM reservations WHERE user_id = ? AND status = 'ACTIVE'";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, user_id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int activeCount = rs.getInt(1);
+                    System.out.println("Nombre de réservations actives pour " + user_id + " : " + activeCount);
+                    return activeCount < 3;
+                } else {
+                    System.err.println("Aucun résultat retourné pour user_id : " + user_id);
+                    return true; // Aucun résultat, donc l'utilisateur peut réserver
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL dans canUserReserve pour user_id " + user_id + " : " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

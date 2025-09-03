@@ -23,5 +23,6 @@ public interface ReservationDAO {
     int countReservations();
     boolean isTwoReservationByBook(String user_id , String book_id);
     Reservation getFirstReservation(String book_id);
+    boolean canUserReserve(String user_id);
     //List<Reservation> findByDate(LocalDateTime date);
 }

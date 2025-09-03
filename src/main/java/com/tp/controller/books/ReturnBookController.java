@@ -1,9 +1,13 @@
 package com.tp.controller.books;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Loan;
+import com.tp.model.Reservation;
 import com.tp.model.User;
+import com.tp.model.generateID.GenerateIdLoans;
 import com.tp.service.BookService;
 import com.tp.service.LoanService;
+import com.tp.service.ReservationService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +21,20 @@ import java.time.LocalDateTime;
 @WebServlet("/returnBook")
 public class ReturnBookController extends HttpServlet {
 
-    private final BookService bookService = new BookService();
-    private final LoanService loanService = new LoanService();
+    private ReservationService reservationService;
+
+    private  BookService bookService = null ;
+    private  LoanService loanService = null ;
+    private  Reservation reservation = new Reservation();
+    private Loan loan = new Loan();
+    private GenerateIdLoans G = new GenerateIdLoans();
+
+    public void init() throws ServletException {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        this.reservationService = new ReservationService(daoFactory);
+        bookService = new BookService();
+        loanService = new LoanService();
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -40,13 +56,37 @@ public class ReturnBookController extends HttpServlet {
                     boolean loanUpdated = loanService.updateLoanReturnDate(loanId, LocalDateTime.now());
 
                     if (loanUpdated) {
-                        boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "disponible");
 
-                        if (bookStatusUpdated) {
-                            session.setAttribute("message", "Le livre a été rendu avec succès.");
-                        } else {
-                            session.setAttribute("error", "Le retour est enregistré mais le statut du livre n'a pas pu être mis à jour.");
+                        reservation = reservationService.getFirstReservation(loanToReturn.getBook_id());  // si il ya aucune reservation pour ce livre rendu
+
+                        if( reservation != null){
+                            loan.setLoan_id(G.generateID());
+                            loan.setUser_id(reservation.getUser_id());
+                            loan.setBook_id(reservation.getBook_id());
+                            loan.setBorrow_date(LocalDateTime.now());
+                            loan.setDue_date(LocalDateTime.now().plusDays(14));
+
+                            loanService.AddLoan(loan);
+
+                            //changeons le status de la reservation en FULFILLED
+
+                            boolean update = reservationService.updateReservationStatus(reservation.getReservation_id(), "FULFILLED");
+                            if(update){
+                                System.out.println("Changement du statut de la reservation en FULFILLED OK");
+                            }else {
+                                System.out.println("Erreur lors du changement du statut de la reservation en FULFILLED ");
+                            }
+                        }else{
+                            boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "disponible");
+                            if(bookStatusUpdated){
+                                System.out.println("Changement du statut du livre en DISPONIBLE OK");
+                            }else {
+                                System.out.println("Erreur lors du changement du statut du livre en DISPONIBLE ");
+                            }
                         }
+
+                        session.setAttribute("message", "Le livre a été rendu avec succès.");
+
                     } else {
                         session.setAttribute("error", "Impossible d’enregistrer le retour de l’emprunt.");
                     }

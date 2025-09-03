@@ -26,7 +26,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         try (Connection connexion = DBConnection.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
-            stmt.setString(1, reservation.getReservation_id());
+            stmt.setString(1, reservation.getReservation_id());    
             stmt.setString(2, reservation.getUser_id());
             stmt.setString(3, reservation.getBook_id());
             stmt.setTimestamp(4, Timestamp.valueOf(reservation.getReservation_date()));
@@ -444,7 +444,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
     @Override
     public boolean isTwoReservationByBook(String user_id, String book_id) {
-        String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ?";
+        String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ? AND status = 'ACTIVE' ";
         int count = 0;
 
         try (Connection conn = DBConnection.getConnection();
@@ -466,24 +466,34 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public boolean canUserReserve(String user_id) {
-        String query = "SELECT COUNT(*) FROM reservations WHERE user_id = ? AND status = 'ACTIVE'";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+    public Reservation getFirstReservation(String bookId) {
+        Reservation reservation = null;
 
-            stmt.setString(1, user_id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    int activeCount = rs.getInt(1);
-                    System.out.println("Nombre de réservations actives pour " + user_id + " : " + activeCount);
-                    return activeCount < 3;
+        String sql = " SELECT * FROM reservations WHERE book_id = ? AND status = 'ACTIVE' AND expire_date > NOW() ORDER BY reservation_date ASC LIMIT 1 ";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, bookId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    reservation = new Reservation(
+                            resultSet.getString("reservation_id"),
+                            resultSet.getString("user_id"),
+                            resultSet.getString("book_id"),
+                            resultSet.getTimestamp("reservation_date").toLocalDateTime(),
+                            resultSet.getString("status")
+                    );
+                    return reservation;
                 }
             }
+
         } catch (SQLException e) {
+            System.err.println("Erreur lors de la recuperation de la premiere reservation");
             e.printStackTrace();
         }
-        return false;
+
+        return null;
     }
-
-
 }

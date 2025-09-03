@@ -141,4 +141,8 @@ public class ReservationService {
     public int countReservations() {
         return reservationDAO.countReservations();
     }
+
+    public Reservation getFirstReservation(String book_id){
+        return reservationDAO.getFirstReservation(book_id);
+    }
 }

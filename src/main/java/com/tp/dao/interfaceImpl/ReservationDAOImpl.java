@@ -213,7 +213,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         try (Connection connexion = DBConnection.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
-            // Utilisation de "%" pour permettre la recherche d'une partie du titre du livre
             stmt.setString(1, "%" + bookName + "%");
 
             try (ResultSet rs = stmt.executeQuery()) {

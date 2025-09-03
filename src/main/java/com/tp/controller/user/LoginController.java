@@ -39,7 +39,6 @@ public class LoginController extends HttpServlet {
                 oldSession.invalidate();
             }
 
-            // Creer une nouvelle session pour l'utilisateur logger.
             HttpSession newSession = request.getSession(true);
             newSession.setAttribute("user", authenticatedUser);
 

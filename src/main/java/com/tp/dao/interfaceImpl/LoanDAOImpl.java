@@ -517,7 +517,7 @@ public class LoanDAOImpl implements LoanDAO {
                 " INNER JOIN "+
                   " books B ON B.book_id = L.book_id "+
                 "WHERE " +
-                " L.user_id = ? AND B.status = 'emprunté' ";
+                " L.user_id = ? AND B.status = 'emprunté' AND return_date IS NULL";
 
 
         try (Connection conn = DBConnection.getConnection();

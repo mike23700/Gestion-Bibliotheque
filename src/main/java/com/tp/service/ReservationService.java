@@ -19,15 +19,9 @@ public class ReservationService {
 
     public boolean createReservation(String userId, String bookId) {
 
-        GenerateReservationID generator = new GenerateReservationID();
-        String reservationId = generator.generateID();
-
+        String reservationId = new GenerateReservationID().generateID();
         Reservation reservation = new Reservation(
-                reservationId,
-                userId,
-                bookId,
-                LocalDateTime.now(),
-                "ACTIVE"
+                reservationId, userId, bookId, LocalDateTime.now(), "ACTIVE"
         );
         return reservationDAO.addReservation(reservation);
     }

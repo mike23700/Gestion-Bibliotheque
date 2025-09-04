@@ -1,6 +1,7 @@
 package com.tp.controller.loans;
 
 import com.tp.model.Loan;
+import com.tp.model.Reservation;
 import com.tp.model.User;
 import com.tp.service.LoanService;
 
@@ -17,7 +18,6 @@ import java.util.List;
 @WebServlet("/listLoan")
 public class ListLoanController extends HttpServlet {
     LoanService loanService = new LoanService();
-    List<Loan> loans = new ArrayList<>();
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
         HttpSession session = request.getSession(false);
@@ -27,13 +27,54 @@ public class ListLoanController extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
-
+        List<Loan> loans = null;
         try {
-            loans = loanService.getAllLoans();
-            request.setAttribute("loans",loans);
+             loans = loanService.getAllLoans();
         } catch (Exception e) {
-            System.err.println("Erreur lors de la recuperation des reservations");
+            throw new RuntimeException(e);
         }
+
+        String searchType = request.getParameter("searchType");
+        String searchValue = request.getParameter("searchValue");
+        String statusFilter = request.getParameter("status");
+
+        if (searchValue != null && !searchValue.trim().isEmpty()) {
+                switch (searchType) {
+                    case "userId":
+                        try {
+                            loans = loanService.getEveryLoanByUser(searchValue.trim());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case "userName":
+                        try {
+                            loans = loanService.findByUsername(searchValue.trim());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    case "bookName":
+                        try {
+                            loans = loanService.findByBooktitle(searchValue.trim());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        break;
+                    default:
+                        try {
+                            loans = loanService.getAllLoans();
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                }
+            }
+
+        request.setAttribute("loans", loans);
+        request.setAttribute("searchType", searchType);
+        request.setAttribute("searchValue", searchValue);
+        request.setAttribute("status", statusFilter);
+
         this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/loans/listLoan.jsp").forward(request,response);
     }
 }

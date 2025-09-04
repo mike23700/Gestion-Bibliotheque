@@ -37,14 +37,12 @@ public class CreateReservationController extends HttpServlet {
         if (bookId != null && !bookId.isEmpty()) {
             boolean success = reservationService.createReservation(userId, bookId);
             if (success) {
-                request.setAttribute("message", "Livre réservé avec success!");
+                request.setAttribute("message", "Livre réservé avec succès!");
             } else {
-                request.setAttribute("error", "Échec de la réservation. Veuillez réessayer.");
+                request.setAttribute("error", "Erreur lors de la réservation : vous avez atteint la limite de réservations.");
             }
-        } else {
-            request.setAttribute("error", "Aucun livre sélectionné.");
         }
 
-        response.sendRedirect("listBooks");
+        request.getRequestDispatcher("listBooks").forward(request, response);
     }
 }

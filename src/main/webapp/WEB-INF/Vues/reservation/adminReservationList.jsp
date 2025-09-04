@@ -34,6 +34,7 @@
             <option value="ACTIVE" ${param.status eq 'ACTIVE' ? 'selected' : ''}>Active</option>
             <option value="FULFILLED" ${param.status eq 'FULFILLED' ? 'selected' : ''}>Terminée</option>
             <option value="CANCELLED" ${param.status eq 'CANCELLED' ? 'selected' : ''}>Annulée</option>
+            <option value="EXPIRED" ${param.status eq 'EXPIRED' ? 'selected' : ''}>Expirée</option>
         </select>
     </form>
 

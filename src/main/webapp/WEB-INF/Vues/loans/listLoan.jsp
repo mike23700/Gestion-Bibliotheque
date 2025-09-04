@@ -25,6 +25,24 @@
             <c:remove var="error" scope="session"/>
         </c:if>
 
+<div class="top-controls">
+    <form action="listLoan" method="get" class="search-user-form">
+        <select name="searchType">
+            <option value="userId" ${param.searchType eq 'userId' ? 'selected' : ''}>ID Utilisateur</option>
+            <option value="userName" ${param.searchType eq 'userName' ? 'selected' : ''}>Nom d'utilisateur</option>
+            <option value="bookName" ${param.searchType eq 'bookName' ? 'selected' : ''}>Titre du livre</option>
+        </select>
+
+        <div class="search-input-container">
+            <input type="text" name="searchValue" placeholder="Rechercher..."
+                   required value="${param.searchValue != null ? param.searchValue : ''}">
+            <button type="button" class="clear-search-btn"><i class="fas fa-times"></i></button>
+        </div>
+
+        <button type="submit"><i class="fas fa-search"></i></button>
+    </form>
+</div>
+
         <div class="section-card">
             <h3>Liste emprunts</h3>
             <table class="user-table">
@@ -36,7 +54,6 @@
                         <th>Date d'emprunts</th>
                         <th>Date limit</th>
                         <th>Date retour</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,19 +67,43 @@
                                     <td>${loan.formattedBorrowDate}</td>
                                     <td>${loan.formattedDueDate}</td>
                                     <td>${loan.formattedReturnDate}</td>
-                                    <td>${loan.status}</td>
                                 </tr>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="7" style="text-align: center;">Vous n'avez emprunter aucun livre.</td>
+                                <td colspan="6" style="text-align: center;">Aucun résultat pour cette recherche.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
                 </tbody>
             </table>
         </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const searchForm = document.querySelector('.search-user-form');
+                        const searchInput = searchForm.querySelector('input[name="searchValue"]');
+                        const clearBtn = searchForm.querySelector('.clear-search-btn');
+
+                        function toggleClearBtn() {
+                            if (searchInput.value.length > 0) {
+                                clearBtn.style.display = 'block';
+                            } else {
+                                clearBtn.style.display = 'none';
+                            }
+                        }
+
+                        searchInput.addEventListener('input', toggleClearBtn);
+                        clearBtn.addEventListener('click', function() {
+                            searchInput.value = '';
+                            toggleClearBtn();
+                            searchForm.submit();
+                        });
+
+                        toggleClearBtn();
+                    });
+                </script>
     </main>
 </body>
 </html>

@@ -56,44 +56,42 @@ public class UpdateStatusBookController extends HttpServlet {
         if(Objects.equals(action, "emprunté")){
 
 
-            if(true) {
-                loan.setLoan_id(G.generateID());
-                loan.setUser_id(currentUser.getUser_id());
-                loan.setBook_id(bookId);
-                loan.setBorrow_date(LocalDateTime.now());
-                loan.setDue_date(LocalDateTime.now().plusDays(14));
-                loan.setReturn_date(null);
 
-                try {
-                    int nbre;
-                    nbre = loanService.AddLoan(loan);
-                    if(nbre == 0){
-                        session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligibe");
-                    }else if(nbre == 1){
-                        session.setAttribute("succes", "livre Emprunter avec succes");
+            loan.setLoan_id(G.generateID());
+            loan.setUser_id(currentUser.getUser_id());
+            loan.setBook_id(bookId);
+            loan.setBorrow_date(LocalDateTime.now());
+            loan.setDue_date(LocalDateTime.now().plusDays(14));
+            //loan.setReturn_date(null);
 
-                        try {
-                            bookService.updateBookStatus(bookId , action);
-                        } catch (Exception e) {
-                            System.out.println("Erreur lors de la mise a jour du status");
-                            throw new RuntimeException(e);
-                        }
-                    }else {
-                        session.setAttribute("error", "erreur lors de l'emprunt veillez ressayer");
+            try {
+                int nbre;
+                nbre = loanService.AddLoan(loan);
+                if(nbre == 0){
+                    session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligibe");
+                }else if(nbre == 1){
+                    session.setAttribute("succes", "livre Emprunter avec succes");
+                    try {
+                        bookService.updateBookStatus(bookId , action);
+                    } catch (Exception e) {
+                        System.out.println("Erreur lors de la mise a jour du status");
+                        throw new RuntimeException(e);
                     }
-                } catch (Exception e) {
-                    System.out.println("Erreur lors de l'insertion dans la table loan");
-                    throw new RuntimeException(e);
+                }else {
+                    session.setAttribute("error", "erreur lors de l'emprunt veillez ressayer");
                 }
-
-                try {
-                    bookService.AddLoanCountOfBook(bookId);
-                } catch (Exception e) {
-                    System.out.println("Erreur lors de l'incrementation du loan_count dans la table book");
-                    throw new RuntimeException(e);
-                }
-
+            } catch (Exception e) {
+                System.out.println("Erreur lors de l'insertion dans la table loan");
+                throw new RuntimeException(e);
             }
+
+            try {
+                bookService.AddLoanCountOfBook(bookId);
+            } catch (Exception e) {
+                System.out.println("Erreur lors de l'incrementation du loan_count dans la table book");
+                throw new RuntimeException(e);
+            }
+
         }
         if (Objects.equals(action, "reserver")){
             int nbre ;

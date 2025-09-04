@@ -276,15 +276,15 @@ public class LoanDAOImpl implements LoanDAO {
         Connection connection = DBConnection.getConnection();
 
         try {
-
-            String sql = " SELECT L.loan_id, L.user_id, L.book_id, U.name, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
+            String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title, b.status " +
                     " FROM " +
-                      " loans L "+
+                    " loans l "+
                     " INNER JOIN "+
-                      " users U ON L.user_id = U.user_id "+
+                    " users u ON l.user_id = u.user_id "+
                     " INNER JOIN "+
-                      " books B ON L.book_id = B.book_id " +
-                    " WHERE U.name = ? ";
+                    " books b ON l.book_id = b.book_id WHERE " +
+                    " u.name = ?";
+
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, user_name);
 
@@ -295,11 +295,11 @@ public class LoanDAOImpl implements LoanDAO {
                         rs.getString("user_id"),
                         rs.getString("book_id"),
                         rs.getString("title"),
-                        rs.getString("username"),
+                        rs.getString("name"),
                         rs.getString("status"),
                         rs.getTimestamp("borrow_date").toLocalDateTime(),
                         rs.getTimestamp("due_date").toLocalDateTime(),
-                        rs.getTimestamp("return_date").toLocalDateTime()
+                        (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
                 );
                 loans.add(loan);
             }
@@ -316,14 +316,14 @@ public class LoanDAOImpl implements LoanDAO {
 
         try {
 
-            String sql = " SELECT L.loan_id, L.user_id, L.book_id, U.name, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
+            String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title, b.status" +
                     " FROM " +
-                      " loans L "+
+                    " loans l "+
                     " INNER JOIN "+
-                      " users U ON L.user_id = U.user_id "+
+                    " users u ON l.user_id = u.user_id "+
                     " INNER JOIN "+
-                      " books B ON L.book_id = B.book_id " +
-                    " WHERE B.title = ? ";
+                    " books b ON l.book_id = b.book_id WHERE " +
+                    "b.title = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book_title);
 
@@ -334,11 +334,11 @@ public class LoanDAOImpl implements LoanDAO {
                         rs.getString("user_id"),
                         rs.getString("book_id"),
                         rs.getString("title"),
-                        rs.getString("username"),
+                        rs.getString("name"),
                         rs.getString("status"),
                         rs.getTimestamp("borrow_date").toLocalDateTime(),
                         rs.getTimestamp("due_date").toLocalDateTime(),
-                        rs.getTimestamp("return_date").toLocalDateTime()
+                        (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
                 );
                 loans.add(loan);
             }

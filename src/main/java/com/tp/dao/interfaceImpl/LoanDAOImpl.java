@@ -49,11 +49,11 @@ public class LoanDAOImpl implements LoanDAO {
 
         String sql = " SELECT l.loan_id, l.user_id, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title " +
                 " FROM " +
-                " loans l " +
+                  " loans l " +
                 " INNER JOIN " +
-                " books b ON l.book_id = b.book_id " +
+                  " books b ON l.book_id = b.book_id " +
                 " WHERE " +
-                " l.user_id = ? AND b.status = 'emprunté' ";
+                  " l.user_id = ? AND b.status = 'emprunté' AND l.return_date IS NULL ";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -84,13 +84,12 @@ public class LoanDAOImpl implements LoanDAO {
     public List<Loan> getEveryLoanByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
 
-        String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title " +
+        String sql = " SELECT l.loan_id, l.user_id, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title " +
                 " FROM " +
-                " loans l "+
-                " INNER JOIN "+
-                " users u ON l.user_id = u.user_id "+
-                " INNER JOIN "+
-                " books b ON l.book_id = b.book_id WHERE " +
+                " loans l " +
+                " INNER JOIN " +
+                " books b ON l.book_id = b.book_id " +
+                " WHERE " +
                 " l.user_id = ?";
 
         try (Connection connection = DBConnection.getConnection();
@@ -105,11 +104,9 @@ public class LoanDAOImpl implements LoanDAO {
                             rs.getString("user_id"),
                             rs.getString("book_id"),
                             rs.getString("title"),
-                            rs.getString("name"),
                             rs.getTimestamp("borrow_date").toLocalDateTime(),
                             rs.getTimestamp("due_date").toLocalDateTime(),
                             (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
-
                     );
                     loans.add(loan);
                 }
@@ -144,12 +141,12 @@ public class LoanDAOImpl implements LoanDAO {
         try {
 
             String sql = " SELECT L.loan_id, L.user_id , L.book_id , U.name, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
-                    " FROM " +
-                    " loans L "+
-                    " INNER JOIN "+
-                    " users U ON L.user_id = U.user_id "+
-                    " INNER JOIN "+
-                    " books B ON L.book_id = B.book_id  ORDER BY borrow_date DESC"
+                       " FROM " +
+                          " loans L "+
+                       " INNER JOIN "+
+                          " users U ON L.user_id = U.user_id "+
+                       " INNER JOIN "+
+                          " books B ON L.book_id = B.book_id  ORDER BY borrow_date DESC"
                     ;
 
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -177,76 +174,25 @@ public class LoanDAOImpl implements LoanDAO {
     }
 
     @Override
-    public List<Loan> findByDate(LocalDateTime date) throws Exception {
-        List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-        LocalDateTime startOfDay = date.with(LocalTime.MIN);
-
-        LocalDateTime endOfDay = date.with(LocalTime.MAX);
-
-
-        try {
-            String sql = " SELECT L.loan_id, L.use_id, L.book_id, U.name, B.title, B.status L.borrow_date, L.due_date, L.return_date"+
-                    "FROM " +
-                    "loans L"+
-                    "INNER JOIN"+
-                    "users U ON L.user_id = U.user_id"+
-                    "INNER JOIN"+
-                    "books B ON L.book_id = B.book_id" +
-                    "WHERE L.borrow_date BETWEEN ? AND ? ";
-
-            stmt = connection.prepareStatement(sql);
-            stmt.setTimestamp(1, Timestamp.valueOf(startOfDay));
-            stmt.setTimestamp(2, Timestamp.valueOf(endOfDay));
-
-            rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Timestamp borrowTimestamp = rs.getTimestamp("borrow_date");
-                Timestamp dueTimestamp = rs.getTimestamp("due_date");
-
-                LocalDateTime borrowDate = (borrowTimestamp != null) ? borrowTimestamp.toLocalDateTime() : null;
-                LocalDateTime dueDate = (dueTimestamp != null) ? dueTimestamp.toLocalDateTime() : null;
-
-                Loan loan = new Loan(
-                        rs.getString("loan_id"),
-                        rs.getString("user_id"),
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("username"),
-                        rs.getString("status"),
-                        borrowDate,
-                        dueDate,
-                        rs.getTimestamp("return_date").toLocalDateTime()
-                );
-                loans.add(loan);
-            }
-        }catch (Exception e){
-            System.err.println("Erreur lors de la recuperation des emprunts");
-        }
-        return loans;
-    }
-
-    @Override
-    public List<Loan> findByUsername(String user_name) throws Exception {
+    public List<Loan> getAllActiveLoans() throws Exception {
         List<Loan> loans = new ArrayList<>();
         Connection connection = DBConnection.getConnection();
 
         try {
-            String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title, b.status " +
-                    " FROM " +
-                    " loans l "+
-                    " INNER JOIN "+
-                    " users u ON l.user_id = u.user_id "+
-                    " INNER JOIN "+
-                    " books b ON l.book_id = b.book_id WHERE " +
-                    " u.name = ?";
+
+            String sql = " SELECT L.loan_id, L.user_id, L.book_id, U.name, B.title, B.status, L.borrow_date, L.due_date, L.return_date "+
+            " FROM "+
+              " loans L "+
+            " INNER JOIN "+
+              " users U ON L.user_id = U.user_id "+
+            " INNER JOIN "+
+              " books B ON L.book_id = B.book_id "+
+            " WHERE "+
+              " L.return_date IS NULL "+
+            " ORDER BY "+
+              " borrow_date DESC " ;
 
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, user_name);
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
@@ -260,6 +206,100 @@ public class LoanDAOImpl implements LoanDAO {
                         rs.getTimestamp("borrow_date").toLocalDateTime(),
                         rs.getTimestamp("due_date").toLocalDateTime(),
                         (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
+                );
+                loans.add(loan);
+            }
+        }catch (Exception e){
+            System.err.println("Erreur lors de la recuperation des emprunts Actif ");
+            e.printStackTrace();
+        }
+        return loans;
+    }
+
+    @Override
+    public List<Loan> findByDate(LocalDateTime date) throws Exception {
+            List<Loan> loans = new ArrayList<>();
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            LocalDateTime startOfDay = date.with(LocalTime.MIN);
+
+            LocalDateTime endOfDay = date.with(LocalTime.MAX);
+
+
+            try {
+                String sql = " SELECT L.loan_id, L.use_id, L.book_id, U.name, B.title, B.status L.borrow_date, L.due_date, L.return_date"+
+                        "FROM " +
+                          "loans L"+
+                        "INNER JOIN"+
+                          "users U ON L.user_id = U.user_id"+
+                        "INNER JOIN"+
+                          "books B ON L.book_id = B.book_id" +
+                        "WHERE L.borrow_date BETWEEN ? AND ? ";
+
+                stmt = connection.prepareStatement(sql);
+                stmt.setTimestamp(1, Timestamp.valueOf(startOfDay));
+                stmt.setTimestamp(2, Timestamp.valueOf(endOfDay));
+
+                rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    Timestamp borrowTimestamp = rs.getTimestamp("borrow_date");
+                    Timestamp dueTimestamp = rs.getTimestamp("due_date");
+
+                    LocalDateTime borrowDate = (borrowTimestamp != null) ? borrowTimestamp.toLocalDateTime() : null;
+                    LocalDateTime dueDate = (dueTimestamp != null) ? dueTimestamp.toLocalDateTime() : null;
+
+                    Loan loan = new Loan(
+                            rs.getString("loan_id"),
+                            rs.getString("user_id"),
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("username"),
+                            rs.getString("status"),
+                            borrowDate,
+                            dueDate,
+                            rs.getTimestamp("return_date").toLocalDateTime()
+                    );
+                    loans.add(loan);
+                }
+            }catch (Exception e){
+                System.err.println("Erreur lors de la recuperation des emprunts");
+            }
+            return loans;
+    }
+
+    @Override
+    public List<Loan> findByUsername(String user_name) throws Exception {
+        List<Loan> loans = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+
+        try {
+
+            String sql = " SELECT L.loan_id, L.user_id, L.book_id, U.name, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
+                    " FROM " +
+                      " loans L "+
+                    " INNER JOIN "+
+                      " users U ON L.user_id = U.user_id "+
+                    " INNER JOIN "+
+                      " books B ON L.book_id = B.book_id " +
+                    " WHERE U.name = ? ";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, user_name);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()){
+                Loan loan = new Loan(
+                        rs.getString("loan_id"),
+                        rs.getString("user_id"),
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("username"),
+                        rs.getString("status"),
+                        rs.getTimestamp("borrow_date").toLocalDateTime(),
+                        rs.getTimestamp("due_date").toLocalDateTime(),
+                        rs.getTimestamp("return_date").toLocalDateTime()
                 );
                 loans.add(loan);
             }
@@ -276,14 +316,14 @@ public class LoanDAOImpl implements LoanDAO {
 
         try {
 
-            String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title, b.status" +
+            String sql = " SELECT L.loan_id, L.user_id, L.book_id, U.name, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +
-                    " loans l "+
+                      " loans L "+
                     " INNER JOIN "+
-                    " users u ON l.user_id = u.user_id "+
+                      " users U ON L.user_id = U.user_id "+
                     " INNER JOIN "+
-                    " books b ON l.book_id = b.book_id WHERE " +
-                    "b.title = ?";
+                      " books B ON L.book_id = B.book_id " +
+                    " WHERE B.title = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book_title);
 
@@ -294,11 +334,11 @@ public class LoanDAOImpl implements LoanDAO {
                         rs.getString("user_id"),
                         rs.getString("book_id"),
                         rs.getString("title"),
-                        rs.getString("name"),
+                        rs.getString("username"),
                         rs.getString("status"),
                         rs.getTimestamp("borrow_date").toLocalDateTime(),
                         rs.getTimestamp("due_date").toLocalDateTime(),
-                        (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
+                        rs.getTimestamp("return_date").toLocalDateTime()
                 );
                 loans.add(loan);
             }
@@ -323,11 +363,11 @@ public class LoanDAOImpl implements LoanDAO {
         try {
             String sql = " SELECT L.loan_id, L.user_id, L.book_id, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +
-                    " loans L "+
+                      " loans L "+
                     " INNER JOIN "+
-                    " users U ON L.user_id = U.user_id "+
+                      " users U ON L.user_id = U.user_id "+
                     " INNER JOIN "+
-                    " books B ON L.book_id = B.book_id " +
+                      " books B ON L.book_id = B.book_id " +
                     " WHERE L.borrow_date BETWEEN ? AND ? AND U.user_id = ? ";
 
             stmt = connection.prepareStatement(sql);
@@ -371,11 +411,11 @@ public class LoanDAOImpl implements LoanDAO {
 
             String sql = " SELECT L.loan_id, L.user_id, L.book_id, U.name, B.title, B.status , L.borrow_date, L.due_date, L.return_date "+
                     " FROM " +
-                    " loans L "+
+                      " loans L "+
                     " INNER JOIN "+
-                    " users U ON L.user_id = U.user_id "+
+                      " users U ON L.user_id = U.user_id "+
                     " INNER JOIN "+
-                    " books B ON L.book_id = B.book_id " +
+                      " books B ON L.book_id = B.book_id " +
                     " WHERE B.title = ? AND U.user_id = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book_title);
@@ -473,9 +513,9 @@ public class LoanDAOImpl implements LoanDAO {
 
         String query = " SELECT COUNT(*) " +
                 "FROM " +
-                " loans L " +
+                  " loans L " +
                 " INNER JOIN "+
-                " books B ON B.book_id = L.book_id "+
+                  " books B ON B.book_id = L.book_id "+
                 "WHERE " +
                 " L.user_id = ? AND B.status = 'emprunté' ";
 

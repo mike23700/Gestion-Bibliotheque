@@ -13,6 +13,7 @@ public interface LoanDAO {
     List<Loan> getEveryLoanByUser(String user_id);
 
     List<Loan> getAllLoans() throws Exception;
+    List<Loan> getAllActiveLoans() throws Exception;
     List<Loan> findByDate(LocalDateTime date) throws Exception;
     List<Loan> findByUsername(String user_name) throws Exception;
     List<Loan> findByBooktile(String book_title) throws Exception;

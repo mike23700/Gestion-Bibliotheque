@@ -19,7 +19,7 @@
         <a href="reservationHistory"><h3>Voir L'historique</h3></a>
 
         <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message} <i>class="fa-solid fa-circle-check"></i></div>
+            <div class="alert success">${sessionScope.message} <i class="fa-solid fa-circle-check"></i></div>
             <c:remove var="message" scope="session"/>
         </c:if>
         <c:if test="${not empty sessionScope.error}">

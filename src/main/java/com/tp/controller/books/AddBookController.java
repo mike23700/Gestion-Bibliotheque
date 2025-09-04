@@ -87,7 +87,7 @@ public class AddBookController extends HttpServlet {
         book.setImage(ImageFileNameInBD);
         book.setCategory(request.getParameter("category"));
         book.setDescription(request.getParameter("description"));
-        book.setStatus(request.getParameter("status"));
+        book.setStatus("disponible");
         //String loan_count = request.getParameter("loan_count");
         book.setLoan_count(book.getLoan_count());
 

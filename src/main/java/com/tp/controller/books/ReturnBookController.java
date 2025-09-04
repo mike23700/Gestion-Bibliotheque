@@ -53,13 +53,21 @@ public class ReturnBookController extends HttpServlet {
                 Loan loanToReturn = loanService.getLoanById(loanId);
 
                 if (loanToReturn != null) {
-                    boolean loanUpdated = loanService.updateLoanReturnDate(loanId, LocalDateTime.now());
+                    boolean loanUpdated = loanService.updateLoanReturnDate(loanId, LocalDateTime.now());  //on  met la date de retour aujourd'hui
 
                     if (loanUpdated) {
 
-                        reservation = reservationService.getFirstReservation(loanToReturn.getBook_id());  // si il ya aucune reservation pour ce livre rendu
+                        reservation = reservationService.getFirstReservation(loanToReturn.getBook_id());  // on verifie si il ya une reservation pour ce livre
 
-                        if( reservation != null ){
+                        if( reservation != null ){             // si oui on prends la premiere reservation
+
+                            boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "emprunté");
+                            if(bookStatusUpdated){
+                                System.out.println(" Persistance du statut du livre en EMPRUNTE OK");
+                            }else {
+                                System.out.println("Erreur lors de la persistance  du statut du livre en EMPRUNTE ");
+                            }
+
                             loan.setLoan_id(G.generateID());
                             loan.setUser_id(reservation.getUser_id());
                             loan.setBook_id(reservation.getBook_id());

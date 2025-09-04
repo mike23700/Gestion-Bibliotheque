@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/users/memberNavBar.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
@@ -18,7 +19,7 @@
         <a href="loanHistory"><h3>Voir L'historique</h3></a>
 
         <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message}</div>
+            <div class="alert success">${sessionScope.message} <i>class="fa-solid fa-circle-check"></i></div>
             <c:remove var="message" scope="session"/>
         </c:if>
         <c:if test="${not empty sessionScope.error}">
@@ -66,5 +67,21 @@
             </table>
         </div>
     </main>
+    <script>
+        window.onload = function() {
+            var messageDiv = document.querySelector(".alert");
+            if (messageDiv) {
+                messageDiv.style.display = 'block';
+                
+            
+                setTimeout(function() {
+                    messageDiv.style.opacity = '0';
+                    setTimeout(function() {
+                        messageDiv.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            }
+        };
+    </script>
 </body>
 </html>

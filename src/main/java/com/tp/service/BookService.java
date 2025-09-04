@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class BookService {
 
-    private BookDAO bookDao;
+    private final BookDAO bookDao;
 
     public BookService() {
         DAOFactory daoFactory = DAOFactory.getInstance();

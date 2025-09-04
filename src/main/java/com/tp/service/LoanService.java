@@ -43,6 +43,10 @@ public class LoanService {
         return loanDAO.getAllLoans();
     }
 
+    public List<Loan> getAllActiveLoans() throws Exception {
+        return loanDAO.getAllActiveLoans();
+    }
+
     public List<Loan> findByDate(LocalDateTime date) throws Exception {
         return loanDAO.findByDate(date);
     }

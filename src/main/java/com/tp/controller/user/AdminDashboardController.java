@@ -48,7 +48,7 @@ public class AdminDashboardController extends HttpServlet {
             int memberCount = userService.countMembers();
             int reservationCount = reservationService.countReservations();
             int bookCount = bookService.getAllBook().size();
-            int loanCount = loanService.getAllLoans().size();
+            int loanCount = loanService.getAllActiveLoans().size();
 
             request.setAttribute("bookCount", bookCount);
             request.setAttribute("loanCount", loanCount);
@@ -56,7 +56,7 @@ public class AdminDashboardController extends HttpServlet {
             request.setAttribute("reservationCount", reservationCount);
 
             List<Book> popularBooks = bookService.findByPopularity();
-            List<Loan> currentLoans = loanService.getAllLoans();
+            List<Loan> currentLoans = loanService.getAllActiveLoans();
             List<Reservation> activeReservations = reservationService.getActiveReservations();
 
             request.setAttribute("popularBooks", popularBooks);

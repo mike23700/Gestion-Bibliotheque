@@ -68,9 +68,9 @@ public class ReturnBookController extends HttpServlet {
                             loan.setDue_date(LocalDateTime.now().plusDays(14));
 
                             int nbre = loanService.AddLoan(loan);
-                            if(nbre == 0){
+                            if(nbre == 0){ // si celui qui a reserver le livre a deja trois emprunt  ne rien faire juste retirer des emprunts de celui qui rend le livre
                                 //session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligible");
-                            }else if(nbre == 1){
+                            }else if(nbre == 1){   //  si il n'a pas encore trois emprunts
                                 //changeons le status de la reservation en FULFILLED
 
                                 boolean update = reservationService.updateReservationStatus(reservation.getReservation_id(), "FULFILLED");

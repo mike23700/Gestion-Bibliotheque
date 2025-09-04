@@ -49,9 +49,9 @@ public class AddUserController extends HttpServlet {
         boolean success = userService.createAndAddUser(name, surname, tel_num, email);
 
         if (success) {
-            request.getSession().setAttribute("message", "User added successfully.");
+            request.getSession().setAttribute("message", "Utilisateur ajouté avec success.");
         } else {
-            request.getSession().setAttribute("error", "Failed to add user.");
+            request.getSession().setAttribute("error", "Erreur lors de l'ajout de l'utilisateur.");
         }
 
         response.sendRedirect("manageUsers");

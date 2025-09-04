@@ -66,7 +66,6 @@
                         <th>Titre du Livre</th>
                         <th>Date de Réservation</th>
                         <th>Statut</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,23 +78,12 @@
                                     <td>${res.book_title}</td>
                                     <td>${res.formattedDateRegister}</td>
                                     <td>${res.status}</td>
-                                    <td>
-                                        <c:if test="${res.status eq 'ACTIVE'}">
-                                            <form action="adminUpdateReservation" method="post">
-                                                <input type="hidden" name="reservationId" value="${res.reservation_id}">
-                                                <input type="hidden" name="status" value="FULFILLED">
-                                                <button type="submit" class="action-btn" onclick="return confirm('Voulez-vous vraiment marquer cette réservation comme terminée ?');">
-                                                    <i class="fas fa-check"></i> Terminer
-                                                </button>
-                                            </form>
-                                        </c:if>
-                                    </td>
                                 </tr>
                             </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="6" style="text-align: center;">Aucune réservation trouvée.</td>
+                                <td colspan="5" style="text-align: center;">Aucune réservation trouvée.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>

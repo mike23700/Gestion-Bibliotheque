@@ -61,13 +61,6 @@ public class ReturnBookController extends HttpServlet {
 
                         if( reservation != null ){             // si oui on prends la premiere reservation
 
-                            boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "emprunté");
-                            if(bookStatusUpdated){
-                                System.out.println(" Persistance du statut du livre en EMPRUNTE OK");
-                            }else {
-                                System.out.println("Erreur lors de la persistance  du statut du livre en EMPRUNTE ");
-                            }
-
                             loan.setLoan_id(G.generateID());
                             loan.setUser_id(reservation.getUser_id());
                             loan.setBook_id(reservation.getBook_id());
@@ -75,23 +68,24 @@ public class ReturnBookController extends HttpServlet {
                             loan.setDue_date(LocalDateTime.now().plusDays(14));
 
                             int nbre = loanService.AddLoan(loan);
-                            if(nbre == 0){
-                                session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligible");
-                            }else if(nbre == 1){
-                                session.setAttribute("succes", "le livre que vous avez reserver vient d'etre disponible vous pouvez deja l'utiliser");
+                            if(nbre == 0){ // si celui qui a reserver le livre a deja trois emprunt  ne rien faire juste retirer des emprunts de celui qui rend le livre
+                                //session.setAttribute("error", "Vous avez deja trois emprunt en cours veillez d'abord remettre avant d'etre elligible");
+                            }else if(nbre == 1){   //  si il n'a pas encore trois emprunts
+                                //changeons le status de la reservation en FULFILLED
+
+                                boolean update = reservationService.updateReservationStatus(reservation.getReservation_id(), "FULFILLED");
+
+                                if(update){
+                                    session.setAttribute("succes", "le livre que vous avez reserver vient d'etre disponible vous pouvez deja l'utiliser");
+                                    System.out.println("Changement du statut de la reservation en FULFILLED OK");
+                                }else {
+                                    System.out.println("Erreur lors du changement du statut de la reservation en FULFILLED ");
+                                }
                             }else {
                                 session.setAttribute("error", "erreur lors de l'emprunt veillez ressayer");
                             }
 
-                            //changeons le status de la reservation en FULFILLED
 
-                            boolean update = reservationService.updateReservationStatus(reservation.getReservation_id(), "FULFILLED");
-
-                            if(update){
-                                System.out.println("Changement du statut de la reservation en FULFILLED OK");
-                            }else {
-                                System.out.println("Erreur lors du changement du statut de la reservation en FULFILLED ");
-                            }
                         }else{
                             boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "disponible");
                             if(bookStatusUpdated){

@@ -1,6 +1,5 @@
 package com.tp.dao.interfaces;
 
-import com.tp.model.History;
 import com.tp.model.Reservation;
 
 import java.time.LocalDateTime;

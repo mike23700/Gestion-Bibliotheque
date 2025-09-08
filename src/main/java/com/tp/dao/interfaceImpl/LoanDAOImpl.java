@@ -84,13 +84,14 @@ public class LoanDAOImpl implements LoanDAO {
     public List<Loan> getEveryLoanByUser(String user_id) {
         List<Loan> loans = new ArrayList<>();
 
-        String sql = " SELECT l.loan_id, l.user_id, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title " +
+        String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title, b.status " +
                 " FROM " +
-                " loans l " +
-                " INNER JOIN " +
-                " books b ON l.book_id = b.book_id " +
-                " WHERE " +
-                " l.user_id = ?";
+                " loans l "+
+                " INNER JOIN "+
+                " users u ON l.user_id = u.user_id "+
+                " INNER JOIN "+
+                " books b ON l.book_id = b.book_id WHERE " +
+                " u.user_id = ? ORDER BY borrow_date DESC";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -104,6 +105,8 @@ public class LoanDAOImpl implements LoanDAO {
                             rs.getString("user_id"),
                             rs.getString("book_id"),
                             rs.getString("title"),
+                            rs.getString("name"),
+                            rs.getString("status"),
                             rs.getTimestamp("borrow_date").toLocalDateTime(),
                             rs.getTimestamp("due_date").toLocalDateTime(),
                             (rs.getTimestamp("return_date") != null) ? rs.getTimestamp("return_date").toLocalDateTime() : null
@@ -283,7 +286,7 @@ public class LoanDAOImpl implements LoanDAO {
                     " users u ON l.user_id = u.user_id "+
                     " INNER JOIN "+
                     " books b ON l.book_id = b.book_id WHERE " +
-                    " u.name = ?";
+                    " u.name = ? ORDER BY borrow_date DESC";
 
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, user_name);
@@ -323,7 +326,7 @@ public class LoanDAOImpl implements LoanDAO {
                     " users u ON l.user_id = u.user_id "+
                     " INNER JOIN "+
                     " books b ON l.book_id = b.book_id WHERE " +
-                    "b.title = ?";
+                    "b.title = ? ORDER BY borrow_date DESC";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book_title);
 

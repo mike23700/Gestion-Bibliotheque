@@ -29,7 +29,7 @@ public class AddUserController extends HttpServlet {
         if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/addMember.jsp").forward(request, response);
         } else {
-            response.sendRedirect("login");
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
         }
     }
 

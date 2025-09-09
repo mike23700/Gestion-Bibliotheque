@@ -15,13 +15,16 @@ import java.util.List;
 
 public class BookDAOImpl implements BookDAO {
 
+    private final DAOFactory daoFactory;
+
     public BookDAOImpl(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     @Override
     public void AddBook(Book book) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "INSERT INTO books(book_id , title , author , year , image , category , description , status , loan_count ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book.getId_Book());
@@ -44,7 +47,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByTitle(String title) throws Exception{
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE title = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, title);
@@ -75,7 +78,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByYear(int year) throws Exception {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE year = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, year);
@@ -106,7 +109,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByAuthor(String author) throws Exception {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE author = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, author);
@@ -137,7 +140,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByCategory(String category) throws Exception {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE category = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, category);
@@ -169,7 +172,7 @@ public class BookDAOImpl implements BookDAO {
         List<Book> books = new ArrayList<>();
         String Rendu = "disponible";
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE status = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, Rendu);
@@ -201,7 +204,7 @@ public class BookDAOImpl implements BookDAO {
         List<Book> books = new ArrayList<>();
         String Encour = "emprunte";
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE status = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, Encour);
@@ -232,7 +235,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByPopularity() {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books ORDER BY loan_count DESC LIMIT 5";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -262,7 +265,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByRecent() {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books ORDER BY year DESC ";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -292,7 +295,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> findByOld() {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books ORDER BY year ASC";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -322,7 +325,7 @@ public class BookDAOImpl implements BookDAO {
     public List<Book> getAllBooks() throws Exception {
         List<Book> books = new ArrayList<>();
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
@@ -350,7 +353,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public void DeleteBook(String book_id) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "DELETE FROM books WHERE book_id = ? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book_id);
@@ -363,7 +366,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public void updateBook(Book book) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "UPDATE books SET title = ?, author = ?, year = ?, image = ?, category = ?, description = ?, is_available = ?, loan_count = ? WHERE book_id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, book.getTitle());
@@ -386,7 +389,7 @@ public class BookDAOImpl implements BookDAO {
     public Book getBook(String book_id) throws Exception {
         Book book = null;
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "SELECT * FROM books WHERE book_id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -417,7 +420,7 @@ public class BookDAOImpl implements BookDAO {
         String query = "UPDATE books SET status = ? WHERE book_id = ?";
         boolean success = false;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, status);
@@ -437,7 +440,7 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public void AddLoanCountOfBook(String book_id) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "UPDATE books " +
                     " SET loan_count = loan_count + 1 "+
                     " WHERE book_id = ? ";

@@ -16,13 +16,17 @@ import java.sql.Timestamp;
 import java.time.LocalTime;
 
 public class LoanDAOImpl implements LoanDAO {
+
+    private final DAOFactory daoFactory;
+
     public LoanDAOImpl(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     @Override
     public boolean AddLoan(Loan loan) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "INSERT INTO loans (loan_id, user_id, book_id, borrow_date, due_date) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
 
@@ -55,7 +59,7 @@ public class LoanDAOImpl implements LoanDAO {
                 " WHERE " +
                   " l.user_id = ? AND b.status = 'emprunté' AND l.return_date IS NULL ";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, user_id);
@@ -93,7 +97,7 @@ public class LoanDAOImpl implements LoanDAO {
                 " books b ON l.book_id = b.book_id WHERE " +
                 " u.user_id = ? ORDER BY borrow_date DESC";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, user_id);
@@ -124,7 +128,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public void DeleteLoan(String loan_id) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "DELETE * FROM loans WHERE loan_id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, loan_id);
@@ -137,9 +141,9 @@ public class LoanDAOImpl implements LoanDAO {
      */
 
     @Override
-    public List<Loan> getAllLoans() {
+    public List<Loan> getAllLoans() throws SQLException {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        Connection connection = daoFactory.getConnection();
 
         try {
 
@@ -179,7 +183,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> getAllActiveLoans() throws Exception {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        Connection connection = daoFactory.getConnection();
 
         try {
 
@@ -222,7 +226,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByDate(LocalDateTime date) throws Exception {
             List<Loan> loans = new ArrayList<>();
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
@@ -276,7 +280,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByUsername(String user_name) throws Exception {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        Connection connection = daoFactory.getConnection();
 
         try {
             String sql = " SELECT l.loan_id, l.user_id,u.name, l.book_id, l.borrow_date, l.due_date, l.return_date, b.title, b.status " +
@@ -315,7 +319,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByBooktile(String book_title) throws Exception {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        Connection connection = daoFactory.getConnection();
 
         try {
 
@@ -354,7 +358,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByDateAndByUser(LocalDateTime date, String user_id) throws Exception {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        Connection connection = daoFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
@@ -408,7 +412,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public List<Loan> findByBooktitleAndByUser(String book_title, String user_id) throws Exception {
         List<Loan> loans = new ArrayList<>();
-        Connection connection = DBConnection.getConnection();
+        Connection connection = daoFactory.getConnection();
 
         try {
 
@@ -447,7 +451,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public boolean updateLoanReturnDate(String loanId, LocalDateTime returnDate) {
         String sql = "UPDATE loans SET return_date = ? WHERE loan_id = ?";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setTimestamp(1, Timestamp.valueOf(returnDate));
@@ -466,7 +470,7 @@ public class LoanDAOImpl implements LoanDAO {
     @Override
     public Loan getLoanById(String loanId) {
         String sql = "SELECT * FROM loans WHERE loan_id = ?";
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, loanId);
@@ -492,7 +496,7 @@ public class LoanDAOImpl implements LoanDAO {
     public boolean isBookBorrowedBy(String user_id, String book_id) {
         String query = "SELECT COUNT(*) FROM loans WHERE book_id = ? AND user_id = ? AND return_date IS NULL ";
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = daoFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, book_id);
@@ -523,7 +527,7 @@ public class LoanDAOImpl implements LoanDAO {
                 " L.user_id = ? AND B.status = 'emprunté' AND return_date IS NULL";
 
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = daoFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, user_id);

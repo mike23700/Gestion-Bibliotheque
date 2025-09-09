@@ -11,16 +11,16 @@ import java.util.List;
 public class UserService {
 
     private final UserDAO userDAO;
-    private final GenerateUserID idGenerator;
 
     public UserService(DAOFactory daoFactory) {
         this.userDAO = daoFactory.getUserDAO();
-        this.idGenerator = new GenerateUserID();
     }
 
     public boolean createAndAddUser(String name, String surname, int telNum, String email) {
+        GenerateUserID generator = new GenerateUserID();
+        String userId = generator.generateID();
         User user = new User(
-                idGenerator.generateID(),
+                userId,
                 name,
                 surname,
                 telNum,
@@ -40,14 +40,6 @@ public class UserService {
             return null;
         }
         return user;
-    }
-
-    public boolean addUser(User user) {
-        user.setUser_id(idGenerator.generateID());
-        user.setPassword("0000");
-        user.setRole("MEMBER");
-
-        return userDAO.addUser(user);
     }
 
     public boolean updateUser(User user)  {

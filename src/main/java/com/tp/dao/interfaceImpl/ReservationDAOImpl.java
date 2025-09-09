@@ -1,7 +1,6 @@
 package com.tp.dao.interfaceImpl;
 
 import com.tp.dao.DAOFactory;
-import com.tp.dao.DBConnection;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.model.Reservation;
 

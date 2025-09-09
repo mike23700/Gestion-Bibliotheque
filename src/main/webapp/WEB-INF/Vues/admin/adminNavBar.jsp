@@ -3,7 +3,7 @@
 <nav class="navbar">
     <div class="navbar-container">
         <div class="navbar-left">
-            <a href="index.jsp">
+            <a href="adminDashboard">
                 <img src="assets/logo2.png" alt="Logo" class="logo-img">
             </a>
             <div class="user-info">

@@ -1,7 +1,6 @@
 package com.tp.dao.interfaceImpl;
 
 import com.tp.dao.DAOFactory;
-import com.tp.dao.DBConnection;
 import com.tp.dao.interfaces.UserDAO;
 import com.tp.model.User;
 
@@ -152,67 +151,6 @@ public class UserDAOImpl implements UserDAO {
         }
         return userList;
     }
-
-   /* @Override
-    public List<User> getAllUsers() {
-        String query = "SELECT * FROM users WHERE role = 'MEMBER' ORDER BY registration_date";
-        List<User> liste = new ArrayList<>();
-
-        try (Connection connexion = daoFactory.getConnection();
-             PreparedStatement stmt = connexion.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                User user = new User(
-                            rs.getString("user_id"),
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getInt("tel_num"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("role"),
-                            rs.getTimestamp("registration_date").toLocalDateTime()
-                );
-                liste.add(user);
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des utilisateurs : " + e.getMessage());
-            e.printStackTrace();
-        }
-        return liste;
-    }*/
-
-    /*@Override
-    public List<User> getAllAdmins() {
-        String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date DESC";
-        List<User> userList = new ArrayList<>();
-
-        try (Connection connexion = daoFactory.getConnection();
-             PreparedStatement stmt = connexion.prepareStatement(query)) {
-
-            stmt.setString(1, "ADMIN");
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    User user = new User(
-                            rs.getString("user_id"),
-                            rs.getString("name"),
-                            rs.getString("surname"),
-                            rs.getInt("tel_num"),
-                            rs.getString("email"),
-                            rs.getString("password"),
-                            rs.getString("role"),
-                            rs.getTimestamp("registration_date").toLocalDateTime()
-                    );
-                    userList.add(user);
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des administrateurs : " + e.getMessage());
-            e.printStackTrace();
-        }
-        return userList;
-    }*/
 
     @Override
     public List<User> getAllMembers() {

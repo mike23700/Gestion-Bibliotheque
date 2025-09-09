@@ -49,6 +49,7 @@ body {
     gap: 15px;
 }
 
+.filter-form,
 .search-user-form {
     display: flex;
     gap: 10px;
@@ -56,6 +57,7 @@ body {
     flex-wrap: wrap;
 }
 
+.filter-form select,
 .search-user-form select,
 .search-user-form input {
     padding: 8px 12px;

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/searchUser")
+@WebServlet("/listUser")
 public class SearchUserController extends HttpServlet{
 
     private UserService userService;
@@ -29,36 +29,31 @@ public class SearchUserController extends HttpServlet{
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
-            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/searchResult.jsp").forward(request, response);
-        } else {
-            response.sendRedirect("login");
-        }
-    }
+            List<User> userList;
+            String searchType = request.getParameter("searchType");
+            String searchValue = request.getParameter("searchValue");
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
-            String type = request.getParameter("type");
-            String input = request.getParameter("input");
-
-            List<User> result = new ArrayList<>();
-
-            try {
-                if ("user_id".equals(type)) {
-                    User user = userService.findUserById(input);
+            if (searchType != null && !searchValue.isEmpty()) {
+                if ("user_id".equals(searchType)) {
+                    User user = userService.findUserById(searchValue);
                     if (user != null) {
-                        result.add(user);
+                        userList = new ArrayList<>();
+                        userList.add(user);
+                    } else {
+                        userList = new ArrayList<>();
                     }
-                } else if ("name".equals(type.trim())) {
-                    result = userService.findUserByName(input);
+                } else if ("name".equals(searchType.trim())) {
+                    userList = userService.findUserByName(searchValue);
+                } else {
+                    userList = userService.getAllMembers();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } else {
+                userList = userService.getAllMembers();
             }
-            request.setAttribute("result", result);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/searchResult.jsp").forward(request, response);
+
+            request.setAttribute("userList", userList);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/admin/manageUsers.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");
         }

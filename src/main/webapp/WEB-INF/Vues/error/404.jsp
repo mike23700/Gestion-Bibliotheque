@@ -31,14 +31,14 @@
             display: inline-block;
             margin-top: 20px;
             padding: 12px 25px;
-            background-color: #135776;
+            background-color: #137657;
             color: white;
             text-decoration: none;
             border-radius: 6px;
             transition: background-color 0.3s ease;
         }
         a:hover {
-            background-color: #45a049;
+            background-color: #135776;
         }
         .container {
             max-width: 600px;

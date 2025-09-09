@@ -27,48 +27,40 @@ public class ListLoanController extends HttpServlet {
             response.sendRedirect("login");
             return;
         }
-        List<Loan> loans = null;
-        try {
-             loans = loanService.getAllLoans();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+
+        List<Loan> loans = new ArrayList<>();
 
         String searchType = request.getParameter("searchType");
         String searchValue = request.getParameter("searchValue");
         String statusFilter = request.getParameter("status");
 
-        if (searchValue != null && !searchValue.trim().isEmpty()) {
+        try {
+            if (searchValue != null && !searchValue.trim().isEmpty()) {
                 switch (searchType) {
                     case "userId":
-                        try {
-                            loans = loanService.getEveryLoanByUser(searchValue.trim());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                        loans = loanService.getEveryLoanByUser(searchValue.trim());
                         break;
                     case "userName":
-                        try {
-                            loans = loanService.findByUsername(searchValue.trim());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                        loans = loanService.findByUsername(searchValue.trim());
                         break;
                     case "bookName":
-                        try {
-                            loans = loanService.findByBooktitle(searchValue.trim());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                        loans = loanService.findByBooktitle(searchValue.trim());
                         break;
                     default:
-                        try {
-                            loans = loanService.getAllLoans();
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
+                        loans = loanService.getAllLoans();
                 }
+            } else if (statusFilter != null && !statusFilter.isEmpty()) {
+                if ("null".equals(statusFilter)) {
+                    loans = loanService.getAllActiveLoans();
+                } else {
+                    loans = loanService.getAllLoans();
+                }
+            } else {
+                loans = loanService.getAllLoans();
             }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         request.setAttribute("loans", loans);
         request.setAttribute("searchType", searchType);

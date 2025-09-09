@@ -9,14 +9,19 @@ import com.tp.dao.interfaces.LoanDAO;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.dao.interfaces.UserDAO;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class DAOFactory {
+
+    private static final String URL = "jdbc:mysql://localhost:3306/bibliotheque_db";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "";
 
     private static DAOFactory instance = null;
 
     private DAOFactory() {
-        String URL = "jdbc:mysql://localhost:3306/bibliotheque_db";
-        String USERNAME = "root";
-        String PASSWORD = "pacha12345";
     }
 
     public static DAOFactory getInstance() {
@@ -26,7 +31,18 @@ public class DAOFactory {
         return instance;
     }
 
-    public  BookDAO getBookDAO() {return new BookDAOImpl(this);}
+    public Connection getConnection() throws SQLException {
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (ClassNotFoundException e) {
+            throw new SQLException("Erreur: Pilote JDBC introuvable.", e);
+        }
+    }
+
+    public  BookDAO getBookDAO() {
+        return new BookDAOImpl(this);
+    }
 
     public  UserDAO getUserDAO() {
         return new UserDAOImpl(this);

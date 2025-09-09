@@ -26,6 +26,14 @@
         </c:if>
 
 <div class="top-controls">
+    <form action="listLoan" method="get" class="filter-form">
+        <label for="status">Filtrer par statut :</label>
+        <select name="status" id="status" onchange="this.form.submit()">
+            <option value="" ${empty param.status ? 'selected' : ''}>Tous</option>
+            <option value="null" ${param.status eq 'null' ? 'selected' : ''}>Non retourné</option>
+        </select>
+    </form>
+
     <form action="listLoan" method="get" class="search-user-form">
         <select name="searchType">
             <option value="userId" ${param.searchType eq 'userId' ? 'selected' : ''}>ID Utilisateur</option>

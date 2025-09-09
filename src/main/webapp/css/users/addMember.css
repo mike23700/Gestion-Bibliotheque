@@ -6,15 +6,6 @@ body {
     padding: 0;
 }
 
-.section-card {
-    width: 45%;
-    max-width: 600px;
-    margin: 2rem auto;
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
 
 .add-user-form .form-group {
     margin-bottom: 1.2rem;
@@ -69,8 +60,7 @@ body {
 }
 
 .add-btn:hover {
-    background: #2980b9;
-    box-shadow: 0 4px 10px rgba(41, 128, 185, 0.3);
+    background: #135776;
 }
 .cancel-btn {
     background: #ecf0f1;

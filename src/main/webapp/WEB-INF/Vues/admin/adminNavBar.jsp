@@ -16,7 +16,7 @@
         <div class="nav-links">
             <a href="adminDashboard">Accueil</a>
             <a href="listBooks">Livres</a>
-            <a href="manageUsers" class="active">Utilisateurs</a>
+            <a href="manageUsers">Utilisateurs</a>
             <a href="listLoan">Emprunts</a>
             <a href="adminListReservations">Réservations</a>
         </div>

@@ -10,8 +10,7 @@
             <c:remove var="error" scope="session"/>
         </c:if>
 
-        <div class="section-card">
-            <h3>Nouveau membre</h3>
+            <h3>Ajoutez un nouveau Membre</h3>
             <form action="addUser" method="post" class="add-user-form">
                 <div class="form-group">
                     <label for="name">Nom</label>
@@ -34,6 +33,5 @@
                     <a href="manageUsers" class="cancel-btn">Annuler</a>
                 </div>
             </form>
-        </div>
 </body>
 </html>

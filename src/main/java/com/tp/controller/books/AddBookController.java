@@ -37,9 +37,19 @@ public class AddBookController extends HttpServlet {
         return "";
     }
 
+
     protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
+
+        HttpSession session = request.getSession(false);
+        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
         this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/AddBooks.jsp").forward(request,response);
     }
+
 
     protected void doPost(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
 
@@ -48,16 +58,11 @@ public class AddBookController extends HttpServlet {
         HttpSession session = request.getSession(false);
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
-        /* 
+
         if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
-        */
-        if(session == null){
-            response.sendRedirect("login");
-        }
-
 
         String ImageFileNameInBD = null;
         Part filePart = request.getPart("image");

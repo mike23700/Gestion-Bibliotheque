@@ -14,6 +14,9 @@ public class DAOFactory {
     private static DAOFactory instance = null;
 
     private DAOFactory() {
+        String URL = "jdbc:mysql://localhost:3306/bibliotheque_db";
+        String USERNAME = "root";
+        String PASSWORD = "pacha12345";
     }
 
     public static DAOFactory getInstance() {
@@ -23,9 +26,7 @@ public class DAOFactory {
         return instance;
     }
 
-    public  BookDAO getBookDAO() {
-        return new BookDAOImpl(this);
-    }
+    public  BookDAO getBookDAO() {return new BookDAOImpl(this);}
 
     public  UserDAO getUserDAO() {
         return new UserDAOImpl(this);

@@ -15,33 +15,32 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <main>
+
         <h1>Tableau de Bord</h1>
         <div class="dashboard-stats"> <div class="stat-card">
-          <a href="listBooks"><h3>Livres Totaux</h3></a>
-          <p>${bookCount}</p>
+            <a href="listBooks"><h3>Livres Totaux</h3></a>
+            <p>${bookCount}</p>
         </div>
         <div class="stat-card">
-          <a href="listLoan"><h3>Livres Empruntés</h3></a>
-          <p>${loanCount}</p>
+            <a href="listLoan"><h3>Livres Empruntés</h3></a>
+            <p>${loanCount}</p>
         </div>
         <div class="stat-card">
-          <a href="adminListReservations"><h3>Livres Reservés</h3></a>
-          <p>${reservationCount}</p>
+            <a href="adminListReservations"><h3>Livres Reservés</h3></a>
+            <p>${reservationCount}</p>
         </div>
         <div class="stat-card">
-          <a href="manageUsers"><h3>Utilisateurs Enregistrés</h3></a>
-          <p>${memberCount}</p>
+            <a href="manageUsers"><h3>Utilisateurs Enregistrés</h3></a>
+            <p>${memberCount}</p>
         </div>
+
 
         <div class="dashboard-section">
             <h2>Livres les plus populaires</h2>
             <div class="popular-books">
                 <c:forEach var="book" items="${popularBooks}" begin="0" end="3">
                     <div class="book-card">
-                        <img src="${pageContext.request.contextPath}/${book.image}"
-                             alt="Couverture de ${book.title}"
-                             class="book-cover"
-                             onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/555555?text=Pas+d%27image';">
+                        <img src="${pageContext.request.contextPath}/${book.image}"  alt="Couverture de ${book.title}"  class="book-cover"  onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/555555?text=Pas+d%27image';">
                         <div class="book-info">
                             <h3>${book.title}</h3>
                             <p>Auteur: ${book.author}</p>

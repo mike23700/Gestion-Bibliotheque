@@ -16,13 +16,15 @@ import java.sql.Timestamp;
 import java.time.LocalTime;
 
 public class LoanDAOImpl implements LoanDAO {
+    DAOFactory daoFactory;
     public LoanDAOImpl(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     @Override
     public boolean AddLoan(Loan loan) throws Exception {
         try {
-            Connection connection = DBConnection.getConnection();
+            Connection connection = daoFactory.getConnection();
             String sql = "INSERT INTO loans (loan_id, user_id, book_id, borrow_date, due_date) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
 

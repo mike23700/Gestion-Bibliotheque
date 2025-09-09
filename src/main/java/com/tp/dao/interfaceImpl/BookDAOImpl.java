@@ -16,6 +16,8 @@ import java.util.List;
 public class BookDAOImpl implements BookDAO {
     private DAOFactory daoFactory;
 
+    private final DAOFactory daoFactory;
+
     public BookDAOImpl(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }

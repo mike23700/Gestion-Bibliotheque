@@ -12,7 +12,10 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
+    private final DAOFactory daoFactory;
+
     public UserDAOImpl(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     @Override
@@ -20,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "INSERT INTO users (user_id, name, surname, tel_num, email, password, role, registration_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         boolean success = false;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, user.getUser_id());
@@ -48,7 +51,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "UPDATE users SET password = ? WHERE user_id = ?";
         boolean success = false;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, user.getPassword());
@@ -70,7 +73,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "DELETE FROM users WHERE user_id = ?";
         boolean success = false;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1,userId);
@@ -92,7 +95,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT * FROM users WHERE user_id = ?";
         User user = null;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, userId);
@@ -123,7 +126,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT * FROM users WHERE name LIKE ?";
         List<User> userList = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, "%" + name + "%");
@@ -155,7 +158,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT * FROM users WHERE role = 'MEMBER' ORDER BY registration_date";
         List<User> liste = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -184,7 +187,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date DESC";
         List<User> userList = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, "ADMIN");
@@ -216,7 +219,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT * FROM users WHERE role = ? ORDER BY registration_date ";
         List<User> userList = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, "MEMBER");
@@ -248,7 +251,7 @@ public class UserDAOImpl implements UserDAO {
         String query = "SELECT COUNT(*) FROM users WHERE role = 'MEMBER'";
         int count = 0;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             ResultSet rs = stmt.executeQuery();

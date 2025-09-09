@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ReservationDAOImpl implements ReservationDAO {
 
-    private DAOFactory daoFactory;
+    private final DAOFactory daoFactory;
 
     public ReservationDAOImpl(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;

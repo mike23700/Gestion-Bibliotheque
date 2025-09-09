@@ -1,7 +1,6 @@
 package com.tp.dao.interfaceImpl;
 
 import com.tp.dao.DAOFactory;
-import com.tp.dao.DBConnection;
 import com.tp.dao.interfaces.LoanDAO;
 import com.tp.model.Loan;
 
@@ -124,21 +123,6 @@ public class LoanDAOImpl implements LoanDAO {
         return loans;
     }
 
-    /*
-    @Override
-    public void DeleteLoan(String loan_id) throws Exception {
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "DELETE * FROM loans WHERE loan_id = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, loan_id);
-
-            stmt.executeUpdate();
-        }catch (Exception e){
-            System.err.println("Erreur lors de la suppression du loan");
-        }
-    }
-     */
 
     @Override
     public List<Loan> getAllLoans() throws SQLException {

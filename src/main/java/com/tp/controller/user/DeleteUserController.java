@@ -36,9 +36,9 @@ public class DeleteUserController extends HttpServlet {
         boolean success = userService.deleteUser(userId);
 
         if (success) {
-            request.getSession().setAttribute("message", "User deleted successfully.");
+            request.getSession().setAttribute("message", "Membre supprimer avec success.");
         } else {
-            request.getSession().setAttribute("error", "Failed to delete user.");
+            request.getSession().setAttribute("error", "Erreur lors de la suppression du membre.");
         }
 
         response.sendRedirect("manageUsers");

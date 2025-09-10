@@ -11,10 +11,24 @@
     <link rel="stylesheet" href="css/books/PopupSuppressionLivre.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/tailwind/main.css">
 </head>
 <body>
     <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
     <div style="height: 50px;"></div>
+
+    <c:if test="${not empty sessionScope.succes}">
+        <div class="message-container">
+            <div class="success">${sessionScope.succes}<span>  </span><i class="fa-solid fa-circle-check"></i></div>
+        </div>
+        <c:remove var="succes" scope="session"/>
+    </c:if>
+    <c:if test="${not empty sessionScope.error}">
+        <div class="message-container">
+            <div class="error">${sessionScope.error}<span>  </span><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <c:remove var="error" scope="session"/>
+    </c:if>
 
     <!-- Barre de navigation du menu/recherche -->
     <nav class="navbar-menu">
@@ -48,7 +62,7 @@
             </form>
         </div>
         <div>
-            <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()"><i class="fa-solid fa-book" style="font-size: 30px;"></i>  Ajouter</a>
+            <a href="javascript:void(0);" class="add-student-button" onclick="ShowFormAddBook()"><i class="fa-solid fa-book" style="font-size: 30px;"></i>  Ajouter</a> 
         </div>
     </nav>
     <div style="height: 50px;"></div>
@@ -85,19 +99,6 @@
                 </div>
             </c:forEach>
         </div>
-    </c:if>
-
-    <c:if test="${not empty sessionScope.succes}">
-        <div class="message-container">
-            <div class="success">${sessionScope.succes}<span>  </span><i class="fa-solid fa-circle-check"></i></div>
-        </div>
-        <c:remove var="succes" scope="session"/>
-    </c:if>
-    <c:if test="${not empty sessionScope.error}">
-        <div class="message-container">
-            <div class="error">${sessionScope.error}<span>  </span><i class="fa-solid fa-xmark"></i></div>
-        </div>
-        <c:remove var="error" scope="session"/>
     </c:if>
 
         

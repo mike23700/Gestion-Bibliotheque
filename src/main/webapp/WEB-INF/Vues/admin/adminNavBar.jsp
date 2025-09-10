@@ -14,41 +14,17 @@
 
 
         <div class="nav-links">
-            <a href="adminDashboard" class="${activePage == 'accueil' ? 'active' : ''}" >Accueil</a>
-            <a href="listBooks"  class="${activePage == 'livres' ? 'active' : ''}" >Livres</a>
-            <a href="manageUsers" class="${activePage == 'utilisateurs' ? 'active' : ''}" >Utilisateurs</a>
-            <a href="listLoan" class="${activePage == 'emprunts' ? 'active' : ''}" >Emprunts</a>
-            <a href="adminListReservations" class="${activePage == 'reservations' ? 'active' : ''}" >Réservations</a>
+            <a href="adminDashboard">Accueil</a>
+            <a href="listBooks">Livres</a>
+            <a href="manageUsers">Utilisateurs</a>
+            <a href="listLoan">Emprunts</a>
+            <a href="adminListReservations">Réservations</a>
         </div>
 
-        <a class="logout-btn" onclick="showPopupDeconnexion()"><i class="fas fa-sign-out-alt"></i></a>
+        <a href="logout"
+           class="logout-btn"
+           onclick="return confirm('${user.name} ${user.surname}, voulez-vous vraiment vous déconnecter ?');">
+            <i class="fas fa-sign-out-alt"></i>
+        </a>
     </div>
-    <div>
-        <div class="overlay"></div>
-        <jsp:include page="PopupDeconnexion.jsp" />
-    </div>
-    <script>
-        var modal = document.getElementById('modalDeconnexion');
-        var messageElement = document.getElementById('messageConfirmation');
-
-
-        function showPopupDeconnexion() {
-            messageElement.textContent = "Êtes-vous sûr de vouloir vous Deconnecter ?";
-            messageElement.style.color = "black";
-            modal.style.display = 'block';
-            document.querySelector(".overlay").style.display = "block";
-        }
-
-        
-        function hiddePopupDeconnexion() {
-            modal.style.display = 'none';
-            livreASupprimer = null;
-            document.querySelector(".overlay").style.display = "none";
-        }
-
-        
-        function ConfirmDeconnexion() {
-            window.location.href = "logout";
-        }
-    </script>
 </nav>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/books/PopupSuppressionLivre.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/tailwind/main.css">
 </head>
 <body>
     <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
@@ -107,6 +108,7 @@
 
     <c:if test="${empty listbooks}">
         <p class="empty-list-message">Aucun livre trouvé dans la bibliothèque.</p>
+        <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
     </c:if>
 
     <div class="overlay"></div>
@@ -173,7 +175,7 @@
         //modale de confirmation de livre
 
         var modal = document.getElementById('modalSuppression');
-        var messageElement = document.getElementById('messageConfirmation1');
+        var messageElement = document.getElementById('messageConfirmation');
 
         
         var livreASupprimer = null;

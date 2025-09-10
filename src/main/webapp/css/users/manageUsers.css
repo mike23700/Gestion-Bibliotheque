@@ -180,17 +180,6 @@ body {
     background-color: #c82333;
 }
 
-.overlay {
-    display: none;
-    position: fixed; /* Positionnement par rapport à la fenêtre de visualisation */
-    top: 0;
-    left: 0;
-    width: 100%; /* Couvre toute la largeur de l'écran */
-    height: 100%; /* Couvre toute la hauteur de l'écran */
-    background-color: rgba(0, 0, 0, 0.7);
-    z-index: 500;
-}
-
 
 
 

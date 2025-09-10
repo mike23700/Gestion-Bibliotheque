@@ -29,8 +29,8 @@
                     <input type="email" id="email" name="email" placeholder="ex. mike@gmail.com" required>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="add-btn"><i class="fas fa-user-plus"></i> Ajouter</button>
                     <a href="manageUsers" class="cancel-btn">Annuler</a>
+                    <button type="submit" class="add-btn"><i class="fas fa-user-plus"></i> Ajouter</button>
                 </div>
             </form>
 </body>

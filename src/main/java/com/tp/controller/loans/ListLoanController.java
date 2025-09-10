@@ -67,6 +67,7 @@ public class ListLoanController extends HttpServlet {
         request.setAttribute("searchValue", searchValue);
         request.setAttribute("status", statusFilter);
 
+        request.setAttribute("activePage", "emprunts");
         this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/loans/listLoan.jsp").forward(request,response);
     }
 }

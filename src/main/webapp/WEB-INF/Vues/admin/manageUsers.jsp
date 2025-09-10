@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp"/>
+    <jsp:include page="/WEB-INF/Vues/admin/adminNavbarForUser.jsp"/>
+    <jsp:include page="/WEB-INF/Vues/admin/PopupDeconnexion.jsp"/>
     <main class="dashboard-container">
         <h1>Gestion des utilisateurs</h1>
 
@@ -26,66 +27,66 @@
             <c:remove var="error" scope="session"/>
         </c:if>
 
-<div class="top-controls">
-    <form action="listUser" method="get" class="search-user-form">
-        <select name="searchType">
-            <option value="user_id" ${param.searchType eq 'user_id' ? 'selected' : ''}>ID Utilisateur</option>
-            <option value="name" ${param.searchType eq 'name' ? 'selected' : ''}>Nom</option>
-        </select>
-        <div class="search-input-container">
-            <input type="text" name="searchValue" placeholder="Rechercher..." required value="${param.searchValue != null ? param.searchValue : ''}">
-            <button type="button" class="clear-search-btn"><i class="fas fa-times"></i></button>
+        <div class="top-controls">
+            <form action="listUser" method="get" class="search-user-form">
+                <select name="searchType">
+                    <option value="user_id" ${param.searchType eq 'user_id' ? 'selected' : ''}>ID Utilisateur</option>
+                    <option value="name" ${param.searchType eq 'name' ? 'selected' : ''}>Nom</option>
+                </select>
+                <div class="search-input-container">
+                    <input type="text" name="searchValue" placeholder="Rechercher..." required value="${param.searchValue != null ? param.searchValue : ''}">
+                    <button type="button" class="clear-search-btn"><i class="fas fa-times"></i></button>
+                </div>
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+            <a href="#" class="add-user-btn" onclick="openModal('addUser')">
+                <i class="fas fa-user-plus"></i> Ajouter
+            </a>
         </div>
-        <button type="submit"><i class="fas fa-search"></i></button>
-    </form>
-    <a href="#" class="add-user-btn" onclick="openModal('addUser')">
-        <i class="fas fa-user-plus"></i> Ajouter
-    </a>
-</div>
 
-<div class="section-card">
-    <h3>Liste des utilisateurs</h3>
-    <table class="user-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Téléphone</th>
-                <th>Email</th>
-                <th>Date d'inscription</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <c:choose>
-                <c:when test="${not empty userList}">
-                    <c:forEach var="u" items="${userList}">
-                        <tr>
-                            <td>${u.user_id}</td>
-                            <td>${u.name}</td>
-                            <td>${u.surname}</td>
-                            <td>${u.tel_num}</td>
-                            <td>${u.email}</td>
-                            <td>${u.formattedDateRegister}</td>
-                            <td>
-                                <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ${u.name} ${u.surname}?');">
-                                    <input type="hidden" name="user_id" value="${u.user_id}">
-                                    <button type="submit" class="delete-btn"><i class="fas fa-trash-alt"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
+        <div class="section-card">
+            <h3>Liste des utilisateurs</h3>
+            <table class="user-table">
+                <thead>
                     <tr>
-                        <td colspan="7" style="text-align:center;">Aucun utilisateur trouvé</td>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Téléphone</th>
+                        <th>Email</th>
+                        <th>Date d'inscription</th>
+                        <th>Actions</th>
                     </tr>
-                </c:otherwise>
-            </c:choose>
-        </tbody>
-    </table>
-</div>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${not empty userList}">
+                            <c:forEach var="u" items="${userList}">
+                                <tr>
+                                    <td>${u.user_id}</td>
+                                    <td>${u.name}</td>
+                                    <td>${u.surname}</td>
+                                    <td>${u.tel_num}</td>
+                                    <td>${u.email}</td>
+                                    <td>${u.formattedDateRegister}</td>
+                                    <td>
+                                        <form action="deleteUser" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ${u.name} ${u.surname}?');">
+                                            <input type="hidden" name="user_id" value="${u.user_id}">
+                                            <button type="submit" class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </c:when>
+                        <c:otherwise>
+                            <tr>
+                                <td colspan="7" style="text-align:center;">Aucun utilisateur trouvé</td>
+                            </tr>
+                        </c:otherwise>
+                    </c:choose>
+                </tbody>
+            </table>
+        </div>
         <div id="modal" class="modal">
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -129,6 +130,31 @@
                 });
                 toggleClearBtn();
             });
+
+            //javascript pour la popup de deconnexion
+
+            var modal = document.getElementById('modalDeconnexion');
+            var messageElement = document.getElementById('messageConfirmation');
+
+
+            function showPopupDeconnexion() {
+                messageElement.textContent = "Êtes-vous sûr de vouloir vous Deconnecter ?";
+                messageElement.style.color = "black";
+                modal.style.display = 'block';
+                document.querySelector(".overlay").style.display = "block";
+            }
+
+            
+            function hiddePopupDeconnexion() {
+                modal.style.display = 'none';
+                livreASupprimer = null;
+                document.querySelector(".overlay").style.display = "none";
+            }
+
+            
+            function ConfirmDeconnexion() {
+                window.location.href = "logout";
+            }
         </script>
     </main>
 </body>

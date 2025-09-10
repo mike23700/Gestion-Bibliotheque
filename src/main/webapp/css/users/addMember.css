@@ -6,6 +6,21 @@ body {
     padding: 0;
 }
 
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 2px solid #135776;
+}
+
+.title h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #135776;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
 
 .add-user-form .form-group {
     margin-bottom: 1.2rem;

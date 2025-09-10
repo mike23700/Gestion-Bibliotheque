@@ -15,6 +15,8 @@
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Historique</h1>
+        <a href="memberListLoans"><i class="fa fa-arrow-left"></i><h3>Retour</h3></a>
+
 
         <c:if test="${not empty sessionScope.message}">
             <div class="alert success">${sessionScope.message}</div>

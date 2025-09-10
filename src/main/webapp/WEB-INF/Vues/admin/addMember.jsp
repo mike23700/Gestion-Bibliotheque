@@ -9,8 +9,9 @@
             <div class="alert error">${sessionScope.error}</div>
             <c:remove var="error" scope="session"/>
         </c:if>
-
+            <div class="title">
             <h3>Ajoutez un nouveau Membre</h3>
+            </div>
             <form action="addUser" method="post" class="add-user-form">
                 <div class="form-group">
                     <label for="name">Nom</label>

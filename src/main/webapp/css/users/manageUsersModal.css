@@ -10,15 +10,13 @@
 }
 .modal-content {
     background: white;
-    padding: 20px;
+    padding: 50px;
     border-radius: 12px;
-    max-width: 600px;
-    width: 90%;
-    max-height: 90vh;
+    width: 35%;
     overflow-y: auto;
 }
 .close-btn {
-    float: right;
     font-size: 24px;
     cursor: pointer;
+    float: right;
 }

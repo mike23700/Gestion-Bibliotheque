@@ -69,6 +69,7 @@ public class AdminDashboardController extends HttpServlet {
             request.setAttribute("error", "Une erreur est survenue lors du chargement des données. Veuillez réessayer.");
         }
 
+        request.setAttribute("activePage", "accueil");
         request.getRequestDispatcher("/WEB-INF/Vues/admin/adminDashboard.jsp").forward(request, response);
     }
 }

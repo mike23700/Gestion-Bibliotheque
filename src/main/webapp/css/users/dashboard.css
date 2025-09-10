@@ -149,3 +149,14 @@ main h1 {
 .voir-plus-btn:hover {
     background-color: #0c3c52;
 }
+
+.overlay {
+    display: none;
+    position: fixed; /* Positionnement par rapport à la fenêtre de visualisation */
+    top: 0;
+    left: 0;
+    width: 100%; /* Couvre toute la largeur de l'écran */
+    height: 100%; /* Couvre toute la hauteur de l'écran */
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 500;
+}

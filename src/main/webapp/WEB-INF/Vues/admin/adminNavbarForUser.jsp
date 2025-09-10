@@ -23,32 +23,4 @@
 
         <a class="logout-btn" onclick="showPopupDeconnexion()"><i class="fas fa-sign-out-alt"></i></a>
     </div>
-    <div>
-        <div class="overlay"></div>
-        <jsp:include page="PopupDeconnexion.jsp" />
-    </div>
-    <script>
-        var modal = document.getElementById('modalDeconnexion');
-        var messageElement = document.getElementById('messageConfirmation');
-
-
-        function showPopupDeconnexion() {
-            messageElement.textContent = "Êtes-vous sûr de vouloir vous Deconnecter ?";
-            messageElement.style.color = "black";
-            modal.style.display = 'block';
-            document.querySelector(".overlay").style.display = "block";
-        }
-
-        
-        function hiddePopupDeconnexion() {
-            modal.style.display = 'none';
-            livreASupprimer = null;
-            document.querySelector(".overlay").style.display = "none";
-        }
-
-        
-        function ConfirmDeconnexion() {
-            window.location.href = "logout";
-        }
-    </script>
 </nav>

@@ -19,7 +19,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     </head>
 
     <body>
-        <jsp:include page="/WEB-INF/Vues/admin/adminNavbarForUser.jsp" />
+        <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp" />
         <main class="dashboard-container">10
             <h1>Gestion des utilisateurs</h1>
 

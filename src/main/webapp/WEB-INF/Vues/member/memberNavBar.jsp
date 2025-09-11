@@ -3,7 +3,7 @@
 
 <nav class="navbar">
     <link rel="stylesheet" href="css/users/userInfoModal.css">
-    <link rel="stylesheet" href="css/users/logoutConfirm.css">
+    <link rel="stylesheet" href="css/users/logoutModal.css">
     <div class="navbar-container">
         <div class="navbar-left">
             <a href="listBooks">
@@ -16,45 +16,41 @@
         </div>
 
         <div class="nav-links">
-            <a href="listBooks">Accueil</a>
-            <a href="memberListLoans">Mes emprunts</a>
-            <a href="memberListReservations">Mes réservations</a>
+            <a href="listBooks" class="${activePage == 'livres' ? 'active' : ''}" >Accueil</a>
+            <a href="memberListLoans"  class="${activePage == 'emprunts' ? 'active' : ''}" >Mes emprunts</a>
+            <a href="memberListReservations" class="${activePage == 'reservation' ? 'active' : ''}" >Mes réservations</a>
         </div>
 
         <div class="nav-actions">
             <a href="#" class="profile-btn" onclick="openModal('userInfo'); return false;">
                 <i class="fas fa-user-circle"></i>
             </a>
-            <!-- Bouton déconnexion transformé en modale -->
             <a href="#" class="logout-btn" onclick="openLogoutModal(); return false;">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
 
-            <!-- Modale profil -->
             <div id="modal" class="modal">
                 <div class="modal-content">
                     <div id="modal-body"></div>
-                </div>
-            </div>
-
-            <!-- Modale logout -->
-            <div id="logout-modal" class="modal">
-                <div class="modal-content logout-modal-content">
-                    <span class="close-btn" onclick="closeLogoutModal()">&times;</span>
-                    <h3>Confirmer la déconnexion</h3>
-                    <p>Voulez-vous vraiment vous déconnecter, <b>${user.name} ${user.surname}</b> ?</p>
-                    <div class="logout-actions">
-                        <button type="button" onclick="closeLogoutModal()">Annuler</button>
-                        <a href="logout" class="confirm-logout-btn">Se déconnecter</a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </nav>
 
+            <div id="logout-modal" class="logout-modal-backdrop">
+                <div class="logout-modal-content">
+                    <span class="logout-modal-close-btn" onclick="closeLogoutModal()">&times;</span>
+                    <h3>Déconnexion</h3>
+                    <p>Voulez-vous vraiment vous déconnecter ?</p>
+                    <div class="logout-actions">
+                        <button type="button" class="cancel-btn" onclick="closeLogoutModal()">Annuler</button>
+                        <a href="logout" class="confirm-logout-btn">Se déconnecter</a>
+                    </div>
+                </div>
+            </div>
+
 <script>
-    // Modale profil
     function openModal(url) {
         const modal = document.getElementById("modal");
         fetch(url)
@@ -75,7 +71,6 @@
         }
     });
 
-    // Modale déconnexion
     function openLogoutModal() {
         document.getElementById("logout-modal").style.display = "flex";
     }
@@ -84,10 +79,4 @@
         document.getElementById("logout-modal").style.display = "none";
     }
 
-    window.onclick = function(event) {
-        const modal = document.getElementById("logout-modal");
-        if (event.target === modal) {
-            closeLogoutModal();
-        }
-    }
 </script>

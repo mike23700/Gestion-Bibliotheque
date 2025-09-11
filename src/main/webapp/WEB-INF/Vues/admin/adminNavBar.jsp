@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="navbar">
+    <link rel="stylesheet" href="css/users/logoutModal.css">
     <div class="navbar-container">
         <div class="navbar-left">
             <a href="adminDashboard">
@@ -14,41 +15,39 @@
 
 
         <div class="nav-links">
-            <a href="adminDashboard" class="${activePage == 'accueil' ? 'active' : ''}" >Accueil</a>
-            <a href="listBooks"  class="${activePage == 'livres' ? 'active' : ''}" >Livres</a>
-            <a href="manageUsers" class="${activePage == 'utilisateurs' ? 'active' : ''}" >Utilisateurs</a>
-            <a href="listLoan" class="${activePage == 'emprunts' ? 'active' : ''}" >Emprunts</a>
-            <a href="adminListReservations" class="${activePage == 'reservations' ? 'active' : ''}" >Réservations</a>
-        </div>
+                    <a href="adminDashboard" class="${activePage == 'accueil' ? 'active' : ''}" >Accueil</a>
+                    <a href="listBooks"  class="${activePage == 'livres' ? 'active' : ''}" >Livres</a>
+                    <a href="manageUsers" class="${activePage == 'utilisateurs' ? 'active' : ''}" >Utilisateurs</a>
+                    <a href="listLoan" class="${activePage == 'emprunts' ? 'active' : ''}" >Emprunts</a>
+                    <a href="adminListReservations" class="${activePage == 'reservations' ? 'active' : ''}" >Réservations</a>
+                </div>
 
-        <a class="logout-btn" onclick="showPopupDeconnexion()"><i class="fas fa-sign-out-alt"></i></a>
+        <a href="#" class="logout-btn" onclick="openLogoutModal(); return false;">
+                        <i class="fas fa-sign-out-alt"></i>
+        </a>
     </div>
-    <div>
-        <div class="overlay"></div>
-        <jsp:include page="PopupDeconnexion.jsp" />
-    </div>
-    <script>
-        var modal = document.getElementById('modalDeconnexion');
-        var messageElement = document.getElementById('messageConfirmation');
-
-
-        function showPopupDeconnexion() {
-            messageElement.textContent = "Êtes-vous sûr de vouloir vous Deconnecter ?";
-            messageElement.style.color = "black";
-            modal.style.display = 'block';
-            document.querySelector(".overlay").style.display = "block";
-        }
-
-        
-        function hiddePopupDeconnexion() {
-            modal.style.display = 'none';
-            livreASupprimer = null;
-            document.querySelector(".overlay").style.display = "none";
-        }
-
-        
-        function ConfirmDeconnexion() {
-            window.location.href = "logout";
-        }
-    </script>
 </nav>
+
+            <div id="logout-modal" class="logout-modal-backdrop">
+                <div class="logout-modal-content">
+                    <span class="logout-modal-close-btn" onclick="closeLogoutModal()">&times;</span>
+                    <h3>Déconnexion</h3>
+                    <p>Voulez-vous vraiment vous déconnecter ?</p>
+                    <div class="logout-actions">
+                        <button type="button" class="cancel-btn" onclick="closeLogoutModal()">Annuler</button>
+                        <a href="logout" class="confirm-logout-btn">Se déconnecter</a>
+                    </div>
+                </div>
+            </div>
+
+<script>
+
+    function openLogoutModal() {
+        document.getElementById("logout-modal").style.display = "flex";
+    }
+
+    function closeLogoutModal() {
+        document.getElementById("logout-modal").style.display = "none";
+    }
+
+</script>

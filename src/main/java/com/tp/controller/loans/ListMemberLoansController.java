@@ -35,6 +35,7 @@ public class ListMemberLoansController extends HttpServlet {
             throw new RuntimeException(e);
         }
         request.setAttribute("loans", loans);
+        request.setAttribute("activePage", "emprunts");
         this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/loans/listMemberLoans.jsp").forward(request,response);
     }
 }

@@ -48,7 +48,7 @@ body {
 }
 
 .navbar-menu input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #135776;
 }
 
 .page-title {
@@ -262,7 +262,6 @@ body {
 
 .add-student-button:hover {
     background-color: #27ae60;
-    transform: translateY(-2px);
 }
 
 .overlay {

@@ -8,6 +8,7 @@
     <title>Mes Réservations</title>
     <link rel="stylesheet" href="css/loans/listMemberLoans.css">
     <link rel="stylesheet" href="css/users/memberNavBar.css">
+    <link rel="stylesheet" href="css/users/returnConfirm.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -49,10 +50,11 @@
                                     <td>${l.formattedBorrowDate}</td>
                                     <td>${l.formattedDueDate}</td>
                                     <td>
-                                         <form action="returnBook" method="post" onsubmit="return confirm('Voulez vous vraiment rendre ${l.book_id}');">
-                                             <input type="hidden" name="loanId" value="${l.loan_id}">
-                                             <button type="submit" class="action-btn return-btn">Rendre</button>
-                                         </form>
+                                        <button type="button"
+                                                class="return-btn"
+                                                onclick="openReturnModal('${l.loan_id}', '${l.book_title}')">
+                                            Rendre
+                                        </button>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -66,6 +68,14 @@
                 </tbody>
             </table>
         </div>
+
+                        <div id="return-modal" class="modal" style="display:none;">
+                            <div class="return-modal-content">
+                                <span class="return-close-btn" onclick="closeReturnModal()">&times;</span>
+                                <div id="return-modal-body"></div>
+                            </div>
+                        </div>
+
     </main>
     <script>
         window.onload = function() {
@@ -82,6 +92,30 @@
                 }, 5000);
             }
         };
+
+        function openReturnModal(loanId, title) {
+            let modalBody = document.getElementById("return-modal-body");
+
+            let htmlContent = '';
+            htmlContent += '<h3>Confirmation</h3>';
+            htmlContent += '<p>Voulez-vous rendre le livre <b>' + title + '</b> ?</p>';
+            htmlContent += '<form action="returnBook" method="post">';
+            htmlContent += '    <input type="hidden" name="loanId" value="' + loanId + '">';
+            htmlContent += '    <div class="return-actions">';
+            htmlContent += '        <button type="button" onclick="closeReturnModal()">Annuler</button>';
+            htmlContent += '        <button type="submit" class="return-btn">Rendre</button>';
+            htmlContent += '    </div>';
+            htmlContent += '</form>';
+
+            modalBody.innerHTML = htmlContent;
+            document.getElementById("return-modal").style.display = "flex";
+        }
+
+        function closeReturnModal() {
+            document.getElementById("return-modal").style.display = "none";
+            document.getElementById("return-modal-body").innerHTML = "";
+        }
+
     </script>
 </body>
 </html>

@@ -20,6 +20,15 @@
     border-radius: 15px;
 }
 
+.fa-solid.fa-xmark {
+    margin-left: 385px;
+    color: #aaa;
+}
+
+.fa-solid.fa-xmark:hover{
+    color: #000;
+}
+
 .btn-confirmer {
     background-color: #dc3545;
     color: white;
@@ -31,11 +40,17 @@
 }
 
 .btn-annuler {
-    background-color: #137657;
-    color: white;
+    background-color: #e0e0e0;
+    color: rgb(22, 15, 15);
     padding: 10px 20px;
     border: none;
     border-radius: 3px;
     margin: 5px;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-annuler:hover {
+    background-color: #7e7d7d;
+    color: #ffffff;
 }

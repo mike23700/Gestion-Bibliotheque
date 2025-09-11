@@ -108,7 +108,6 @@
 
     <c:if test="${empty listbooks}">
         <p class="empty-list-message">Aucun livre trouvé dans la bibliothèque.</p>
-        <a href="javascript:void(0);" class="add-student-button" onclick="showForm1()">Ajouter le premier livre</a>
     </c:if>
 
     <div class="overlay"></div>

@@ -19,8 +19,8 @@ pageEncoding="UTF-8" isELIgnored="false" %>
     </head>
 
     <body>
-        <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp" />
-        <main class="dashboard-container">
+        <jsp:include page="/WEB-INF/Vues/admin/adminNavbarForUser.jsp" />
+        <main class="dashboard-container">10
             <h1>Gestion des utilisateurs</h1>
 
             <c:if test="${not empty sessionScope.message}">
@@ -104,18 +104,19 @@ pageEncoding="UTF-8" isELIgnored="false" %>
             <div id="modal" class="modal">
                 <div class="modal-content">
                     <span class="close-btn"
-                        onclick="closeModal()">&times;</span>
+                        onclick="closeModal()">&times;
+                    </span>
                     <div id="modal-body"></div>
                 </div>
             </div>
 
             <div id="delete-modal" class="modal" style="display:none;">
-                            <div class="delete-modal-content">
-                                <span class="delete-close-btn"
-                                    onclick="closeDeleteModal()">&times;</span>
-                                <div id="delete-modal-body"></div>
-                            </div>
-                        </div>
+                <div class="delete-modal-content">
+                    <span class="delete-close-btn"
+                    onclick="closeDeleteModal()">&times;</span>
+                    <div id="delete-modal-body"></div>
+                </div>
+            </div>
 
             <script>
                     function openModal(url) {

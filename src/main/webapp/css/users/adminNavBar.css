@@ -112,6 +112,18 @@
     border-radius: 15px;
 }
 
+.fa-solid.fa-xmark {
+    font-size: 30px;
+    margin-top: 0px;
+    margin-left: 380px;
+    color: #aaa;
+}
+
+.fa-solid.fa-xmark:hover {
+    cursor: pointer; 
+    color: #000;
+}
+
 .btn-confirmer {
     background-color: #dc3545;
     color: white;

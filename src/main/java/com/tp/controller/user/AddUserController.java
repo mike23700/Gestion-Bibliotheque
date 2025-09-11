@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @WebServlet("/addUser")
 public class AddUserController extends HttpServlet {
@@ -44,14 +45,31 @@ public class AddUserController extends HttpServlet {
 
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
-        int tel_num = Integer.parseInt(request.getParameter("tel_num"));
+        String tel_num_str = request.getParameter("tel_num");
         String email = request.getParameter("email");
+
+        String regexTel = "^6[0-9]{8}$";
+        if (!Pattern.matches(regexTel, tel_num_str)) {
+            session.setAttribute("error", "Le numéro de téléphone n'est pas au format correct (ex. 6xxxxxxxx).");
+            response.sendRedirect("manageUsers");
+            return;
+        }
+
+        String regexEmail = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
+        if (!Pattern.matches(regexEmail, email)) {
+            session.setAttribute("error", "L'adresse email n'est pas au format correct (ex. mike@gmail.com).");
+            response.sendRedirect("manageUsers");
+            return;
+        }
+
+        int tel_num = Integer.parseInt(tel_num_str);
+
         boolean success = userService.createAndAddUser(name, surname, tel_num, email);
 
         if (success) {
-            request.getSession().setAttribute("message", "Utilisateur ajouté avec success.");
+            session.setAttribute("message", "Utilisateur ajouté avec succès.");
         } else {
-            request.getSession().setAttribute("error", "Erreur lors de l'ajout de l'utilisateur.");
+            session.setAttribute("error", "Erreur lors de l'ajout de l'utilisateur. L'utilisateur existe peut-être déjà.");
         }
 
         response.sendRedirect("manageUsers");

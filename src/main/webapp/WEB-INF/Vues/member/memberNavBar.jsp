@@ -42,7 +42,7 @@
                 <div class="logout-modal-content">
                     <span class="logout-modal-close-btn" onclick="closeLogoutModal()">&times;</span>
                     <h3>Déconnexion</h3>
-                    <p>Voulez-vous vraiment vous déconnecter ?</p>
+                    <p> ${user.name} voulez-vous vraiment vous déconnecter?</p>
                     <div class="logout-actions">
                         <button type="button" class="cancel-btn" onclick="closeLogoutModal()">Annuler</button>
                         <a href="logout" class="confirm-logout-btn">Se déconnecter</a>

@@ -114,27 +114,27 @@
 
         dueDateElements.forEach(function(element, index) {
     
-        const dateTextNode = element.childNodes[0];
-        const dueDateText = dateTextNode.textContent.trim();
-        const dueDate = new Date(dueDateText);
-        
-        
-        const errorElement = element.querySelector('.due-date-error');
-        
-        const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-        const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
-
-        if(dueDateOnly < currentDateOnly){
-            element.style.color = "red";
-            element.style.fontWeight = "bold";
+            const dateTextNode = element.childNodes[0];
+            const dueDateText = dateTextNode.textContent.trim();
+            const dueDate = new Date(dueDateText);
             
-            if(errorElement) {
-                errorElement.textContent = "veuillez retourner ce livre";
-                errorElement.style.color = "red";
-                errorElement.style.fontSize = "8px";
+            
+            const errorElement = element.querySelector('.due-date-error');
+            
+            const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+            const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+
+            if(dueDateOnly < currentDateOnly){
+                element.style.color = "red";
+                element.style.fontWeight = "bold";
+                
+                if(errorElement) {
+                    errorElement.textContent = "veuillez retourner ce livre";
+                    errorElement.style.color = "red";
+                    errorElement.style.fontSize = "8px";
+                }
             }
-        }
-    });
+        });
 
     </script>
     <script src="js/message.js"></script>

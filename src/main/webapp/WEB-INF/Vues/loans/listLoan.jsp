@@ -73,7 +73,9 @@
                                     <td>${loan.username}</td>
                                     <td>${loan.book_title}</td>
                                     <td>${loan.formattedBorrowDate}</td>
-                                    <td>${loan.formattedDueDate}</td>
+                                    <td class="due-date">
+                                        ${loan.formattedDueDate}
+                                    </td>
                                     <td>${loan.formattedReturnDate}</td>
                                 </tr>
                             </c:forEach>
@@ -110,6 +112,24 @@
                         });
 
                         toggleClearBtn();
+                    });
+
+                    
+                    const dueDateElements = document.querySelectorAll(".due-date");
+                    const currentDate = new Date();
+
+                    dueDateElements.forEach(function(element) {
+                        const dueDateText = element.textContent;
+                        const dueDate = new Date(dueDateText);
+                        
+                        
+                        const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+                        const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+                        
+                        if(dueDateOnly < currentDateOnly){
+                            element.style.color = "red";
+                            element.style.fontWeight = "bold";
+                        }
                     });
                 </script>
     </main>

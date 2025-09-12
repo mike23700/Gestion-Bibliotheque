@@ -1,19 +1,19 @@
 <%@ page pageEncoding="UTF-8" %>
 
     <div class="form-container">
-        <i class="fa-solid fa-xmark" onclick="HideFormAddBook()" style="cursor: pointer; font-size: 30px; margin-top: 0px; margin-left: 340px;"></i>
+        <i class="fa-solid fa-xmark" onclick="HideFormAddBook()" style="cursor: pointer; font-size: 30px; margin-top: 0px; margin-left: 443px;"></i>
         <h1 class="form-title">Ajouter un Nouveau Livre</h1>
         <form method="post" action="addBook" class="add-book-form" enctype="multipart/form-data" >
             <div class="form-group">
-                <label for="title">Titre :</label>
+                <label for="title">Titre <span style="color: red; font-size: 17px;">*</span> :</label>
                 <input type="text" name="title" id="title" required class="form-input">
             </div>
             <div class="form-group">
-                <label for="author">Auteur :</label>
+                <label for="author">Auteur <span style="color: red; font-size: 17px;">*</span> :</label>
                 <input type="text" name="author" id="author" required class="form-input">
             </div>
             <div class="form-group"> <!-- Class form-group-inline retirée ici -->
-                <label for="year">Année de publication :</label>
+                <label for="year">Année de publication <span style="color: red; font-size: 17px;">*</span> :</label>
 
                 <input type="number" name="year" id="year" required class="form-input"><br>
                 <span id="annee-error" style="color: red;"></span>

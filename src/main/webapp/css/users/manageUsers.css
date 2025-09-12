@@ -22,22 +22,47 @@ body {
     margin-bottom: 50px;
 }
 
-.alert {
-    padding: 12px 20px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    font-weight: 500;
+.message-container {
+    position: fixed;
+    top: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 100%;
+    height: 50px;
+    max-width: 800px;
+    display: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
+    font-weight: bold;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.alert.success {
-    background-color: #d4edda;
-    color: #155724;
+.message {
+    background-color: #a5ddbd;
+    color: #03471f;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.alert.error {
-    background-color: #f8d7da;
-    color: #721c24;
+.error {
+    background-color: #dab9b5;
+    color: #e40d0d;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .top-controls {

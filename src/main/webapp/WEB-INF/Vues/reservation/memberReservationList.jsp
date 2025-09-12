@@ -19,14 +19,19 @@
         <h1>Mes Réservations</h1>
         <a href="reservationHistory"><i class="fa fa-history"></i><h3>Historique</h3></a>
 
-        <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message} <i class="fa-solid fa-circle-check"></i></div>
-            <c:remove var="message" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.error}">
-            <div class="alert error">${sessionScope.error}</div>
-            <c:remove var="error" scope="session"/>
-        </c:if>
+            <c:if test="${not empty sessionScope.message}">
+                <div class="message-container">
+                    <div class="message">${sessionScope.message}</div>
+                </div>
+                <c:remove var="message" scope="session"/>
+            </c:if>
+            <c:if test="${not empty sessionScope.error}">
+                <div class="message-container">
+                    <div class="error">${sessionScope.error}</div>
+                </div>
+                <c:remove var="error" scope="session"/>
+            </c:if>
+
         <div class="section-card">
             <h3>Liste de mes réservations</h3>
             <table class="user-table">
@@ -115,5 +120,6 @@
             document.getElementById("return-modal-body").innerHTML = "";
         }
     </script>
+    <script src="js/message.js"></script>
 </body>
 </html>

@@ -22,14 +22,18 @@
         <main class="dashboard-container">
             <h1>Gestion des utilisateurs</h1>
 
-            <c:if test="${not empty sessionScope.message}">
-                <div class="alert success">${sessionScope.message}</div>
-                <c:remove var="message" scope="session" />
-            </c:if>
-            <c:if test="${not empty sessionScope.error}">
-                <div class="alert error">${sessionScope.error}</div>
-                <c:remove var="error" scope="session" />
-            </c:if>
+        <c:if test="${not empty sessionScope.message}">
+            <div class="message-container">
+                <div class="message">${sessionScope.message}</div>
+            </div>
+            <c:remove var="message" scope="session"/>
+        </c:if>
+        <c:if test="${not empty sessionScope.error}">
+            <div class="message-container">
+                <div class="error">${sessionScope.error}</div>
+            </div>
+            <c:remove var="error" scope="session"/>
+        </c:if>
 
             <div class="top-controls">
                 <form action="listUser" method="get" class="search-user-form">
@@ -179,6 +183,7 @@
                     }
                 </script>
         </main>
+        <script src="js/message.js"></script>
     </body>
 
 </html>

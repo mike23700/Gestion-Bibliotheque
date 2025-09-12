@@ -19,14 +19,18 @@
         <h1>Mes Emprunts</h1>
         <a href="loanHistory"><i class="fa fa-history"></i><h3>Historique</h3></a>
 
-        <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message} <i class="fa-solid fa-circle-check"></i></div>
-            <c:remove var="message" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.error}">
-            <div class="alert error">${sessionScope.error}</div>
-            <c:remove var="error" scope="session"/>
-        </c:if>
+                <c:if test="${not empty sessionScope.message}">
+                    <div class="message-container">
+                        <div class="message">${sessionScope.message}</div>
+                    </div>
+                    <c:remove var="message" scope="session"/>
+                </c:if>
+                <c:if test="${not empty sessionScope.error}">
+                    <div class="message-container">
+                        <div class="error">${sessionScope.error}</div>
+                    </div>
+                    <c:remove var="error" scope="session"/>
+                </c:if>
 
         <div class="section-card">
             <h3>Liste de mes emprunts</h3>
@@ -78,21 +82,6 @@
 
     </main>
     <script>
-        window.onload = function() {
-            var messageDiv = document.querySelector(".alert");
-            if (messageDiv) {
-                messageDiv.style.display = 'block';
-                
-            
-                setTimeout(function() {
-                    messageDiv.style.opacity = '0';
-                    setTimeout(function() {
-                        messageDiv.style.display = 'none';
-                    }, 500);
-                }, 5000);
-            }
-        };
-
         function openReturnModal(loanId, title) {
             let modalBody = document.getElementById("return-modal-body");
 
@@ -117,5 +106,6 @@
         }
 
     </script>
+    <script src="js/message.js"></script>
 </body>
 </html>

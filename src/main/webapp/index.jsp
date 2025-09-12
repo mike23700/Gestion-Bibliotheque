@@ -12,7 +12,7 @@
     <div class="container">
         <header>
             <div class="logo">
-            <a href="/bibiotech">
+            <a href="/bibliotech">
                 <img src="assets/logo2.png" alt="Logo" class="logo-img">
             </a>
             </div>

@@ -53,7 +53,7 @@ public class ReturnBookController extends HttpServlet {
                 Loan loanToReturn = loanService.getLoanById(loanId);
 
                 if (loanToReturn != null) {
-                    boolean loanUpdated = loanService.updateLoanReturnDate(loanId, LocalDateTime.now());  //on  met la date de retour aujourd'hui
+                    boolean loanUpdated = loanService.updateLoanReturnDate(loanId, LocalDateTime.now());
 
                     if (loanUpdated) {
 

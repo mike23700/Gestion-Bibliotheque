@@ -86,3 +86,9 @@ body {
     background: #dcdfe6;
 }
 
+small#tel-error, small#email-error {
+    color: #c0392b;
+    font-size: 0.85rem;
+    display: block;
+    margin-top: 6px;
+}

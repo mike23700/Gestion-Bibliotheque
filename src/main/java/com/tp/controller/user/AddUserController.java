@@ -36,12 +36,6 @@ public class AddUserController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
-
-        if (currentUser == null || !currentUser.getRole().equals("ADMIN")) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN);
-            return;
-        }
 
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");

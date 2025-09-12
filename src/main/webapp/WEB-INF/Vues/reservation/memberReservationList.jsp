@@ -17,7 +17,7 @@
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Mes Réservations</h1>
-        <a href="loanHistory"><i class="fa fa-history"></i><h3>Historique</h3></a>
+        <a href="reservationHistory"><i class="fa fa-history"></i><h3>Historique</h3></a>
 
         <c:if test="${not empty sessionScope.message}">
             <div class="alert success">${sessionScope.message} <i class="fa-solid fa-circle-check"></i></div>

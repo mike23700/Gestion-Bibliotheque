@@ -33,7 +33,7 @@
             </div>
             <button type="submit" class="btn-submit">Se connecter</button>
         </form>
-               <a href="index.jsp" class="back-link back-link-button">
+               <a href="/bibliotech" class="back-link back-link-button">
                    <i class="fas fa-arrow-left"></i> Retour
                </a>
     </div>

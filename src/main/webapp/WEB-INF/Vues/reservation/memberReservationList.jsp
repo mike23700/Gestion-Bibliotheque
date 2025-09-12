@@ -8,6 +8,7 @@
     <title>Mes Réservations</title>
     <link rel="stylesheet" href="css/reservations/reservationList.css">
     <link rel="stylesheet" href="css/users/memberNavBar.css">
+    <link rel="stylesheet" href="css/users/returnConfirm.css">
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -16,16 +17,21 @@
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
         <h1>Mes Réservations</h1>
-        <a href="reservationHistory"><h3>Voir L'historique</h3></a>
+        <a href="reservationHistory"><i class="fa fa-history"></i><h3>Historique</h3></a>
 
-        <c:if test="${not empty sessionScope.message}">
-            <div class="alert success">${sessionScope.message} <i class="fa-solid fa-circle-check"></i></div>
-            <c:remove var="message" scope="session"/>
-        </c:if>
-        <c:if test="${not empty sessionScope.error}">
-            <div class="alert error">${sessionScope.error}</div>
-            <c:remove var="error" scope="session"/>
-        </c:if>
+            <c:if test="${not empty sessionScope.message}">
+                <div class="message-container">
+                    <div class="message">${sessionScope.message}</div>
+                </div>
+                <c:remove var="message" scope="session"/>
+            </c:if>
+            <c:if test="${not empty sessionScope.error}">
+                <div class="message-container">
+                    <div class="error">${sessionScope.error}</div>
+                </div>
+                <c:remove var="error" scope="session"/>
+            </c:if>
+
         <div class="section-card">
             <h3>Liste de mes réservations</h3>
             <table class="user-table">
@@ -49,12 +55,11 @@
                                     <td>${res.formattedDueRegister}</td>
                                     <td>
                                         <c:if test="${res.status eq 'ACTIVE'}">
-                                            <form action="cancelReservation" method="post" onsubmit="return confirm('Voulez-vous vraiment annuler cette réservation ?');">
-                                                <input type="hidden" name="reservationId" value="${res.reservation_id}">
-                                                <button type="submit" class="action-btn cancel-btn">
-                                                    <i class="fas fa-times"></i> Annuler
-                                                </button>
-                                            </form>
+                                            <button type="button"
+                                                class="return-btn"
+                                                onclick="openReturnModal('${res.reservation_id}', '${res.book_title}')">
+                                                <i class="fas fa-times"></i> Annuler
+                                            </button>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -69,15 +74,20 @@
                 </tbody>
             </table>
         </div>
-
+                       <div id="return-modal" class="modal" style="display:none;">
+                            <div class="return-modal-content">
+                                <span class="return-close-btn" onclick="closeReturnModal()">&times;</span>
+                                <div id="return-modal-body"></div>
+                            </div>
+                        </div>
     </main>
     <script>
         window.onload = function() {
             var messageDiv = document.querySelector(".alert");
             if (messageDiv) {
                 messageDiv.style.display = 'block';
-                
-            
+
+
                 setTimeout(function() {
                     messageDiv.style.opacity = '0';
                     setTimeout(function() {
@@ -86,6 +96,30 @@
                 }, 5000);
             }
         };
+
+        function openReturnModal(reservationId, title) {
+            let modalBody = document.getElementById("return-modal-body");
+
+            let htmlContent = '';
+            htmlContent += '<h3>Confirmation</h3>';
+            htmlContent += '<p>Voulez-vous vraiment annuler la reservation pour  <b>' + title + '</b> ?</p>';
+            htmlContent += '<form action="cancelReservation" method="post">';
+            htmlContent += '    <input type="hidden" name="reservationId" value="' + reservationId + '">';
+            htmlContent += '    <div class="return-actions">';
+            htmlContent += '        <button type="button" onclick="closeReturnModal()">Annuler</button>';
+            htmlContent += '        <button type="submit" class="return-btn">Annulé</button>';
+            htmlContent += '    </div>';
+            htmlContent += '</form>';
+
+            modalBody.innerHTML = htmlContent;
+            document.getElementById("return-modal").style.display = "flex";
+        }
+
+        function closeReturnModal() {
+            document.getElementById("return-modal").style.display = "none";
+            document.getElementById("return-modal-body").innerHTML = "";
+        }
     </script>
+    <script src="js/message.js"></script>
 </body>
 </html>

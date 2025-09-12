@@ -53,7 +53,7 @@
 
 .nav-links {
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .nav-links a {
@@ -63,9 +63,12 @@
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover,
-.nav-links a.active {
-    color: #e9ecef;
+.nav-links a:hover{
+    color: #71adc9;
+}
+
+.active {
+    border-bottom: rgb(255 , 255, 255) 3px solid;
 }
 
 .logout-btn {
@@ -86,3 +89,4 @@
 .logout-btn i {
     margin-right: 5px;
 }
+

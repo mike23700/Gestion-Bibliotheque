@@ -4,6 +4,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="assets/favicon.png" />
     <title>Page non trouvée - Gestion Étudiants</title>
     <style>
         body {
@@ -30,14 +31,14 @@
             display: inline-block;
             margin-top: 20px;
             padding: 12px 25px;
-            background-color: #135776;
+            background-color: #137657;
             color: white;
             text-decoration: none;
             border-radius: 6px;
             transition: background-color 0.3s ease;
         }
         a:hover {
-            background-color: #45a049;
+            background-color: #135776;
         }
         .container {
             max-width: 600px;
@@ -54,7 +55,7 @@
         <h1>404</h1>
         <h2>Oups ! Page introuvable</h2>
         <p>La page que vous recherchez n'existe pas ou a été déplacée.</p>
-        <a href="index.jsp">Retour à l'accueil</a>
+        <a href="/bibliotech">Retour à l'accueil</a>
     </div>
 </body>
 </html>

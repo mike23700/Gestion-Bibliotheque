@@ -48,8 +48,7 @@
 
 .nav-links {
     display: flex;
-    gap: 50px;
-    margin-left: 180px;
+    gap: 30px;
 }
 
 .nav-links a {
@@ -59,8 +58,12 @@
     transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
-    color: #e9ecef;
+.nav-links a:hover{
+    color: #71adc9;
+}
+
+.active {
+    border-bottom: rgb(255 , 255, 255) 3px solid;
 }
 
 .nav-actions {

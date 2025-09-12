@@ -57,7 +57,7 @@
         <version>2.2</version>
         <configuration>
           <port>8080</port>
-          <path>/bibiotech</path>
+          <path>/bibliotech</path>
         </configuration>
       </plugin>
     </plugins>

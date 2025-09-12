@@ -72,6 +72,7 @@ public class AdminListReservationsController extends HttpServlet {
         request.setAttribute("searchValue", searchValue);
         request.setAttribute("status", statusFilter);
 
+        request.setAttribute("activePage", "reservations");
         request.getRequestDispatcher("/WEB-INF/Vues/reservation/adminReservationList.jsp").forward(request, response);
     }
 }

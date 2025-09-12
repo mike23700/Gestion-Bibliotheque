@@ -1,6 +1,5 @@
 package com.tp.dao.interfaces;
 
-import com.tp.model.History;
 import com.tp.model.Reservation;
 
 import java.time.LocalDateTime;
@@ -23,5 +22,4 @@ public interface ReservationDAO {
     int countReservations();
     boolean isTwoReservationByBook(String user_id , String book_id);
     Reservation getFirstReservation(String book_id);
-    //List<Reservation> findByDate(LocalDateTime date);
 }

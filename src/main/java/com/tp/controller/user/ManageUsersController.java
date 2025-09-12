@@ -30,6 +30,7 @@ public class ManageUsersController extends HttpServlet {
         if (currentUser != null && currentUser.getRole().equals("ADMIN")) {
             List<User> userList = userService.getAllMembers();
             request.setAttribute("userList", userList);
+            request.setAttribute("activePage", "utilisateurs");
             request.getRequestDispatcher("/WEB-INF/Vues/admin/manageUsers.jsp").forward(request, response);
         } else {
             response.sendRedirect("login");

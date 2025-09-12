@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 
     <div class="form-container">
+        <i class="fa-solid fa-xmark" onclick="HideFormAddBook()" style="cursor: pointer; font-size: 30px; margin-top: 0px; margin-left: 340px;"></i>
         <h1 class="form-title">Ajouter un Nouveau Livre</h1>
         <form method="post" action="addBook" class="add-book-form" enctype="multipart/form-data" >
             <div class="form-group">
@@ -39,10 +40,10 @@
             </div>
             <div class="form-group1">
                 <div>
-                    <button type="submit" class="submit-button">Ajouter le Livre</button>
+                    <button type="button" class="annuler" onclick="HideFormAddBook()">Annuler</button>
                 </div>
                 <div>
-                    <button type="button" class="annuler" onclick="HideFormAddBook()">Annuler</button>
+                    <input type="submit" class="submit-button" value="Ajouter" />
                 </div>
             </div>
         </form>

@@ -97,7 +97,6 @@ main {
 
 .btn-primary:hover {
     background-color: #135776;
-    transform: translateY(-1px);
 }
 
 .image {

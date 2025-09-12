@@ -19,7 +19,7 @@ body {
     background-color: #e9ecef;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     margin-bottom: 20px;
-    margin-top: 60px;
+    margin-top: 80px;
     margin-left: 145px;
 }
 
@@ -48,7 +48,7 @@ body {
 }
 
 .navbar-menu input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #135776;
 }
 
 .page-title {
@@ -262,7 +262,6 @@ body {
 
 .add-student-button:hover {
     background-color: #27ae60;
-    transform: translateY(-2px);
 }
 
 .overlay {
@@ -279,7 +278,7 @@ body {
 /* Styles pour le conteneur de messages */
 .message-container {
     position: fixed;
-    bottom: 20px;
+    top: 90px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;

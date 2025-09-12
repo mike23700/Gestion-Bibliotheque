@@ -1,7 +1,6 @@
 package com.tp.dao.interfaceImpl;
 
 import com.tp.dao.DAOFactory;
-import com.tp.dao.DBConnection;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.model.Reservation;
 
@@ -12,7 +11,10 @@ import java.util.ArrayList;
 
 public class ReservationDAOImpl implements ReservationDAO {
 
+    private final DAOFactory daoFactory;
+
     public ReservationDAOImpl(DAOFactory daoFactory) {
+        this.daoFactory = daoFactory;
     }
 
     @Override
@@ -20,7 +22,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String checkSql = "SELECT COUNT(*) FROM reservations WHERE user_id = ? AND status = 'ACTIVE' FOR UPDATE";
         String insertSql = "INSERT INTO reservations (reservation_id, user_id, book_id, reservation_date, expire_date, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection connexion = DBConnection.getConnection()) {
+        try (Connection connexion = daoFactory.getConnection()) {
             connexion.setAutoCommit(false);
             int activeCount = 0;
             try (PreparedStatement checkStmt = connexion.prepareStatement(checkSql)) {
@@ -61,7 +63,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "UPDATE reservations SET status = ? WHERE reservation_id = ?";
         boolean success = false;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, reservation.getStatus());
@@ -83,7 +85,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date,r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.reservation_id = ?";
         Reservation reservation = null;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, reservationId);
@@ -114,7 +116,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, userId);
@@ -146,7 +148,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE u.name LIKE ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, "%" + name + "%");
@@ -178,7 +180,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.book_id = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, bookId);
@@ -210,7 +212,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE b.title LIKE ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, "%" + bookName + "%");
@@ -242,7 +244,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, status);
@@ -274,7 +276,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -303,7 +305,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND b.title LIKE ? AND r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, userId);
@@ -331,41 +333,6 @@ public class ReservationDAOImpl implements ReservationDAO {
         }
         return list;
     }
-/*
-    @Override
-    public List<Reservation> findByDate(LocalDateTime date) {
-        String query = "SELECT history_id, user_id, book_id, action_type, action_description, action_date FROM history WHERE action_date BETWEEN ? AND ?";
-        List<History> list = new ArrayList<>();
-
-        LocalDateTime startOfDay = date.withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime endOfDay = date.withHour(23).withMinute(59).withSecond(59);
-
-        try (Connection connexion = DBConnection.getConnection();
-             PreparedStatement stmt = connexion.prepareStatement(query)) {
-
-            stmt.setTimestamp(1, Timestamp.valueOf(startOfDay));
-            stmt.setTimestamp(2, Timestamp.valueOf(endOfDay));
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    History history = new History(
-                            rs.getInt("history_id"),
-                            rs.getString("user_id"),
-                            rs.getString("book_id"),
-                            rs.getString("action_type"),
-                            rs.getString("action_description"),
-                            rs.getTimestamp("action_date").toLocalDateTime()
-                    );
-                    list.add(history);
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération de l'historique par date: " + e.getMessage());
-            e.printStackTrace();
-        }
-        return list;
-    }
- */
 
     @Override
     public List<Reservation> findActiveByUserId(String userId) {
@@ -373,7 +340,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
         List<Reservation> list = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setString(1, userId);
@@ -408,7 +375,7 @@ public class ReservationDAOImpl implements ReservationDAO {
                 "WHERE r.status = 'ACTIVE' AND r.expire_date < ?";
         List<Reservation> expiredReservations = new ArrayList<>();
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
@@ -441,7 +408,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT COUNT(*) FROM reservations WHERE status = 'ACTIVE'";
         int count = 0;
 
-        try (Connection connexion = DBConnection.getConnection();
+        try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
 
             ResultSet rs = stmt.executeQuery();
@@ -459,7 +426,7 @@ public class ReservationDAOImpl implements ReservationDAO {
         String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ? AND status = 'ACTIVE' ";
         int count = 0;
 
-        try (Connection conn = DBConnection.getConnection();
+        try (Connection conn = daoFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setString(1, book_id);
@@ -483,7 +450,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
         String sql = " SELECT * FROM reservations WHERE book_id = ? AND status = 'ACTIVE' AND expire_date > NOW() ORDER BY reservation_date ASC LIMIT 1 ";
 
-        try (Connection connection = DBConnection.getConnection();
+        try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, bookId);

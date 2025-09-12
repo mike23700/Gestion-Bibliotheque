@@ -94,8 +94,10 @@ public class ListBookController extends HttpServlet {
         }
 
         if ("MEMBER".equals(currentUser.getRole())) {
+            request.setAttribute("activePage", "livres");
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookMember.jsp").forward(request, response);
         } else if ("ADMIN".equals(currentUser.getRole())) {
+            request.setAttribute("activePage", "livres");
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookAdmin.jsp").forward(request, response);
         } else {
             System.err.println("Rôle utilisateur inconnu ou non géré: " + currentUser.getRole());

@@ -9,9 +9,9 @@
             <div class="alert error">${sessionScope.error}</div>
             <c:remove var="error" scope="session"/>
         </c:if>
-
-        <div class="section-card">
-            <h3>Nouveau membre</h3>
+            <div class="title">
+            <h3>Ajoutez un nouveau Membre</h3>
+            </div>
             <form action="addUser" method="post" class="add-user-form">
                 <div class="form-group">
                     <label for="name">Nom</label>
@@ -30,10 +30,10 @@
                     <input type="email" id="email" name="email" placeholder="ex. mike@gmail.com" required>
                 </div>
                 <div class="form-actions">
-                    <button type="submit" class="add-btn"><i class="fas fa-user-plus"></i> Ajouter</button>
                     <a href="manageUsers" class="cancel-btn">Annuler</a>
+                    <button type="submit" class="add-btn"><i class="fas fa-user-plus"></i> Ajouter</button>
                 </div>
             </form>
-        </div>
+    <script src="js/formValidation.js"></script>
 </body>
 </html>

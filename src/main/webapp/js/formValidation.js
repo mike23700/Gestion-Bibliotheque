@@ -1,80 +1,49 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const telEl = document.getElementById('tel_num');
-    const emailEl = document.getElementById('email');
-    const form = document.querySelector('.add-user-form');
+document.addEventListener("DOMContentLoaded", function () {
+    const tel = document.getElementById("tel_num");
+    const email = document.getElementById("email");
+    const telError = document.getElementById("tel-error");
+    const emailError = document.getElementById("email-error");
 
     const telRegex = /^6[0-9]{8}$/;
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/;
 
-    function ensureError(el, id) {
-        let err = document.getElementById(id);
-        if (!err) {
-            err = document.createElement('small');
-            err.id = id;
-            err.style.color = 'red';
-            err.style.display = 'block';
-            err.style.marginTop = '6px';
-            el.parentNode.appendChild(err);
+    tel.addEventListener("input", function (event) {
+        const value = event.target.value.trim();
+        if (value === "") {
+            telError.textContent = "";
+        } else if (!telRegex.test(value)) {
+            telError.textContent = "Format attendu : 6xxxxxxxx (9 chiffres).";
+        } else {
+            telError.textContent = "";
         }
-        return err;
-    }
+    });
 
-    if (telEl) {
-        const telErr = ensureError(telEl, 'tel-error');
-        telEl.addEventListener('input', function () {
-            const v = telEl.value.trim();
-            if (v === '') {
-                telErr.textContent = '';
-            } else if (!telRegex.test(v)) {
-                telErr.textContent = 'Format attendu : 6xxxxxxxx (9 chiffres).';
-            } else {
-                telErr.textContent = '';
-            }
-        });
-    } else {
-        console.warn('formValidation.js: élément #tel_num introuvable.');
-    }
+    email.addEventListener("input", function (event) {
+        const value = event.target.value.trim();
+        if (value === "") {
+            emailError.textContent = "";
+        } else if (!emailRegex.test(value)) {
+            emailError.textContent = "Format attendu : exemple@gmail.com";
+        } else {
+            emailError.textContent = "";
+        }
+    });
 
-    if (emailEl) {
-        const emailErr = ensureError(emailEl, 'email-error');
-        emailEl.addEventListener('input', function () {
-            const v = emailEl.value.trim();
-            if (v === '') {
-                emailErr.textContent = '';
-            } else if (!emailRegex.test(v)) {
-                emailErr.textContent = 'Format attendu : exemple@gmail.com';
-            } else {
-                emailErr.textContent = '';
-            }
-        });
-    } else {
-        console.warn('formValidation.js: élément #email introuvable.');
-    }
+    document.querySelector(".add-user-form").addEventListener("submit", function (e) {
+        let hasError = false;
 
-    if (form) {
-        form.addEventListener('submit', function (e) {
-            const telVal = telEl ? telEl.value.trim() : '';
-            const emailVal = emailEl ? emailEl.value.trim() : '';
-            let hasError = false;
+        if (!telRegex.test(tel.value.trim())) {
+            telError.textContent = "Le numéro doit être au format 6xxxxxxxx (9 chiffres).";
+            tel.focus();
+            hasError = true;
+        }
 
-            if (telEl && !telRegex.test(telVal)) {
-                hasError = true;
-                ensureError(telEl, 'tel-error').textContent = 'Le numéro doit être au format 6xxxxxxxx (9 chiffres).';
-            }
+        if (!emailRegex.test(email.value.trim())) {
+            emailError.textContent = "L'adresse email doit être au format correct (ex. mike@gmail.com).";
+            if (!hasError) email.focus();
+            hasError = true;
+        }
 
-            if (emailEl && !emailRegex.test(emailVal)) {
-                hasError = true;
-                ensureError(emailEl, 'email-error').textContent = 'L\'adresse email doit être au format correct (ex. mike@gmail.com).';
-            }
-
-            if (hasError) {
-                e.preventDefault();
-                // focus sur le premier champ invalide
-                if (telEl && !telRegex.test(telVal)) telEl.focus();
-                else if (emailEl && !emailRegex.test(emailVal)) emailEl.focus();
-            }
-        });
-    } else {
-        console.warn('formValidation.js: formulaire .add-user-form introuvable.');
-    }
+        if (hasError) e.preventDefault();
+    });
 });

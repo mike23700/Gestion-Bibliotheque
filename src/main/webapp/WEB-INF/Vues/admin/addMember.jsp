@@ -34,5 +34,6 @@
                     <button type="submit" class="add-btn"><i class="fas fa-user-plus"></i> Ajouter</button>
                 </div>
             </form>
+    <script src="js/formValidation.js"></script>
 </body>
 </html>

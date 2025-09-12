@@ -20,7 +20,7 @@ pageEncoding="UTF-8" isELIgnored="false" %>
 
     <body>
         <jsp:include page="/WEB-INF/Vues/admin/adminNavBar.jsp" />
-        <main class="dashboard-container">10
+        <main class="dashboard-container">
             <h1>Gestion des utilisateurs</h1>
 
             <c:if test="${not empty sessionScope.message}">

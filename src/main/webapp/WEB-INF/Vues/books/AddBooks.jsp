@@ -14,8 +14,9 @@
             </div>
             <div class="form-group"> <!-- Class form-group-inline retirée ici -->
                 <label for="year">Année de publication :</label>
-                <!-- Année maximale définie sur l'année actuelle -->
-                <input type="number" name="year" id="year" required class="form-input">
+
+                <input type="number" name="year" id="year" required class="form-input"><br>
+                <span id="annee-error" style="color: red;"></span>
             </div>
             <div class="form-group"> <!-- Class form-group-inline retirée ici -->
                 <label for="category">Catégorie :</label>
@@ -47,6 +48,24 @@
                 </div>
             </div>
         </form>
+        <script>
+            const year = document.getElementById("year");
+            const error_message = document.getElementById("annee-error");
+
+            const annee_max = new Date().getFullYear();
+            const annee_min = 1950;
+
+            year.addEventListener('input' , function(event){
+                const annee = parseInt(event.target.value);
+
+                if(annee < annee_min || annee > annee_max){
+                    error_message.textContent = "veuillez entrer un nombre entre "+annee_min+ " et "+annee_max;
+                }else{
+                    error_message.textContent = "";
+                }
+            });
+            
+        </script>
     </div>
 
 

@@ -16,20 +16,20 @@
 
     <form action="addUser" method="post" class="add-user-form">
         <div class="form-group">
-            <label for="name">Nom</label>
+            <label for="name">Nom <span style="color: red; font-size: 17px;">*</span></label>
             <input type="text" id="name" name="name" placeholder="ex. Mike" required>
         </div>
         <div class="form-group">
-            <label for="surname">Prénom</label>
+            <label for="surname">Prénom <span style="color: red; font-size: 17px;">*</span></label>
             <input type="text" id="surname" name="surname" placeholder="ex. Ken" required>
         </div>
         <div class="form-group">
-            <label for="tel_num">Numéro de téléphone</label>
+            <label for="tel_num">Numéro de téléphone <span style="color: red; font-size: 17px;">*</span></label>
             <input type="tel" id="tel_num" name="tel_num" placeholder="6xxxxxxxx" required>
             <span id="tel-error" style="color: red;"></span>
         </div>
         <div class="form-group">
-            <label for="email">Email</label>
+            <label for="email">Email <span style="color: red; font-size: 17px;">*</span></label>
             <input type="email" id="email" name="email" placeholder="ex. mike@gmail.com" required>
             <span id="email-error" style="color: red;"></span>
         </div>

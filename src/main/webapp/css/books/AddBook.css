@@ -42,10 +42,10 @@
 
         .form-group1 {
             width: 300px;
-            margin-left: 70px;
+            margin-left: 220px;
             margin-bottom: 15px;
             display: flex;
-            justify-content: space-around;
+            gap: 12px;
         }
 
         .form-group1 div {

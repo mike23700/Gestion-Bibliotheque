@@ -8,14 +8,14 @@ body {
 
 .title {
   text-align: center;
-  margin-bottom: 20px;
-  padding: 10px;
+  margin-bottom: 30px;
+  padding: 20px;
   border-bottom: 2px solid #135776;
 }
 
 .title h3 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   color: #135776;
   font-weight: bold;
   letter-spacing: 1px;
@@ -29,7 +29,7 @@ body {
 .add-user-form label {
     display: block;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     color: #2c3e50;
 }
 
@@ -75,7 +75,7 @@ body {
 }
 
 .add-btn:hover {
-    background: #135776;
+    background: #218838;
 }
 .cancel-btn {
     background: #ecf0f1;

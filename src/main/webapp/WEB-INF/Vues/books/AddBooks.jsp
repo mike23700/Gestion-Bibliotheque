@@ -48,24 +48,47 @@
                 </div>
             </div>
         </form>
-        <script>
-            const year = document.getElementById("year");
-            const error_message = document.getElementById("annee-error");
-
-            const annee_max = new Date().getFullYear();
-            const annee_min = 1950;
-
-            year.addEventListener('input' , function(event){
-                const annee = parseInt(event.target.value);
-
-                if(annee < annee_min || annee > annee_max){
-                    error_message.textContent = "veuillez entrer un nombre entre "+annee_min+ " et "+annee_max;
-                }else{
-                    error_message.textContent = "";
-                }
-            });
+    <script>
+        function validerAnnee(annee) {
+            const regexAnnee = /^\d{4}$/;
             
-        </script>
+            return regexAnnee.test(annee);
+        }
+
+        function validerEntier(entree) {
+            const regexEntier = /^-?\d+$/;
+            
+            return regexEntier.test(entree);
+        }
+
+        const year = document.getElementById("year");
+        const errorMessage = document.getElementById("annee-error");
+
+        const anneeMax = new Date().getFullYear();
+        const anneeMin = 1950;
+
+        year.addEventListener('input', function(event) {
+            
+            const anneeInput = event.target.value; 
+
+            if (validerEntier(anneeInput)) {
+                if (validerAnnee(anneeInput)) {
+                    
+                    const annee = parseInt(anneeInput); 
+                    if (annee < anneeMin || annee > anneeMax) {
+                        errorMessage.textContent = "Veuillez entrer une année entre "+anneeMin+" et "+anneeMax ;
+                    } else {
+                        errorMessage.textContent = "";
+                    }
+                } else {
+                    errorMessage.textContent = "Le format de l'année doit être de 4 chiffres.";
+                }
+            } else {
+                errorMessage.textContent = "La date doit être un nombre entier.";
+            }
+        });
+    </script>
+
     </div>
 
 

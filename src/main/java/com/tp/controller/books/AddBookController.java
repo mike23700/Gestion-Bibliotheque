@@ -62,7 +62,7 @@ public class AddBookController extends HttpServlet {
         String categorie = request.getParameter("category");
         String description = request.getParameter("description");
 
-        if(title != null && year == null && auteur != null && categorie != null && description != null){
+        if(title != null && auteur != null && categorie != null && description != null){
             book.setTitle(title);
             book.setAuthor(auteur);
 

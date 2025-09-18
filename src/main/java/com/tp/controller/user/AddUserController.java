@@ -42,6 +42,16 @@ public class AddUserController extends HttpServlet {
         String tel_num_str = request.getParameter("tel_num");
         String email = request.getParameter("email");
 
+        if (name == null || name.trim().isEmpty() ||
+                surname == null || surname.trim().isEmpty() ||
+                tel_num_str == null || tel_num_str.trim().isEmpty() ||
+                email == null || email.trim().isEmpty()) {
+
+            session.setAttribute("error", "Tous les champs sont obligatoires.");
+            response.sendRedirect("manageUsers");
+            return;
+        }
+
         String regexTel = "^6[0-9]{8}$";
         if (!Pattern.matches(regexTel, tel_num_str)) {
             session.setAttribute("error", "Le numéro de téléphone n'est pas au format correct (ex. 6xxxxxxxx).");
@@ -57,6 +67,7 @@ public class AddUserController extends HttpServlet {
         }
 
         int tel_num = Integer.parseInt(tel_num_str);
+
 
         boolean success = userService.createAndAddUser(name, surname, tel_num, email);
 

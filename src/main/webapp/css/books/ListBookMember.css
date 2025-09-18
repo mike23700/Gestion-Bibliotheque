@@ -39,6 +39,10 @@ body {
     gap: 10px;
 }
 
+.navbar-menu h1 {
+    color: #135776;
+}
+
 .navbar-menu p {
     margin: 0;
     font-weight: 500;

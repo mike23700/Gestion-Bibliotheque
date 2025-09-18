@@ -10,9 +10,12 @@
 
         
         .form-container {
-            max-width: 450px;
+            width: 450px;
             margin: 40px auto;
-            padding: 30px;
+            padding-left: 30px;
+            padding-bottom: 30px;
+            padding-right: 30px;
+            padding-top: 10px;
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
@@ -39,10 +42,10 @@
 
         .form-group1 {
             width: 300px;
-            margin-left: 70px;
+            margin-left: 220px;
             margin-bottom: 15px;
             display: flex;
-            justify-content: space-around;
+            gap: 12px;
         }
 
         .form-group1 div {

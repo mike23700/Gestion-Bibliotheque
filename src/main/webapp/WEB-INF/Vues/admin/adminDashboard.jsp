@@ -18,7 +18,7 @@
 
         <h1>Tableau de Bord</h1>
         <div class="dashboard-stats"> <div class="stat-card">
-            <a href="listBooks"><h3>Livres Totaux</h3></a>
+            <a href="listBooks"><h3>Livres Enregistrés</h3></a>
             <p>${bookCount}</p>
         </div>
         <div class="stat-card">

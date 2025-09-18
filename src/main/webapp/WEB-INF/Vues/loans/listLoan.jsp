@@ -29,8 +29,8 @@
     <form action="listLoan" method="get" class="filter-form">
         <label for="status">Filtrer par statut :</label>
         <select name="status" id="status" onchange="this.form.submit()">
-            <option value="" ${empty param.status ? 'selected' : ''}>Tous</option>
-            <option value="null" ${param.status eq 'null' ? 'selected' : ''}>Non retourné</option>
+            <option value="null" ${param.status eq 'null' ? 'selected' : ''}>Tous</option>
+            <option value="" ${empty param.status ? 'selected' : ''}>Non retourné</option>
         </select>
     </form>
 

@@ -90,48 +90,61 @@
             </table>
         </div>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const searchForm = document.querySelector('.search-user-form');
-                        const searchInput = searchForm.querySelector('input[name="searchValue"]');
-                        const clearBtn = searchForm.querySelector('.clear-search-btn');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchForm = document.querySelector('.search-user-form');
+        const searchInput = searchForm.querySelector('input[name="searchValue"]');
+        const clearBtn = searchForm.querySelector('.clear-search-btn');
 
-                        function toggleClearBtn() {
-                            if (searchInput.value.length > 0) {
-                                clearBtn.style.display = 'block';
-                            } else {
-                                clearBtn.style.display = 'none';
-                            }
-                        }
+        function toggleClearBtn() {
+            if (searchInput.value.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+        }
 
-                        searchInput.addEventListener('input', toggleClearBtn);
-                        clearBtn.addEventListener('click', function() {
-                            searchInput.value = '';
-                            toggleClearBtn();
-                            searchForm.submit();
-                        });
+        searchInput.addEventListener('input', toggleClearBtn);
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            toggleClearBtn();
+            searchForm.submit();
+        });
 
-                        toggleClearBtn();
-                    });
+        toggleClearBtn();
 
-                    
-                    const dueDateElements = document.querySelectorAll(".due-date");
-                    const currentDate = new Date();
+        function parseDate(dateStr) {
+            if (!dateStr) return null;
 
-                    dueDateElements.forEach(function(element) {
-                        const dueDateText = element.textContent;
-                        const dueDate = new Date(dueDateText);
-                        
-                        
-                        const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-                        const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
-                        
-                        if(dueDateOnly < currentDateOnly){
-                            element.style.color = "red";
-                            element.style.fontWeight = "bold";
-                        }
-                    });
-                </script>
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr.trim())) {
+                return new Date(dateStr + "T00:00:00");
+            }
+
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr.trim())) {
+                const [day, month, year] = dateStr.split('/');
+                return new Date(year, month - 1, day);
+            }
+
+            return new Date(dateStr);
+        }
+
+        const dueDateElements = document.querySelectorAll(".due-date");
+
+        const now = new Date();
+        const currentDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        dueDateElements.forEach(function(element) {
+            const dueDateText = element.textContent.trim();
+            const dueDate = parseDate(dueDateText);
+
+            if (dueDate && dueDate < currentDateOnly) {
+                element.style.color = "red";
+                element.style.fontWeight = "bold";
+            }
+        });
+    });
+</script>
+
     </main>
 </body>
 </html>

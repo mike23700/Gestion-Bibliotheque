@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="/WEB-INF/Vues/member/memberNavBar.jsp"/>
     <main class="dashboard-container">
-        <h1>Historique</h1>
+        <h1>Historique d'emprunts</h1>
         <a href="memberListLoans"><i class="fa fa-arrow-left"></i><h3>Retour</h3></a>
 
 

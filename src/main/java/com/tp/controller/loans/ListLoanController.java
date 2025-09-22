@@ -28,7 +28,7 @@ public class ListLoanController extends HttpServlet {
             return;
         }
 
-        List<Loan> loans = new ArrayList<>();
+        List<Loan> loans;
 
         String searchType = request.getParameter("searchType");
         String searchValue = request.getParameter("searchValue");
@@ -47,21 +47,16 @@ public class ListLoanController extends HttpServlet {
                         loans = loanService.findByBooktitle(searchValue.trim());
                         break;
                     default:
-                        loans = loanService.getAllLoans();
+                        loans = loanService.getAllActiveLoans();
                 }
             } else if (statusFilter != null && !statusFilter.isEmpty()) {
-                if ("null".equals(statusFilter)) {
-                    loans = loanService.getAllActiveLoans();
-                } else {
-                    loans = loanService.getAllLoans();
-                }
-            } else {
                 loans = loanService.getAllLoans();
+            }else {
+            loans = loanService.getAllActiveLoans();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         request.setAttribute("loans", loans);
         request.setAttribute("searchType", searchType);
         request.setAttribute("searchValue", searchValue);

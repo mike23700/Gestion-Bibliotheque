@@ -180,7 +180,7 @@
 
         function showPopupDeleteBook(book_id , titreLivre) {
             livreASupprimer = book_id;
-            messageElement.textContent = "Êtes-vous sûr de vouloir supprimer le livre : '" + titreLivre + "' ?";
+            messageElement.textContent = "Êtes-vous sûr de vouloir supprimer le livre : " + titreLivre + " ?";
             modal.style.display = 'block';
             document.querySelector(".overlay").style.display = "block";
         }

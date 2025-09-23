@@ -70,7 +70,7 @@
             </div>
             <c:if test="${fn:length(currentLoans) > 3}">
                 <div class="voir-plus-container">
-                    <a href="listLoan" class="voir-plus-btn">Voir les emprunts</a>
+                    <a href="listLoan?status=null" class="voir-plus-btn">Voir les emprunts</a>
                 </div>
             </c:if>
         </div>

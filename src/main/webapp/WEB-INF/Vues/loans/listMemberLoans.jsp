@@ -108,35 +108,45 @@
             document.getElementById("return-modal-body").innerHTML = "";
         }
 
-        
-        const dueDateElements = document.querySelectorAll(".due-date");
-        const currentDate = new Date();
+        function parseDate(dateStr) {
+            if (!dateStr) return null;
 
-        dueDateElements.forEach(function(element, index) {
-    
+            if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr.trim())) {
+                return new Date(dateStr + "T00:00:00");
+            }
+
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr.trim())) {
+                const [day, month, year] = dateStr.split('/');
+                return new Date(year, month - 1, day);
+            }
+
+            return new Date(dateStr);
+        }
+
+        const dueDateElements = document.querySelectorAll(".due-date");
+        const now = new Date();
+        const currentDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+        dueDateElements.forEach(function(element) {
             const dateTextNode = element.childNodes[0];
             const dueDateText = dateTextNode.textContent.trim();
-            const dueDate = new Date(dueDateText);
-            
-            
-            const errorElement = element.querySelector('.due-date-error');
-            
-            const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-            const dueDateOnly = new Date(dueDate.getFullYear(), dueDate.getMonth(), dueDate.getDate());
+            const dueDate = parseDate(dueDateText);
 
-            if(dueDateOnly < currentDateOnly){
+            const errorElement = element.querySelector('.due-date-error');
+
+            if (dueDate && dueDate < currentDateOnly) {
                 element.style.color = "red";
                 element.style.fontWeight = "bold";
-                
-                if(errorElement) {
-                    errorElement.textContent = "veuillez retourner ce livre";
+
+                if (errorElement) {
+                    errorElement.textContent = "Veuillez retourner ce livre";
                     errorElement.style.color = "red";
-                    errorElement.style.fontSize = "8px";
+                    errorElement.style.fontSize = "10px";
                 }
             }
         });
-
     </script>
+
     <script src="js/message.js"></script>
 </body>
 </html>

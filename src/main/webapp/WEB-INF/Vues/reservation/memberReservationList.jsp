@@ -57,7 +57,8 @@
                                         <c:if test="${res.status eq 'ACTIVE'}">
                                             <button type="button"
                                                 class="return-btn"
-                                                onclick="openReturnModal('${res.reservation_id}', '${res.book_title}')">
+                                                data-loan-id="${res.reservation_id}"
+                                                data-book-title="${res.book_title}">
                                                 <i class="fas fa-times"></i> Annuler
                                             </button>
                                         </c:if>
@@ -119,6 +120,14 @@
             document.getElementById("return-modal").style.display = "none";
             document.getElementById("return-modal-body").innerHTML = "";
         }
+
+        document.querySelectorAll('.return-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const loanId = this.dataset.loanId;
+                        const title = this.dataset.bookTitle;
+                        openReturnModal(loanId, title);
+                    });
+                });
     </script>
     <script src="js/message.js"></script>
 </body>

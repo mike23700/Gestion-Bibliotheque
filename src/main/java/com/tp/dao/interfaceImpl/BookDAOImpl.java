@@ -19,11 +19,10 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void AddBook(Book book) throws Exception {
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "INSERT INTO books(book_id , title , author , year , image , category , description , status , loan_count ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+    public void AddBook(Book book) {
+        String sql = "INSERT INTO books(book_id, title, author, year, image, category, description, status, loan_count) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, book.getId_Book());
             stmt.setString(2, book.getTitle());
             stmt.setString(3, book.getAuthor());
@@ -33,197 +32,125 @@ public class BookDAOImpl implements BookDAO {
             stmt.setString(7, book.getDescription());
             stmt.setString(8, book.getStatus());
             stmt.setInt(9, book.getLoan_count());
-
             stmt.executeUpdate();
-        }catch (SQLException e){
-            System.out.println("Erreur lors de l'enregistrement "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de l'enregistrement du livre : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Override
-    public List<Book> findByTitle(String title) throws Exception{
+    public List<Book> findByTitle(String title) {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE title = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        String sql = "SELECT * FROM books WHERE title = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, title);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(createBookFromResultSet(rs));
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche par titre : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> findByYear(int year) throws Exception {
+    public List<Book> findByYear(int year) {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE year = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        String sql = "SELECT * FROM books WHERE year = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, year);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(createBookFromResultSet(rs));
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche par année : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> findByAuthor(String author) throws Exception {
+    public List<Book> findByAuthor(String author) {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE author = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        String sql = "SELECT * FROM books WHERE author = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, author);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(createBookFromResultSet(rs));
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche par auteur : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> findByCategory(String category) throws Exception {
+    public List<Book> findByCategory(String category) {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE category = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        String sql = "SELECT * FROM books WHERE category = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, category);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(createBookFromResultSet(rs));
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche par catégorie : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> findByDisponible() throws Exception {
+    public List<Book> findByDisponible() {
         List<Book> books = new ArrayList<>();
         String Rendu = "disponible";
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE status = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        String sql = "SELECT * FROM books WHERE status = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, Rendu);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(createBookFromResultSet(rs));
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche des livres disponibles : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> findByEmprunter() throws Exception {
+    public List<Book> findByEmprunter() {
         List<Book> books = new ArrayList<>();
-        String Encour = "emprunte";
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE status = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        String Encour = "emprunté";
+        String sql = "SELECT * FROM books WHERE status = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, Encour);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    books.add(createBookFromResultSet(rs));
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recherche "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la recherche des livres empruntés : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
@@ -231,29 +158,16 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> findByPopularity() {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books ORDER BY loan_count DESC LIMIT 5";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+        String sql = "SELECT * FROM books ORDER BY loan_count DESC";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                books.add(createBookFromResultSet(rs));
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des livres par popularité : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
@@ -261,29 +175,16 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> findByRecent() {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books ORDER BY year DESC ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+        String sql = "SELECT * FROM books ORDER BY year DESC ";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                books.add(createBookFromResultSet(rs));
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des livres récents : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
@@ -291,81 +192,55 @@ public class BookDAOImpl implements BookDAO {
     @Override
     public List<Book> findByOld() {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books ORDER BY year ASC";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+        String sql = "SELECT * FROM books ORDER BY year ASC";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                books.add(createBookFromResultSet(rs));
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des livres anciens : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public List<Book> getAllBooks() throws Exception {
+    public List<Book> getAllBooks() {
         List<Book> books = new ArrayList<>();
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                Book book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
-                books.add(book);
+        String sql = "SELECT * FROM books ORDER BY title ASC";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                books.add(createBookFromResultSet(rs));
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération de tous les livres : " + e.getMessage());
+            e.printStackTrace();
         }
         return books;
     }
 
     @Override
-    public void DeleteBook(String book_id) throws Exception {
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "DELETE FROM books WHERE book_id = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+    public void DeleteBook(String book_id) {
+        String sql = "DELETE FROM books WHERE book_id = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, book_id);
             stmt.executeUpdate();
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la suppression "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la suppression du livre : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void updateBook(Book book) throws Exception {
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "UPDATE books SET title = ?, author = ?, year = ?, image = ?, category = ?, description = ?, is_available = ?, loan_count = ? WHERE book_id = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+    public void updateBook(Book book) {
+        String sql = "UPDATE books SET title = ?, author = ?, year = ?, image = ?, category = ?, description = ?, status = ?, loan_count = ? WHERE book_id = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, book.getTitle());
             stmt.setString(2, book.getAuthor());
             stmt.setInt(3, book.getYear());
@@ -375,79 +250,74 @@ public class BookDAOImpl implements BookDAO {
             stmt.setString(7, book.getStatus());
             stmt.setInt(8, book.getLoan_count());
             stmt.setString(9, book.getId_Book());
-
             stmt.executeUpdate();
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la modification "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la modification du livre : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     @Override
-    public Book getBook(String book_id) throws Exception {
+    public Book getBook(String book_id) {
         Book book = null;
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books WHERE book_id = ?";
-            PreparedStatement stmt = connection.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery();
-            if(rs.next()){
-                book = new Book(
-                        rs.getString("book_id"),
-                        rs.getString("title"),
-                        rs.getString("author"),
-                        rs.getInt("year"),
-                        rs.getString("image"),
-                        rs.getString("category"),
-                        rs.getString("description"),
-                        rs.getString("status"),
-                        rs.getInt("loan_count"),
-                        rs.getTimestamp("created_at").toLocalDateTime()
-                );
+        String sql = "SELECT * FROM books WHERE book_id = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, book_id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    book = createBookFromResultSet(rs);
+                }
             }
-        }catch (SQLException e){
-            System.out.println("Erreur lors de la recuperation "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération du livre par ID : " + e.getMessage());
+            e.printStackTrace();
         }
         return book;
     }
 
-
     @Override
     public boolean updateBookStatus(String bookId, String status) {
         String query = "UPDATE books SET status = ? WHERE book_id = ?";
-        boolean success = false;
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, status);
             stmt.setString(2, bookId);
-
             int updated = stmt.executeUpdate();
-            if (updated > 0) {
-                success = true;
-            }
+            return updated > 0;
         } catch (SQLException e) {
             System.err.println("Erreur lors de la mise à jour du statut du livre : " + e.getMessage());
             e.printStackTrace();
         }
-        return success;
+        return false;
     }
 
     @Override
-    public void AddLoanCountOfBook(String book_id) throws Exception {
-        try {
-            Connection connection = daoFactory.getConnection();
-            String sql = "UPDATE books " +
-                    " SET loan_count = loan_count + 1 "+
-                    " WHERE book_id = ? ";
-            PreparedStatement stmt = connection.prepareStatement(sql);
+    public void AddLoanCountOfBook(String book_id) {
+        String sql = "UPDATE books SET loan_count = loan_count + 1 WHERE book_id = ?";
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, book_id);
-
             stmt.executeUpdate();
-        }catch (Exception e){
-            System.out.println("Erreur lors de l'incrementation");
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de l'incrémentation du nombre de prêts : " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
+    // Helper method to create a Book object from a ResultSet
+    private Book createBookFromResultSet(ResultSet rs) throws SQLException {
+        return new Book(
+                rs.getString("book_id"),
+                rs.getString("title"),
+                rs.getString("author"),
+                rs.getInt("year"),
+                rs.getString("image"),
+                rs.getString("category"),
+                rs.getString("description"),
+                rs.getString("status"),
+                rs.getInt("loan_count"),
+                rs.getTimestamp("created_at").toLocalDateTime()
+        );
+    }
 }

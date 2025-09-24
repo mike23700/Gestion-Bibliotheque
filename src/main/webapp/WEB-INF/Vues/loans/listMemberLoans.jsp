@@ -58,8 +58,9 @@
                                     </td>
                                     <td>
                                         <button type="button"
-                                                class="return-btn"
-                                                onclick="openReturnModal('${l.loan_id}', '${l.book_title}')">
+                                            class="return-btn"
+                                            data-loan-id="${l.loan_id}"
+                                            data-book-title="${l.book_title}">
                                             Rendre
                                         </button>
                                     </td>
@@ -107,6 +108,14 @@
             document.getElementById("return-modal").style.display = "none";
             document.getElementById("return-modal-body").innerHTML = "";
         }
+
+        document.querySelectorAll('.return-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const loanId = this.dataset.loanId;
+                const title = this.dataset.bookTitle;
+                openReturnModal(loanId, title);
+            });
+        });
 
         function parseDate(dateStr) {
             if (!dateStr) return null;

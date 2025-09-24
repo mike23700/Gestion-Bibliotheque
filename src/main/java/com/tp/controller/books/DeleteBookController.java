@@ -15,7 +15,12 @@ import java.io.IOException;
 @WebServlet("/deleteBook")
 public class DeleteBookController extends HttpServlet {
 
-    BookService bookService = new BookService();
+    private BookService bookService;
+
+    public void init() {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        this.bookService = new BookService(daoFactory);
+    }
 
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {

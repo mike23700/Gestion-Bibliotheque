@@ -1,5 +1,6 @@
 package com.tp.controller.books;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Book;
 import com.tp.model.User;
 import com.tp.model.generateID.GenerateIdBooks;
@@ -23,7 +24,13 @@ public class AddBookController extends HttpServlet {
     private static final String UPLOAD_DIRECTORY = "uploaded_books";
     private static final long serialVersionUID = 1L;
 
-    private final BookService bookService = new BookService();
+    private BookService bookService;
+
+    public void init() {
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        this.bookService = new BookService(daoFactory);
+    }
+
     private final GenerateIdBooks ID = new GenerateIdBooks();
     private final FileUploader fileUploader = new FileUploader(UPLOAD_DIRECTORY);
 

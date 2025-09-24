@@ -13,8 +13,7 @@ public class BookService {
 
     private final BookDAO bookDao;
 
-    public BookService() {
-        DAOFactory daoFactory = DAOFactory.getInstance();
+    public BookService(DAOFactory daoFactory) {
         this.bookDao = daoFactory.getBookDAO();
     }
 
@@ -74,9 +73,10 @@ public class BookService {
 
     public List<Book> verifyBookStatus(List<Book> Books , String user_id) throws Exception {
         List<Book> list = new ArrayList<>();
+        DAOFactory daoFactory = DAOFactory.getInstance();
 
         List<Book> books = getAllBook();
-        LoanService loanService = new LoanService();
+        LoanService loanService = new LoanService(daoFactory);
         List<Loan> loans = loanService.getAllLoansByUser(user_id);
         for (Book book : books){
             for (Loan loan : loans){

@@ -31,8 +31,8 @@ public class UpdateStatusBookController extends HttpServlet {
     public void init() throws ServletException {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.reservationService = new ReservationService(daoFactory);
-        bookService = new BookService();
-        loanService = new LoanService();
+        bookService = new BookService(daoFactory);
+        loanService = new LoanService(daoFactory);
         loan = new Loan();
     }
 

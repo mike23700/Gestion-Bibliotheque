@@ -30,9 +30,9 @@ public class DAOFactory {
     }
 
     public static DAOFactory getInstance() {
-                if (instance == null) {
-                    instance = new DAOFactory();
-                }
+        if (instance == null) {
+            instance = new DAOFactory();
+        }
         return instance;
     }
 

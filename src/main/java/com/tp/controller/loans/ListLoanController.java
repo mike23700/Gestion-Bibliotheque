@@ -1,5 +1,6 @@
 package com.tp.controller.loans;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Loan;
 import com.tp.model.Reservation;
 import com.tp.model.User;
@@ -17,7 +18,12 @@ import java.util.List;
 
 @WebServlet("/listLoan")
 public class ListLoanController extends HttpServlet {
-    LoanService loanService = new LoanService();
+    LoanService loanService;
+
+    public void init(){
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        loanService = new LoanService(daoFactory);
+    }
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
         HttpSession session = request.getSession(false);

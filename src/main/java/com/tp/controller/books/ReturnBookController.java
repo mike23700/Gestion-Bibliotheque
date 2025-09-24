@@ -23,17 +23,17 @@ public class ReturnBookController extends HttpServlet {
 
     private ReservationService reservationService;
 
-    private  BookService bookService = null ;
-    private  LoanService loanService = null ;
-    private  Reservation reservation = new Reservation();
+    private  BookService bookService;
+    private  LoanService loanService;
+    private  Reservation reservation;
     private Loan loan = new Loan();
     private GenerateIdLoans G = new GenerateIdLoans();
 
-    public void init() throws ServletException {
+    public void init(){
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.reservationService = new ReservationService(daoFactory);
-        bookService = new BookService();
-        loanService = new LoanService();
+        bookService = new BookService(daoFactory);
+        loanService = new LoanService(daoFactory);
     }
 
     @Override

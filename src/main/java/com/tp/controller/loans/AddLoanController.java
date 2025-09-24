@@ -1,5 +1,6 @@
 package com.tp.controller.loans;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Loan;
 import com.tp.model.User;
 import com.tp.model.generateID.GenerateIdLoans;
@@ -17,9 +18,16 @@ import java.time.LocalDateTime;
 
 @WebServlet("/addLoan")
 public class AddLoanController extends HttpServlet {
-    LoanService loanService = new LoanService();
-    GenerateIdLoans generateIdLoans = new GenerateIdLoans();
-    Loan loan = null;
+    LoanService loanService;
+    GenerateIdLoans generateIdLoans;
+    Loan loan;
+
+    public void init(){
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        loanService = new LoanService(daoFactory);
+        generateIdLoans = new GenerateIdLoans();
+        loan = new Loan();
+    }
 
     protected void doGet(HttpServletRequest request , HttpServletResponse response ) throws ServletException , IOException {
         HttpSession session = request.getSession(false);

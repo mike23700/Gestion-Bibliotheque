@@ -14,7 +14,7 @@ public class ReservationService {
 
     public ReservationService(DAOFactory daoFactory) {
         this.reservationDAO = daoFactory.getReservationDAO();
-        loanService = new LoanService();
+        loanService = new LoanService(daoFactory);
     }
 
     public boolean createReservation(String userId, String bookId) {

@@ -1,5 +1,6 @@
 package com.tp.controller.books;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Book;
 import com.tp.model.User;
 import com.tp.service.BookService;
@@ -19,7 +20,12 @@ import java.util.List;
 @WebServlet("/searchBook")
 @MultipartConfig
 public class SearchBookController extends HttpServlet {
-    private final BookService bookService = new BookService();
+    private BookService bookService;
+
+    public void init(){
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        bookService = new BookService(daoFactory);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -5,6 +5,8 @@ import com.tp.model.Book;
 import com.tp.model.User;
 import com.tp.service.BookService;
 import com.tp.service.ReservationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +22,11 @@ import java.util.List;
 public class ListBookController extends HttpServlet {
 
     private BookService bookService;
+    private static final Logger logger = LoggerFactory.getLogger(ListBookController.class);
 
     public void init() {
         DAOFactory daoFactory = DAOFactory.getInstance();
-        this.bookService = new BookService(daoFactory);
+        bookService = new BookService(daoFactory);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,6 +34,7 @@ public class ListBookController extends HttpServlet {
         User currentUser = (session != null) ? (User) session.getAttribute("user") : null;
 
         if (currentUser == null) {
+            logger.info("Pas d'utilisateur veuillez vous connecter");
             response.sendRedirect("login");
             return;
         }
@@ -84,12 +88,10 @@ public class ListBookController extends HttpServlet {
 
 
             request.setAttribute("listbooks", books);
-            System.out.println("Connexion réussie à la BD et livres récupérés.");
-            System.out.println("Nombre de livres: " + books.size());
+            logger.info("Nombre de livres: {}", books.size());
 
         } catch (Exception e) {
-            System.err.println("Erreur lors de la récupération ou de la recherche des livres: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Erreur lors de la récupération ou de la recherche des livres: {}", e.getMessage());
             request.setAttribute("errorMessage", "Impossible de charger la liste des livres.");
         }
 
@@ -100,7 +102,7 @@ public class ListBookController extends HttpServlet {
             request.setAttribute("activePage", "livres");
             this.getServletContext().getRequestDispatcher("/WEB-INF/Vues/books/ListBookAdmin.jsp").forward(request, response);
         } else {
-            System.err.println("Rôle utilisateur inconnu ou non géré: " + currentUser.getRole());
+            logger.error("Rôle utilisateur inconnu ou non géré: {}", currentUser.getRole());
             response.sendRedirect("login");
         }
     }

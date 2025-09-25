@@ -103,7 +103,7 @@ public class AddBookController extends HttpServlet {
 
             try {
                 bookService.addBook(book);
-                session.setAttribute("success", "Livre ajouté avec succès.");
+                session.setAttribute("succes", "Livre ajouté avec succès.");
             } catch (Exception e) {
                 e.printStackTrace();
                 session.setAttribute("error", "Erreur lors de l'ajout du livre.");

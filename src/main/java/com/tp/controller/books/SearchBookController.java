@@ -4,7 +4,8 @@ import com.tp.dao.DAOFactory;
 import com.tp.model.Book;
 import com.tp.model.User;
 import com.tp.service.BookService;
-import com.tp.service.LoanService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -21,6 +22,8 @@ import java.util.List;
 @MultipartConfig
 public class SearchBookController extends HttpServlet {
     private BookService bookService;
+    private static final Logger logger = LoggerFactory.getLogger(SearchBookController.class);
+
 
     public void init(){
         DAOFactory daoFactory = DAOFactory.getInstance();
@@ -40,8 +43,8 @@ public class SearchBookController extends HttpServlet {
         String searchType = request.getParameter("searchType");
         String searchValue = request.getParameter("searchValue");
 
-        System.out.println("DEBUG: getParameter() initial - searchType: " + searchType);
-        System.out.println("DEBUG: getParameter() initial - searchValue: " + searchValue);
+        logger.debug("getParameter() initial - searchType: {}", searchType);
+        logger.debug("DEBUG: getParameter() initial - searchValue: {}", searchValue);
 
         List<Book> searchResults = new ArrayList<>();
 
@@ -93,11 +96,7 @@ public class SearchBookController extends HttpServlet {
 
 
         } catch (Exception e) {
-            System.err.println("Erreur inattendue lors de la recherche de livres: " + e.getMessage());
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setContentType("text/plain;charset=UTF-8");
-            response.getWriter().write("Une erreur interne du serveur est survenue lors de la recherche.");
+            logger.error("Erreur inattendue lors de la recherche de livres: {}", e.getMessage());
             return;
         }
 

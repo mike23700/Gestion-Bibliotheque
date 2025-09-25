@@ -8,28 +8,33 @@ import com.tp.dao.interfaces.BookDAO;
 import com.tp.dao.interfaces.LoanDAO;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.dao.interfaces.UserDAO;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DAOFactory {
 
     private static final String URL = "jdbc:mysql://localhost:3306/bibliotheque_db";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "pacha12345";
+    private static final String PASSWORD = "";
 
     private static DAOFactory instance = null;
+    private final HikariDataSource dataSource;
 
     private DAOFactory() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Erreur: Pilote JDBC introuvable.", e);
-        }
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setUsername(USERNAME);
+        config.setPassword(PASSWORD);
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        config.setMaximumPoolSize(30);
+
+        this.dataSource = new HikariDataSource(config);
     }
 
-    public static DAOFactory getInstance() {
+    public static synchronized DAOFactory getInstance() {
         if (instance == null) {
             instance = new DAOFactory();
         }
@@ -37,7 +42,7 @@ public class DAOFactory {
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        return dataSource.getConnection();
     }
 
     public BookDAO getBookDAO() {

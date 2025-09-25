@@ -4,10 +4,14 @@ import com.tp.dao.DAOFactory;
 import com.tp.dao.interfaces.ReservationDAO;
 import com.tp.model.Reservation;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReservationDAOImpl implements ReservationDAO {
 
@@ -24,6 +28,7 @@ public class ReservationDAOImpl implements ReservationDAO {
 
         try (Connection connexion = daoFactory.getConnection()) {
             connexion.setAutoCommit(false);
+
             int activeCount = 0;
             try (PreparedStatement checkStmt = connexion.prepareStatement(checkSql)) {
                 checkStmt.setString(1, reservation.getUser_id());
@@ -51,7 +56,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 connexion.commit();
                 return rows > 0;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
@@ -62,19 +66,15 @@ public class ReservationDAOImpl implements ReservationDAO {
     public boolean updateReservation(Reservation reservation) {
         String query = "UPDATE reservations SET status = ? WHERE reservation_id = ?";
         boolean success = false;
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, reservation.getStatus());
             stmt.setString(2, reservation.getReservation_id());
-
             int updated = stmt.executeUpdate();
             if (updated > 0) {
                 success = true;
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour du statut de réservation : " + e.getMessage());
             e.printStackTrace();
         }
         return success;
@@ -84,12 +84,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public Reservation findById(String reservationId) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date,r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.reservation_id = ?";
         Reservation reservation = null;
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, reservationId);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     reservation = new Reservation(
@@ -105,7 +102,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche de la réservation par ID : " + e.getMessage());
             e.printStackTrace();
         }
         return reservation;
@@ -115,12 +111,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> findByUserId(String userId) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, userId);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -137,7 +130,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations par user_id : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -147,12 +139,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> findByUserName(String name) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE u.name LIKE ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, "%" + name + "%");
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -169,7 +158,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations par nom d'utilisateur : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -179,12 +167,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> findByBookId(String bookId) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.book_id = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, bookId);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -201,7 +186,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations par book_id : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -211,12 +195,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> findByBookName(String bookName) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE b.title LIKE ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, "%" + bookName + "%");
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -233,7 +214,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations par nom de livre : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -243,12 +223,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> findByStatus(String status) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, status);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -265,7 +242,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations par statut : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -275,11 +251,9 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> getAllReservations() {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-
             while (rs.next()) {
                 Reservation reservation = new Reservation(
                         rs.getString("reservation_id"),
@@ -294,7 +268,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 list.add(reservation);
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des réservations : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -304,14 +277,11 @@ public class ReservationDAOImpl implements ReservationDAO {
     public List<Reservation> findByUserIdAndBookName(String userId, String bookName) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND b.title LIKE ? AND r.status = ? ORDER BY r.reservation_date DESC";
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, userId);
             stmt.setString(2, "%" + bookName + "%");
             stmt.setString(3,"ACTIVE");
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -328,7 +298,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations par user_id et nom de livre : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -337,15 +306,11 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public List<Reservation> findActiveByUserId(String userId) {
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.expire_date, r.status FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id WHERE r.user_id = ? AND r.status = ? ORDER BY r.reservation_date DESC";
-
         List<Reservation> list = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setString(1, userId);
             stmt.setString(2, "ACTIVE");
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -362,7 +327,6 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations actives : " + e.getMessage());
             e.printStackTrace();
         }
         return list;
@@ -374,12 +338,9 @@ public class ReservationDAOImpl implements ReservationDAO {
                 "FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id " +
                 "WHERE r.status = 'ACTIVE' AND r.expire_date < ?";
         List<Reservation> expiredReservations = new ArrayList<>();
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
             stmt.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
-
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Reservation reservation = new Reservation(
@@ -396,24 +357,21 @@ public class ReservationDAOImpl implements ReservationDAO {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche des réservations expirées : " + e.getMessage());
             e.printStackTrace();
         }
         return expiredReservations;
     }
 
-
     @Override
     public int countReservations() {
         String query = "SELECT COUNT(*) FROM reservations WHERE status = 'ACTIVE'";
         int count = 0;
-
         try (Connection connexion = daoFactory.getConnection();
              PreparedStatement stmt = connexion.prepareStatement(query)) {
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt(1);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -424,21 +382,16 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public boolean isTwoReservationByBook(String user_id, String book_id) {
         String query = "SELECT COUNT(*) FROM reservations WHERE book_id = ? AND user_id = ? AND status = 'ACTIVE' ";
-        int count = 0;
-
         try (Connection conn = daoFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
-
             stmt.setString(1, book_id);
             stmt.setString(2, user_id);
-
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1) > 0;
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur SQL lors de la vérification de l'emprunt: " + e.getMessage());
             e.printStackTrace();
         }
         return false;
@@ -447,14 +400,10 @@ public class ReservationDAOImpl implements ReservationDAO {
     @Override
     public Reservation getFirstReservation(String bookId) {
         Reservation reservation = null;
-
-        String sql = " SELECT * FROM reservations WHERE book_id = ? AND status = 'ACTIVE' AND expire_date > NOW() ORDER BY reservation_date ASC LIMIT 1 ";
-
+        String sql = "SELECT * FROM reservations WHERE book_id = ? AND status = 'ACTIVE' AND expire_date > NOW() ORDER BY reservation_date ASC LIMIT 1 ";
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-
             statement.setString(1, bookId);
-
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     reservation = new Reservation(
@@ -467,13 +416,9 @@ public class ReservationDAOImpl implements ReservationDAO {
                     return reservation;
                 }
             }
-
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recuperation de la premiere reservation");
             e.printStackTrace();
         }
-
         return null;
     }
-
 }

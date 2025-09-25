@@ -323,7 +323,7 @@ public class BookDAOImpl implements BookDAO {
         List<Book> books = new ArrayList<>();
         try {
             Connection connection = daoFactory.getConnection();
-            String sql = "SELECT * FROM books ";
+            String sql = "SELECT * FROM books ORDER BY created_at DESC";
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){

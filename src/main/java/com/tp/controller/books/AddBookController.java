@@ -12,6 +12,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.time.Year; // Importation pour obtenir l'année actuelle
 
 @WebServlet("/addBook")
 @MultipartConfig(
@@ -25,14 +26,16 @@ public class AddBookController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private BookService bookService;
+    private GenerateIdBooks ID;
+    private FileUploader fileUploader;
 
+    @Override
     public void init() {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.bookService = new BookService(daoFactory);
+        this.ID = new GenerateIdBooks();
+        this.fileUploader = new FileUploader(UPLOAD_DIRECTORY);
     }
-
-    private final GenerateIdBooks ID = new GenerateIdBooks();
-    private final FileUploader fileUploader = new FileUploader(UPLOAD_DIRECTORY);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
@@ -57,40 +60,58 @@ public class AddBookController extends HttpServlet {
         }
 
 
-        Part filePart = request.getPart("image");
-        String imageFileNameInBD = fileUploader.handleFileUpload(filePart, getServletContext().getRealPath("/"));
-
-        Book book = new Book();
-        book.setId_Book(ID.generateID());
         String title = request.getParameter("title");
         String yearString = request.getParameter("year");
-        Integer year = Integer.parseInt(yearString);
-        String auteur = request.getParameter("author");
-        String categorie = request.getParameter("category");
+        String author = request.getParameter("author");
+        String category = request.getParameter("category");
         String description = request.getParameter("description");
+        Part filePart = request.getPart("image");
+        String imageFileNameInBD = "";
 
-        if(title != null && auteur != null && categorie != null && description != null){
+        try {
+            imageFileNameInBD = fileUploader.handleFileUpload(filePart, getServletContext().getRealPath("/"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("error", "Erreur lors de l'envoi de l'image.");
+            response.sendRedirect("listBooks");
+            return;
+        }
+
+        Integer year = null;
+        try {
+            year = Integer.parseInt(yearString);
+        } catch (NumberFormatException e) {
+            session.setAttribute("error", "L'année doit être un nombre valide.");
+            response.sendRedirect("listBooks");
+            return;
+        }
+
+
+        int currentYear = Year.now().getValue();
+        if (title != null && !title.trim().isEmpty() && author != null && !author.trim().isEmpty() && category != null && !category.trim().isEmpty() && description != null && !description.trim().isEmpty() && year != null && year > 1950 && year <= currentYear) {
+
+            Book book = new Book();
+            book.setId_Book(ID.generateID());
             book.setTitle(title);
-            book.setAuthor(auteur);
-
+            book.setAuthor(author);
             book.setYear(year);
             book.setImage(imageFileNameInBD);
-            book.setCategory(categorie);
+            book.setCategory(category);
             book.setDescription(description);
             book.setStatus("disponible");
             book.setLoan_count(0);
 
             try {
                 bookService.addBook(book);
-                session.setAttribute("succes", "Livre ajouté avec succès");
+                session.setAttribute("success", "Livre ajouté avec succès.");
             } catch (Exception e) {
                 e.printStackTrace();
-                session.setAttribute("error", "Erreur lors de l'ajout du livre");
+                session.setAttribute("error", "Erreur lors de l'ajout du livre.");
             }
             response.sendRedirect("listBooks");
-        }else {
-            session.setAttribute("error", "Erreur lors de l'ajout element abscent ou valide");
+        } else {
+            session.setAttribute("error", "Erreur lors de l'ajout : veuillez vérifier que tous les champs sont remplis et que l'année est valide (supérieure à 1950 et inférieure ou égale à l'année en cours).");
+            response.sendRedirect("listBooks");
         }
-
     }
 }

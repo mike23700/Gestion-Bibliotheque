@@ -47,8 +47,20 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, title);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    books.add(createBookFromResultSet(rs));
+                while (rs.next()){
+                    Book book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
@@ -66,8 +78,20 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, year);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    books.add(createBookFromResultSet(rs));
+                while (rs.next()){
+                    Book book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
@@ -85,8 +109,20 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, author);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    books.add(createBookFromResultSet(rs));
+                while (rs.next()){
+                    Book book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
@@ -104,8 +140,20 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, category);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    books.add(createBookFromResultSet(rs));
+                while (rs.next()){
+                    Book book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
@@ -124,8 +172,20 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, Rendu);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    books.add(createBookFromResultSet(rs));
+                while (rs.next()){
+                    Book book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
@@ -144,8 +204,20 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, Encour);
             try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    books.add(createBookFromResultSet(rs));
+                while (rs.next()){
+                    Book book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
+                    books.add(book);
                 }
             }
         } catch (SQLException e) {
@@ -162,8 +234,20 @@ public class BookDAOImpl implements BookDAO {
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                books.add(createBookFromResultSet(rs));
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération des livres par popularité : " + e.getMessage());
@@ -179,8 +263,20 @@ public class BookDAOImpl implements BookDAO {
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                books.add(createBookFromResultSet(rs));
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération des livres récents : " + e.getMessage());
@@ -196,8 +292,20 @@ public class BookDAOImpl implements BookDAO {
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                books.add(createBookFromResultSet(rs));
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération des livres anciens : " + e.getMessage());
@@ -213,8 +321,20 @@ public class BookDAOImpl implements BookDAO {
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                books.add(createBookFromResultSet(rs));
+            while (rs.next()){
+                Book book = new Book(
+                        rs.getString("book_id"),
+                        rs.getString("title"),
+                        rs.getString("author"),
+                        rs.getInt("year"),
+                        rs.getString("image"),
+                        rs.getString("category"),
+                        rs.getString("description"),
+                        rs.getString("status"),
+                        rs.getInt("loan_count"),
+                        rs.getTimestamp("created_at").toLocalDateTime()
+                );
+                books.add(book);
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération de tous les livres : " + e.getMessage());
@@ -265,8 +385,19 @@ public class BookDAOImpl implements BookDAO {
              PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, book_id);
             try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    book = createBookFromResultSet(rs);
+                if(rs.next()){
+                    book = new Book(
+                            rs.getString("book_id"),
+                            rs.getString("title"),
+                            rs.getString("author"),
+                            rs.getInt("year"),
+                            rs.getString("image"),
+                            rs.getString("category"),
+                            rs.getString("description"),
+                            rs.getString("status"),
+                            rs.getInt("loan_count"),
+                            rs.getTimestamp("created_at").toLocalDateTime()
+                    );
                 }
             }
         } catch (SQLException e) {
@@ -303,21 +434,5 @@ public class BookDAOImpl implements BookDAO {
             System.err.println("Erreur lors de l'incrémentation du nombre de prêts : " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    // Helper method to create a Book object from a ResultSet
-    private Book createBookFromResultSet(ResultSet rs) throws SQLException {
-        return new Book(
-                rs.getString("book_id"),
-                rs.getString("title"),
-                rs.getString("author"),
-                rs.getInt("year"),
-                rs.getString("image"),
-                rs.getString("category"),
-                rs.getString("description"),
-                rs.getString("status"),
-                rs.getInt("loan_count"),
-                rs.getTimestamp("created_at").toLocalDateTime()
-        );
     }
 }

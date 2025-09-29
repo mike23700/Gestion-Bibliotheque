@@ -29,7 +29,7 @@ public class DAOFactory {
         config.setUsername(USERNAME);
         config.setPassword(PASSWORD);
         config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        config.setMaximumPoolSize(30);
+        config.setMaximumPoolSize(10);
 
         this.dataSource = new HikariDataSource(config);
     }

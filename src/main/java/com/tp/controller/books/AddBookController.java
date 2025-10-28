@@ -88,7 +88,7 @@ public class AddBookController extends HttpServlet {
 
 
         int currentYear = Year.now().getValue();
-        if (title != null && !title.trim().isEmpty() && author != null && !author.trim().isEmpty() && category != null && !category.trim().isEmpty() && description != null && !description.trim().isEmpty() && year != null && year > 1950 && year <= currentYear) {
+        if (title != null && !title.trim().isEmpty() && author != null && !author.trim().isEmpty() && category != null && !category.trim().isEmpty() && description != null && year != null && year > 1950 && year <= currentYear) {
 
             Book book = new Book();
             book.setId_Book(ID.generateID());

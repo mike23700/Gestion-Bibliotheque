@@ -333,7 +333,7 @@ public class ReservationDAOImpl implements ReservationDAO {
     }
 
     @Override
-    public List<Reservation> findExpiredReservations() {
+    public List<Reservation> findExpiredReservations() {//a faire
         String query = "SELECT r.reservation_id, r.user_id, r.book_id, u.name AS user_name, b.title AS book_title, r.reservation_date, r.status, r.expire_date " +
                 "FROM reservations r JOIN users u ON r.user_id = u.user_id JOIN books b ON r.book_id = b.book_id " +
                 "WHERE r.status = 'ACTIVE' AND r.expire_date < ?";

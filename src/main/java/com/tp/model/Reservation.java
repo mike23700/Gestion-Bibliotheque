@@ -30,7 +30,7 @@ public class Reservation {
         this.user_id = user_id;
         this.book_id = book_id;
         this.reservation_date = reservation_date;
-        this.expire_date = reservation_date.plusDays(2);
+        this.expire_date = reservation_date.plusDays(2);// a faire
         this.status = status;
     }
 

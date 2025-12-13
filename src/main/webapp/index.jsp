@@ -23,7 +23,7 @@
             <div class="content">
                 <h1>Découvrez une nouvelle façon de gérer les livres</h1>
                 <p>Une solution tout-en-un pour simplifier l'accès, les prêts et les réservations de la bibliothèque.</p>
-                <a href="login" class="btn-primary">Commencer</a>
+                <a href="signup" class="btn-primary">Commencer</a>
             </div>
             <div class="image">
                 <img src="assets/image.png" alt="Présentation de l'application">

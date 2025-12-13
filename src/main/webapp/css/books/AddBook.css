@@ -54,59 +54,59 @@
 
         
         .form-group label {
-            display: block; /* Chaque label prend sa propre ligne et est aligné à gauche */
-            margin-bottom: 6px; /* Espacement réduit */
+            display: block;
+            margin-bottom: 6px;
             color: #34495e;
             font-weight: 600;
-            font-size: 0.9em; /* Réduction de la taille de la police des labels */
-            text-align: left; /* Assure l'alignement à gauche pour tous les labels */
+            font-size: 0.9em;
+            text-align: left;
         }
 
-        /* Styles pour les champs de saisie de texte, nombre et URL */
+        
         .form-input,
         .form-select,
         .form-textarea {
             width: 100%;
-            padding: 10px; /* Réduction de l'espacement interne des champs */
+            padding: 10px;
             border: 1px solid #dcdcdc;
-            border-radius: 6px; /* Coins arrondis ajustés */
-            font-size: 0.95em; /* Réduction de la taille de la police des champs */
+            border-radius: 6px; 
+            font-size: 0.95em;
             color: #555;
             background-color: #f8f8f8;
             box-sizing: border-box;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Effet au focus des champs */
+
         .form-input:focus,
         .form-select:focus,
         .form-textarea:focus {
             border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2); /* Ombre ajustée */
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
             outline: none;
             background-color: #ffffff;
         }
 
-        /* Spécifique pour la zone de texte multiligne */
+       
         .form-textarea {
             resize: vertical;
-            min-height: 80px; /* Hauteur minimale réduite */
+            min-height: 80px;
         }
 
-        /* Groupe de boutons radio */
+    
         .radio-group {
             display: flex;
-            gap: 15px; /* Espacement réduit */
+            gap: 15px;
             align-items: center;
-            margin-top: 8px; /* Espacement ajusté */
+            margin-top: 8px;
         }
 
         .radio-group input[type="radio"] {
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
-            width: 18px; /* Réduction de la taille des radios */
-            height: 18px; /* Réduction de la taille des radios */
+            width: 18px;
+            height: 18px;
             border: 2px solid #95a5a6;
             border-radius: 50%;
             position: relative;
@@ -123,8 +123,8 @@
         .radio-group input[type="radio"]:checked::before {
             content: '';
             display: block;
-            width: 8px; /* Réduction de la taille du point central */
-            height: 8px; /* Réduction de la taille du point central */
+            width: 8px; 
+            height: 8px;
             background-color: white;
             border-radius: 50%;
             position: absolute;
@@ -137,7 +137,7 @@
             margin-bottom: 0;
             cursor: pointer;
             font-weight: normal;
-            font-size: 0.95em; /* Taille de la police des labels radio ajustée */
+            font-size: 0.95em;
         }
 
         

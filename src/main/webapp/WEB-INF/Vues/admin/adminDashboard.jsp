@@ -40,7 +40,7 @@
             <div class="popular-books">
                 <c:forEach var="book" items="${popularBooks}" begin="0" end="3">
                     <div class="book-card">
-                        <img src="${pageContext.request.contextPath}/${book.image}"  alt="Couverture de ${book.title}"  class="book-cover"  onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/555555?text=Pas+d%27image';">
+                        <img src="${book.image}"  alt="Couverture de ${book.title}"  class="book-cover"  onerror="this.onerror=null;this.src='https://placehold.co/200x300/e0e0e0/555555?text=Pas+d%27image';">
                         <div class="book-info">
                             <h3>${book.title}</h3>
                             <p>Auteur: ${book.author}</p>
@@ -70,7 +70,7 @@
             </div>
             <c:if test="${fn:length(currentLoans) > 3}">
                 <div class="voir-plus-container">
-                    <a href="listLoan?status=null" class="voir-plus-btn">Voir les emprunts</a>
+                    <a href="listLoan" class="voir-plus-btn">Voir les emprunts</a>
                 </div>
             </c:if>
         </div>

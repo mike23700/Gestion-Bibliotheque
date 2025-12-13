@@ -8,10 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class LoanService {
-    private LoanDAO loanDAO;
+    private final LoanDAO loanDAO;
 
-    public LoanService(){
-        DAOFactory daoFactory = DAOFactory.getInstance();
+    public LoanService(DAOFactory daoFactory){
         this.loanDAO = daoFactory.getLoanDAO();
     }
 

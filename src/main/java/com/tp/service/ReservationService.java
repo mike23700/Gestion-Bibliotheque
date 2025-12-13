@@ -14,7 +14,7 @@ public class ReservationService {
 
     public ReservationService(DAOFactory daoFactory) {
         this.reservationDAO = daoFactory.getReservationDAO();
-        loanService = new LoanService();
+        loanService = new LoanService(daoFactory);
     }
 
     public boolean createReservation(String userId, String bookId) {
@@ -67,7 +67,7 @@ public class ReservationService {
         return updateReservationStatus(reservationId, "CANCELLED");
     }
 
-    public void cancelExpiredReservations() {
+    public void cancelExpiredReservations() {// a faire
         List<Reservation> expiredReservations = reservationDAO.findExpiredReservations();
         for (Reservation reservation : expiredReservations) {
             boolean success = updateReservationStatus(reservation.getReservation_id(), "EXPIRED");

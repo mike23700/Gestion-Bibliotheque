@@ -8,6 +8,8 @@ import com.tp.model.generateID.GenerateIdLoans;
 import com.tp.service.BookService;
 import com.tp.service.LoanService;
 import com.tp.service.ReservationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,18 +24,19 @@ import java.time.LocalDateTime;
 public class ReturnBookController extends HttpServlet {
 
     private ReservationService reservationService;
+    private static final Logger logger = LoggerFactory.getLogger(ReturnBookController.class);
 
-    private  BookService bookService = null ;
-    private  LoanService loanService = null ;
-    private  Reservation reservation = new Reservation();
+    private  BookService bookService;
+    private  LoanService loanService;
+    private  Reservation reservation;
     private Loan loan = new Loan();
     private GenerateIdLoans G = new GenerateIdLoans();
 
-    public void init() throws ServletException {
+    public void init(){
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.reservationService = new ReservationService(daoFactory);
-        bookService = new BookService();
-        loanService = new LoanService();
+        bookService = new BookService(daoFactory);
+        loanService = new LoanService(daoFactory);
     }
 
     @Override
@@ -77,9 +80,9 @@ public class ReturnBookController extends HttpServlet {
 
                                 if(update){
                                     session.setAttribute("succes", "le livre que vous avez reserver vient d'etre disponible vous pouvez deja l'utiliser");
-                                    System.out.println("Changement du statut de la reservation en FULFILLED OK");
+                                    logger.info("Changement du statut de la reservation en FULFILLED OK");
                                 }else {
-                                    System.out.println("Erreur lors du changement du statut de la reservation en FULFILLED ");
+                                    logger.error("Erreur lors du changement du statut de la reservation en FULFILLED ");
                                 }
                             }else {
                                 session.setAttribute("error", "erreur lors de l'emprunt veillez ressayer");
@@ -89,9 +92,9 @@ public class ReturnBookController extends HttpServlet {
                         }else{
                             boolean bookStatusUpdated = bookService.updateBookStatus(loanToReturn.getBook_id(), "disponible");
                             if(bookStatusUpdated){
-                                System.out.println("Changement du statut du livre en DISPONIBLE OK");
+                                logger.info("Changement du statut du livre en DISPONIBLE OK");
                             }else {
-                                System.out.println("Erreur lors du changement du statut du livre en DISPONIBLE ");
+                                logger.error("Erreur lors du changement du statut du livre en DISPONIBLE ");
                             }
                         }
 
@@ -105,7 +108,7 @@ public class ReturnBookController extends HttpServlet {
                 }
             } catch (Exception e) {
                 session.setAttribute("error", "Une erreur est survenue lors du retour du livre.");
-                e.printStackTrace();
+                logger.error("Erreur lors du retour du livre");
             }
         } else {
             session.setAttribute("error", "ID d'emprunt invalide ou manquant.");

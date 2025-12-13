@@ -31,8 +31,8 @@ public class AdminDashboardController extends HttpServlet {
         DAOFactory daoFactory = DAOFactory.getInstance();
         this.userService = new UserService(daoFactory);
         this.reservationService = new ReservationService(daoFactory);
-        this.bookService = new BookService();
-        this.loanService = new LoanService();
+        this.bookService = new BookService(daoFactory);
+        this.loanService = new LoanService(daoFactory);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

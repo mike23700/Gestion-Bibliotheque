@@ -33,6 +33,30 @@ public class UserService {
         return userDAO.addUser(user);
     }
 
+    public User createUserAndSignUp(String name, String surname, int telNum, String email, String password) {
+        GenerateUserID generator = new GenerateUserID();
+        String userId = generator.generateID();
+
+        User user = new User(
+                userId,
+                name,
+                surname,
+                telNum,
+                email,
+                password,
+                "MEMBER",
+                LocalDateTime.now()
+        );
+
+        boolean success = userDAO.addUser(user);
+
+        if (success) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
     public User authenticate(String userId, String password) {
         User user = userDAO.findById(userId);
 

@@ -1,5 +1,6 @@
 package com.tp.controller.books;
 
+import com.tp.dao.DAOFactory;
 import com.tp.model.Book;
 import com.tp.model.User;
 import com.tp.service.BookService;
@@ -14,8 +15,14 @@ import java.io.IOException;
 
 @WebServlet("/updateBook")
 public class UpdateBookController extends HttpServlet {
-    BookService bookService = new BookService();
-    Book book = null;
+    BookService bookService;
+    Book book;
+
+    public void init(){
+        DAOFactory daoFactory = DAOFactory.getInstance();
+        bookService = new BookService(daoFactory);
+        book = new Book();
+    }
 
     protected void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
 
